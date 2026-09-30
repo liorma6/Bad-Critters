@@ -19,4 +19,4 @@ http.createServer(async(req,res)=>{try{
  }else if(!/^(?:index\.html|src\/[a-z0-9-]+\.(?:js|css)|assets\/art\/[a-z0-9-]+\.webp|assets\/icon\.svg|assets\/voices\/[a-z0-9.-]+\.(?:json|mp3|m4a|ogg|webm|wav))$/.test(relative)&&relative!=='')throw Error('Private file');
  if(!file.startsWith(root+path.sep))throw Error('Outside project');const s=await stat(file);if(!s.isFile())throw Error('Not file');
  const data=await readFile(file);res.writeHead(200,{'Content-Type':mime[path.extname(file)]||'application/octet-stream','Cache-Control':'no-cache','X-Content-Type-Options':'nosniff'});res.end(req.method==='HEAD'?undefined:data);
- }catch{res.writeHead(404);res.end('Not found');}}).listen(port,'127.0.0.1',()=>console.log(`Bad Critters: http://127.0.0.1:${port}`));
+ }catch{res.writeHead(404);res.end('Not found');}}).listen(port,'127.0.0.1',()=>console.log(`זובלוף: http://127.0.0.1:${port}`));

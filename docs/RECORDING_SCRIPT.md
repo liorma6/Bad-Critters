@@ -1,4 +1,4 @@
-# Bad Critters — complete creator recording script
+# זובלוף — complete creator recording script
 
 133 lines across all three cases. One mono recording per line. Includes complete per-case personal roles. **Creator document: contains case solutions. Do not show this document in the player recording flow.**
 
