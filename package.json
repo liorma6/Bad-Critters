@@ -1,0 +1,25 @@
+{
+  "name": "bad-critters",
+  "version": "3.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "node server.mjs",
+    "start": "node server.mjs",
+    "studio": "node tools/creator/server.mjs",
+    "test:studio": "playwright test -c playwright.creator.config.mjs",
+    "build": "node build.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "preview": "wrangler dev --local --port 4174",
+    "test:browser": "playwright test",
+    "deploy:check": "npm run build && wrangler deploy --dry-run",
+    "deploy": "npm run build && wrangler deploy",
+    "cf:login": "wrangler login",
+    "cf:whoami": "wrangler whoami"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.63.0",
+    "fake-indexeddb": "^6.2.5",
+    "wrangler": "^4.142.0"
+  }
+}

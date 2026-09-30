@@ -1,0 +1,3527 @@
+{
+  "version": 1,
+  "cases": {
+    "fire": {
+      "caseId": "fire",
+      "quickRole": "badger",
+      "characters": {
+        "goat": {
+          "caseId": "fire",
+          "characterId": "goat",
+          "name": "ירחמיאל",
+          "mode": "full",
+          "eligible": true,
+          "description": "מפקח מדרכה מטעם עצמו. מנהל פנקס תלונות על מי שלא אומר בוקר טוב.",
+          "events": {
+            "intro": "goat.greet",
+            "watched": "goat.watched",
+            "bell": "goat.bell",
+            "water": "goat.water",
+            "secret": "goat.secret",
+            "accusation": "goat.wrong",
+            "complaint": "goat.complaint",
+            "boast": "goat.boast",
+            "question": "goat.question",
+            "encounter": "goat.arrival",
+            "aftermath": "goat.fire.comment",
+            "alibi": "goat.fire.alibi",
+            "detail": "goat.fire.detail"
+          },
+          "lineIds": [
+            "goat.greet",
+            "goat.watched",
+            "goat.bell",
+            "goat.water",
+            "goat.secret",
+            "goat.wrong",
+            "goat.complaint",
+            "goat.boast",
+            "goat.question",
+            "goat.arrival",
+            "goat.fire.comment",
+            "goat.fire.alibi",
+            "goat.fire.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "goat.greet",
+                "goat.watched",
+                "goat.bell",
+                "goat.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "goat.secret",
+                "goat.wrong",
+                "goat.complaint",
+                "goat.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "goat.question",
+                "goat.arrival",
+                "goat.fire.comment",
+                "goat.fire.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "goat.fire.detail"
+              ]
+            }
+          ]
+        },
+        "pigeon": {
+          "caseId": "fire",
+          "characterId": "pigeon",
+          "name": "נבו",
+          "mode": "full",
+          "eligible": true,
+          "description": "חוקר שהדפיס לעצמו סמכות. לכל הנהון יש מקור חסוי.",
+          "events": {
+            "intro": "pigeon.greet",
+            "watched": "pigeon.watched",
+            "bell": "pigeon.bell",
+            "water": "pigeon.water",
+            "secret": "pigeon.secret",
+            "accusation": "pigeon.wrong",
+            "complaint": "pigeon.complaint",
+            "boast": "pigeon.boast",
+            "question": "pigeon.question",
+            "encounter": "pigeon.arrival",
+            "aftermath": "pigeon.fire.comment",
+            "alibi": "pigeon.fire.alibi",
+            "detail": "pigeon.fire.detail"
+          },
+          "lineIds": [
+            "pigeon.greet",
+            "pigeon.watched",
+            "pigeon.bell",
+            "pigeon.water",
+            "pigeon.secret",
+            "pigeon.wrong",
+            "pigeon.complaint",
+            "pigeon.boast",
+            "pigeon.question",
+            "pigeon.arrival",
+            "pigeon.fire.comment",
+            "pigeon.fire.alibi",
+            "pigeon.fire.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "pigeon.greet",
+                "pigeon.watched",
+                "pigeon.bell",
+                "pigeon.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "pigeon.secret",
+                "pigeon.wrong",
+                "pigeon.complaint",
+                "pigeon.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "pigeon.question",
+                "pigeon.arrival",
+                "pigeon.fire.comment",
+                "pigeon.fire.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "pigeon.fire.detail"
+              ]
+            }
+          ]
+        },
+        "snake": {
+          "caseId": "fire",
+          "characterId": "snake",
+          "name": "זלמן",
+          "mode": "full",
+          "eligible": true,
+          "description": "פיקאפר מטעם עצמו וגיימר בוגר. מספר על הצלחות עם נשים; הפרטים מספרים סיפור אחר.",
+          "events": {
+            "intro": "snake.greet",
+            "watched": "snake.watched",
+            "bell": "snake.bell",
+            "water": "snake.water",
+            "secret": "snake.secret",
+            "accusation": "snake.wrong",
+            "complaint": "snake.complaint",
+            "boast": "snake.boast",
+            "question": "snake.question",
+            "encounter": "snake.arrival",
+            "aftermath": "snake.fire.comment",
+            "alibi": "snake.fire.alibi",
+            "detail": "snake.fire.detail"
+          },
+          "lineIds": [
+            "snake.greet",
+            "snake.watched",
+            "snake.bell",
+            "snake.water",
+            "snake.secret",
+            "snake.wrong",
+            "snake.complaint",
+            "snake.boast",
+            "snake.question",
+            "snake.arrival",
+            "snake.fire.comment",
+            "snake.fire.alibi",
+            "snake.fire.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "snake.greet",
+                "snake.watched",
+                "snake.bell",
+                "snake.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "snake.secret",
+                "snake.wrong",
+                "snake.complaint",
+                "snake.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "snake.question",
+                "snake.arrival",
+                "snake.fire.comment",
+                "snake.fire.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "snake.fire.detail"
+              ]
+            }
+          ]
+        },
+        "cat": {
+          "caseId": "fire",
+          "characterId": "cat",
+          "name": "מרגלית",
+          "mode": "full",
+          "eligible": true,
+          "description": "בעלת הבית. גם השקט עומד אצלה בתור לתשלום.",
+          "events": {
+            "intro": "cat.greet",
+            "watched": "cat.watched",
+            "bell": "cat.bell",
+            "water": "cat.water",
+            "secret": "cat.secret",
+            "accusation": "cat.wrong",
+            "complaint": "cat.complaint",
+            "boast": "cat.boast",
+            "question": "cat.question",
+            "encounter": "cat.arrival",
+            "aftermath": "cat.fire.comment",
+            "alibi": "cat.fire.alibi",
+            "detail": "cat.secret",
+            "reconstruction": "cat.fire.detail"
+          },
+          "lineIds": [
+            "cat.greet",
+            "cat.watched",
+            "cat.bell",
+            "cat.water",
+            "cat.secret",
+            "cat.wrong",
+            "cat.complaint",
+            "cat.boast",
+            "cat.question",
+            "cat.arrival",
+            "cat.fire.comment",
+            "cat.fire.alibi",
+            "cat.fire.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "cat.greet",
+                "cat.watched",
+                "cat.bell",
+                "cat.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "cat.secret",
+                "cat.wrong",
+                "cat.complaint",
+                "cat.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "cat.question",
+                "cat.arrival",
+                "cat.fire.comment",
+                "cat.fire.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "cat.fire.detail"
+              ]
+            }
+          ]
+        },
+        "boar": {
+          "caseId": "fire",
+          "characterId": "boar",
+          "name": "בני",
+          "mode": "full",
+          "eligible": true,
+          "description": "קבלן תחזוקה שמתקן ניסוחים באותה מסירות כמו קירות.",
+          "events": {
+            "intro": "boar.greet",
+            "watched": "boar.watched",
+            "bell": "boar.bell",
+            "water": "boar.water",
+            "secret": "boar.secret",
+            "accusation": "boar.wrong",
+            "complaint": "boar.complaint",
+            "boast": "boar.boast",
+            "question": "boar.question",
+            "encounter": "boar.arrival",
+            "aftermath": "boar.fire.comment",
+            "alibi": "boar.fire.alibi",
+            "detail": "boar.fire.detail"
+          },
+          "lineIds": [
+            "boar.greet",
+            "boar.watched",
+            "boar.bell",
+            "boar.water",
+            "boar.secret",
+            "boar.wrong",
+            "boar.complaint",
+            "boar.boast",
+            "boar.question",
+            "boar.arrival",
+            "boar.fire.comment",
+            "boar.fire.alibi",
+            "boar.fire.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "boar.greet",
+                "boar.watched",
+                "boar.bell",
+                "boar.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "boar.secret",
+                "boar.wrong",
+                "boar.complaint",
+                "boar.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "boar.question",
+                "boar.arrival",
+                "boar.fire.comment",
+                "boar.fire.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "boar.fire.detail"
+              ]
+            }
+          ]
+        },
+        "turtle": {
+          "caseId": "fire",
+          "characterId": "turtle",
+          "name": "צביקה",
+          "mode": "full",
+          "eligible": true,
+          "description": "שליח שחוק שרוצה שיניחו לו. זוכר כל שעה ומוסר כל פרט, תוך תלונות.",
+          "events": {
+            "intro": "turtle.greet",
+            "watched": "turtle.watched",
+            "bell": "turtle.bell",
+            "water": "turtle.water",
+            "secret": "turtle.secret",
+            "accusation": "turtle.wrong",
+            "complaint": "turtle.complaint",
+            "boast": "turtle.boast",
+            "question": "turtle.question",
+            "encounter": "turtle.arrival",
+            "aftermath": "turtle.fire.comment",
+            "alibi": "turtle.fire.alibi",
+            "detail": "turtle.fire.detail"
+          },
+          "lineIds": [
+            "turtle.greet",
+            "turtle.watched",
+            "turtle.bell",
+            "turtle.water",
+            "turtle.secret",
+            "turtle.wrong",
+            "turtle.complaint",
+            "turtle.boast",
+            "turtle.question",
+            "turtle.arrival",
+            "turtle.fire.comment",
+            "turtle.fire.alibi",
+            "turtle.fire.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "turtle.greet",
+                "turtle.watched",
+                "turtle.bell",
+                "turtle.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "turtle.secret",
+                "turtle.wrong",
+                "turtle.complaint",
+                "turtle.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "turtle.question",
+                "turtle.arrival",
+                "turtle.fire.comment",
+                "turtle.fire.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "turtle.fire.detail"
+              ]
+            }
+          ]
+        },
+        "badger": {
+          "caseId": "fire",
+          "characterId": "badger",
+          "name": "עמוס",
+          "mode": "quick",
+          "eligible": true,
+          "description": "רואה חשבון קמצן עם פאוץ׳ מטבעות וקבלות. מוכן לחכות שעות בשביל עשר אגורות.",
+          "events": {
+            "intro": "badger.intro",
+            "receipt": "badger.receipt",
+            "copies": "badger.copies",
+            "notice": "badger.fire.notice",
+            "care": "badger.fire.care",
+            "aftermath": "badger.fire.care",
+            "encounter": "badger.intro"
+          },
+          "lineIds": [
+            "badger.intro",
+            "badger.receipt",
+            "badger.copies",
+            "badger.fire.notice",
+            "badger.fire.care"
+          ],
+          "spoilers": false,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "badger.intro",
+                "badger.receipt",
+                "badger.copies",
+                "badger.fire.notice"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "badger.fire.care"
+              ]
+            }
+          ]
+        },
+        "guide": {
+          "caseId": "fire",
+          "characterId": "guide",
+          "name": "משמרת השכונה",
+          "mode": "creator",
+          "eligible": false,
+          "description": "",
+          "events": {
+            "night": "guide.night",
+            "discovery": "guide.crime.fire",
+            "role": "guide.role",
+            "watch": "guide.watch",
+            "observed": "guide.observed"
+          },
+          "lineIds": [
+            "guide.night",
+            "guide.crime.fire",
+            "guide.role",
+            "guide.watch",
+            "guide.observed"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "guide.night",
+                "guide.crime.fire",
+                "guide.role",
+                "guide.watch"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "guide.observed"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "courtyard": {
+      "caseId": "courtyard",
+      "quickRole": "badger",
+      "characters": {
+        "goat": {
+          "caseId": "courtyard",
+          "characterId": "goat",
+          "name": "ירחמיאל",
+          "mode": "full",
+          "eligible": true,
+          "description": "מפקח מדרכה מטעם עצמו. מנהל פנקס תלונות על מי שלא אומר בוקר טוב.",
+          "events": {
+            "intro": "goat.greet",
+            "watched": "goat.watched",
+            "bell": "goat.bell",
+            "water": "goat.water",
+            "secret": "goat.secret",
+            "accusation": "goat.wrong",
+            "complaint": "goat.complaint",
+            "boast": "goat.boast",
+            "question": "goat.question",
+            "encounter": "goat.arrival",
+            "aftermath": "goat.courtyard.comment",
+            "alibi": "goat.courtyard.alibi",
+            "detail": "goat.courtyard.detail"
+          },
+          "lineIds": [
+            "goat.greet",
+            "goat.watched",
+            "goat.bell",
+            "goat.water",
+            "goat.secret",
+            "goat.wrong",
+            "goat.complaint",
+            "goat.boast",
+            "goat.question",
+            "goat.arrival",
+            "goat.courtyard.comment",
+            "goat.courtyard.alibi",
+            "goat.courtyard.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "goat.greet",
+                "goat.watched",
+                "goat.bell",
+                "goat.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "goat.secret",
+                "goat.wrong",
+                "goat.complaint",
+                "goat.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "goat.question",
+                "goat.arrival",
+                "goat.courtyard.comment",
+                "goat.courtyard.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "goat.courtyard.detail"
+              ]
+            }
+          ]
+        },
+        "pigeon": {
+          "caseId": "courtyard",
+          "characterId": "pigeon",
+          "name": "נבו",
+          "mode": "full",
+          "eligible": true,
+          "description": "חוקר שהדפיס לעצמו סמכות. לכל הנהון יש מקור חסוי.",
+          "events": {
+            "intro": "pigeon.greet",
+            "watched": "pigeon.watched",
+            "bell": "pigeon.bell",
+            "water": "pigeon.water",
+            "secret": "pigeon.secret",
+            "accusation": "pigeon.wrong",
+            "complaint": "pigeon.complaint",
+            "boast": "pigeon.boast",
+            "question": "pigeon.question",
+            "encounter": "pigeon.arrival",
+            "aftermath": "pigeon.courtyard.comment",
+            "alibi": "pigeon.courtyard.alibi",
+            "detail": "pigeon.secret",
+            "reconstruction": "pigeon.courtyard.detail"
+          },
+          "lineIds": [
+            "pigeon.greet",
+            "pigeon.watched",
+            "pigeon.bell",
+            "pigeon.water",
+            "pigeon.secret",
+            "pigeon.wrong",
+            "pigeon.complaint",
+            "pigeon.boast",
+            "pigeon.question",
+            "pigeon.arrival",
+            "pigeon.courtyard.comment",
+            "pigeon.courtyard.alibi",
+            "pigeon.courtyard.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "pigeon.greet",
+                "pigeon.watched",
+                "pigeon.bell",
+                "pigeon.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "pigeon.secret",
+                "pigeon.wrong",
+                "pigeon.complaint",
+                "pigeon.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "pigeon.question",
+                "pigeon.arrival",
+                "pigeon.courtyard.comment",
+                "pigeon.courtyard.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "pigeon.courtyard.detail"
+              ]
+            }
+          ]
+        },
+        "snake": {
+          "caseId": "courtyard",
+          "characterId": "snake",
+          "name": "זלמן",
+          "mode": "full",
+          "eligible": true,
+          "description": "פיקאפר מטעם עצמו וגיימר בוגר. מספר על הצלחות עם נשים; הפרטים מספרים סיפור אחר.",
+          "events": {
+            "intro": "snake.greet",
+            "watched": "snake.watched",
+            "bell": "snake.bell",
+            "water": "snake.water",
+            "secret": "snake.secret",
+            "accusation": "snake.wrong",
+            "complaint": "snake.complaint",
+            "boast": "snake.boast",
+            "question": "snake.question",
+            "encounter": "snake.arrival",
+            "aftermath": "snake.courtyard.comment",
+            "alibi": "snake.courtyard.alibi",
+            "detail": "snake.courtyard.detail"
+          },
+          "lineIds": [
+            "snake.greet",
+            "snake.watched",
+            "snake.bell",
+            "snake.water",
+            "snake.secret",
+            "snake.wrong",
+            "snake.complaint",
+            "snake.boast",
+            "snake.question",
+            "snake.arrival",
+            "snake.courtyard.comment",
+            "snake.courtyard.alibi",
+            "snake.courtyard.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "snake.greet",
+                "snake.watched",
+                "snake.bell",
+                "snake.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "snake.secret",
+                "snake.wrong",
+                "snake.complaint",
+                "snake.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "snake.question",
+                "snake.arrival",
+                "snake.courtyard.comment",
+                "snake.courtyard.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "snake.courtyard.detail"
+              ]
+            }
+          ]
+        },
+        "cat": {
+          "caseId": "courtyard",
+          "characterId": "cat",
+          "name": "מרגלית",
+          "mode": "full",
+          "eligible": true,
+          "description": "בעלת הבית. גם השקט עומד אצלה בתור לתשלום.",
+          "events": {
+            "intro": "cat.greet",
+            "watched": "cat.watched",
+            "bell": "cat.bell",
+            "water": "cat.water",
+            "secret": "cat.secret",
+            "accusation": "cat.wrong",
+            "complaint": "cat.complaint",
+            "boast": "cat.boast",
+            "question": "cat.question",
+            "encounter": "cat.arrival",
+            "aftermath": "cat.courtyard.comment",
+            "alibi": "cat.courtyard.alibi",
+            "detail": "cat.courtyard.detail"
+          },
+          "lineIds": [
+            "cat.greet",
+            "cat.watched",
+            "cat.bell",
+            "cat.water",
+            "cat.secret",
+            "cat.wrong",
+            "cat.complaint",
+            "cat.boast",
+            "cat.question",
+            "cat.arrival",
+            "cat.courtyard.comment",
+            "cat.courtyard.alibi",
+            "cat.courtyard.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "cat.greet",
+                "cat.watched",
+                "cat.bell",
+                "cat.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "cat.secret",
+                "cat.wrong",
+                "cat.complaint",
+                "cat.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "cat.question",
+                "cat.arrival",
+                "cat.courtyard.comment",
+                "cat.courtyard.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "cat.courtyard.detail"
+              ]
+            }
+          ]
+        },
+        "boar": {
+          "caseId": "courtyard",
+          "characterId": "boar",
+          "name": "בני",
+          "mode": "full",
+          "eligible": true,
+          "description": "קבלן תחזוקה שמתקן ניסוחים באותה מסירות כמו קירות.",
+          "events": {
+            "intro": "boar.greet",
+            "watched": "boar.watched",
+            "bell": "boar.bell",
+            "water": "boar.water",
+            "secret": "boar.secret",
+            "accusation": "boar.wrong",
+            "complaint": "boar.complaint",
+            "boast": "boar.boast",
+            "question": "boar.question",
+            "encounter": "boar.arrival",
+            "aftermath": "boar.courtyard.comment",
+            "alibi": "boar.courtyard.alibi",
+            "detail": "boar.courtyard.detail"
+          },
+          "lineIds": [
+            "boar.greet",
+            "boar.watched",
+            "boar.bell",
+            "boar.water",
+            "boar.secret",
+            "boar.wrong",
+            "boar.complaint",
+            "boar.boast",
+            "boar.question",
+            "boar.arrival",
+            "boar.courtyard.comment",
+            "boar.courtyard.alibi",
+            "boar.courtyard.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "boar.greet",
+                "boar.watched",
+                "boar.bell",
+                "boar.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "boar.secret",
+                "boar.wrong",
+                "boar.complaint",
+                "boar.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "boar.question",
+                "boar.arrival",
+                "boar.courtyard.comment",
+                "boar.courtyard.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "boar.courtyard.detail"
+              ]
+            }
+          ]
+        },
+        "turtle": {
+          "caseId": "courtyard",
+          "characterId": "turtle",
+          "name": "צביקה",
+          "mode": "full",
+          "eligible": true,
+          "description": "שליח שחוק שרוצה שיניחו לו. זוכר כל שעה ומוסר כל פרט, תוך תלונות.",
+          "events": {
+            "intro": "turtle.greet",
+            "watched": "turtle.watched",
+            "bell": "turtle.bell",
+            "water": "turtle.water",
+            "secret": "turtle.secret",
+            "accusation": "turtle.wrong",
+            "complaint": "turtle.complaint",
+            "boast": "turtle.boast",
+            "question": "turtle.question",
+            "encounter": "turtle.arrival",
+            "aftermath": "turtle.courtyard.comment",
+            "alibi": "turtle.courtyard.alibi",
+            "detail": "turtle.courtyard.detail"
+          },
+          "lineIds": [
+            "turtle.greet",
+            "turtle.watched",
+            "turtle.bell",
+            "turtle.water",
+            "turtle.secret",
+            "turtle.wrong",
+            "turtle.complaint",
+            "turtle.boast",
+            "turtle.question",
+            "turtle.arrival",
+            "turtle.courtyard.comment",
+            "turtle.courtyard.alibi",
+            "turtle.courtyard.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "turtle.greet",
+                "turtle.watched",
+                "turtle.bell",
+                "turtle.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "turtle.secret",
+                "turtle.wrong",
+                "turtle.complaint",
+                "turtle.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "turtle.question",
+                "turtle.arrival",
+                "turtle.courtyard.comment",
+                "turtle.courtyard.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "turtle.courtyard.detail"
+              ]
+            }
+          ]
+        },
+        "badger": {
+          "caseId": "courtyard",
+          "characterId": "badger",
+          "name": "עמוס",
+          "mode": "quick",
+          "eligible": true,
+          "description": "רואה חשבון קמצן עם פאוץ׳ מטבעות וקבלות. מוכן לחכות שעות בשביל עשר אגורות.",
+          "events": {
+            "intro": "badger.intro",
+            "receipt": "badger.receipt",
+            "copies": "badger.copies",
+            "notice": "badger.courtyard.notice",
+            "chair": "badger.courtyard.chair",
+            "encounter": "badger.intro"
+          },
+          "lineIds": [
+            "badger.intro",
+            "badger.receipt",
+            "badger.copies",
+            "badger.courtyard.notice",
+            "badger.courtyard.chair"
+          ],
+          "spoilers": false,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "badger.intro",
+                "badger.receipt",
+                "badger.copies",
+                "badger.courtyard.notice"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "badger.courtyard.chair"
+              ]
+            }
+          ]
+        },
+        "guide": {
+          "caseId": "courtyard",
+          "characterId": "guide",
+          "name": "משמרת השכונה",
+          "mode": "creator",
+          "eligible": false,
+          "description": "",
+          "events": {
+            "night": "guide.night",
+            "discovery": "guide.crime.courtyard"
+          },
+          "lineIds": [
+            "guide.night",
+            "guide.crime.courtyard"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "guide.night",
+                "guide.crime.courtyard"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "balcony": {
+      "caseId": "balcony",
+      "quickRole": "hedgehog",
+      "characters": {
+        "goat": {
+          "caseId": "balcony",
+          "characterId": "goat",
+          "name": "ירחמיאל",
+          "mode": "full",
+          "eligible": true,
+          "description": "מפקח מדרכה מטעם עצמו. מנהל פנקס תלונות על מי שלא אומר בוקר טוב.",
+          "events": {
+            "intro": "goat.greet",
+            "watched": "goat.watched",
+            "bell": "goat.bell",
+            "water": "goat.water",
+            "secret": "goat.secret",
+            "accusation": "goat.wrong",
+            "complaint": "goat.complaint",
+            "boast": "goat.boast",
+            "question": "goat.question",
+            "encounter": "goat.arrival",
+            "aftermath": "goat.balcony.comment",
+            "alibi": "goat.balcony.alibi",
+            "detail": "goat.balcony.detail"
+          },
+          "lineIds": [
+            "goat.greet",
+            "goat.watched",
+            "goat.bell",
+            "goat.water",
+            "goat.secret",
+            "goat.wrong",
+            "goat.complaint",
+            "goat.boast",
+            "goat.question",
+            "goat.arrival",
+            "goat.balcony.comment",
+            "goat.balcony.alibi",
+            "goat.balcony.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "goat.greet",
+                "goat.watched",
+                "goat.bell",
+                "goat.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "goat.secret",
+                "goat.wrong",
+                "goat.complaint",
+                "goat.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "goat.question",
+                "goat.arrival",
+                "goat.balcony.comment",
+                "goat.balcony.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "goat.balcony.detail"
+              ]
+            }
+          ]
+        },
+        "pigeon": {
+          "caseId": "balcony",
+          "characterId": "pigeon",
+          "name": "נבו",
+          "mode": "full",
+          "eligible": true,
+          "description": "חוקר שהדפיס לעצמו סמכות. לכל הנהון יש מקור חסוי.",
+          "events": {
+            "intro": "pigeon.greet",
+            "watched": "pigeon.watched",
+            "bell": "pigeon.bell",
+            "water": "pigeon.water",
+            "secret": "pigeon.secret",
+            "accusation": "pigeon.wrong",
+            "complaint": "pigeon.complaint",
+            "boast": "pigeon.boast",
+            "question": "pigeon.question",
+            "encounter": "pigeon.arrival",
+            "aftermath": "pigeon.balcony.comment",
+            "alibi": "pigeon.balcony.alibi",
+            "detail": "pigeon.balcony.detail"
+          },
+          "lineIds": [
+            "pigeon.greet",
+            "pigeon.watched",
+            "pigeon.bell",
+            "pigeon.water",
+            "pigeon.secret",
+            "pigeon.wrong",
+            "pigeon.complaint",
+            "pigeon.boast",
+            "pigeon.question",
+            "pigeon.arrival",
+            "pigeon.balcony.comment",
+            "pigeon.balcony.alibi",
+            "pigeon.balcony.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "pigeon.greet",
+                "pigeon.watched",
+                "pigeon.bell",
+                "pigeon.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "pigeon.secret",
+                "pigeon.wrong",
+                "pigeon.complaint",
+                "pigeon.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "pigeon.question",
+                "pigeon.arrival",
+                "pigeon.balcony.comment",
+                "pigeon.balcony.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "pigeon.balcony.detail"
+              ]
+            }
+          ]
+        },
+        "snake": {
+          "caseId": "balcony",
+          "characterId": "snake",
+          "name": "זלמן",
+          "mode": "full",
+          "eligible": true,
+          "description": "פיקאפר מטעם עצמו וגיימר בוגר. מספר על הצלחות עם נשים; הפרטים מספרים סיפור אחר.",
+          "events": {
+            "intro": "snake.greet",
+            "watched": "snake.watched",
+            "bell": "snake.bell",
+            "water": "snake.water",
+            "secret": "snake.secret",
+            "accusation": "snake.wrong",
+            "complaint": "snake.complaint",
+            "boast": "snake.boast",
+            "question": "snake.question",
+            "encounter": "snake.arrival",
+            "aftermath": "snake.balcony.comment",
+            "alibi": "snake.balcony.alibi",
+            "detail": "snake.balcony.detail"
+          },
+          "lineIds": [
+            "snake.greet",
+            "snake.watched",
+            "snake.bell",
+            "snake.water",
+            "snake.secret",
+            "snake.wrong",
+            "snake.complaint",
+            "snake.boast",
+            "snake.question",
+            "snake.arrival",
+            "snake.balcony.comment",
+            "snake.balcony.alibi",
+            "snake.balcony.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "snake.greet",
+                "snake.watched",
+                "snake.bell",
+                "snake.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "snake.secret",
+                "snake.wrong",
+                "snake.complaint",
+                "snake.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "snake.question",
+                "snake.arrival",
+                "snake.balcony.comment",
+                "snake.balcony.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "snake.balcony.detail"
+              ]
+            }
+          ]
+        },
+        "cat": {
+          "caseId": "balcony",
+          "characterId": "cat",
+          "name": "מרגלית",
+          "mode": "full",
+          "eligible": true,
+          "description": "בעלת הבית. גם השקט עומד אצלה בתור לתשלום.",
+          "events": {
+            "intro": "cat.greet",
+            "watched": "cat.watched",
+            "bell": "cat.bell",
+            "water": "cat.water",
+            "secret": "cat.secret",
+            "accusation": "cat.wrong",
+            "complaint": "cat.complaint",
+            "boast": "cat.boast",
+            "question": "cat.question",
+            "encounter": "cat.arrival",
+            "aftermath": "cat.balcony.comment",
+            "alibi": "cat.balcony.alibi",
+            "detail": "cat.balcony.detail"
+          },
+          "lineIds": [
+            "cat.greet",
+            "cat.watched",
+            "cat.bell",
+            "cat.water",
+            "cat.secret",
+            "cat.wrong",
+            "cat.complaint",
+            "cat.boast",
+            "cat.question",
+            "cat.arrival",
+            "cat.balcony.comment",
+            "cat.balcony.alibi",
+            "cat.balcony.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "cat.greet",
+                "cat.watched",
+                "cat.bell",
+                "cat.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "cat.secret",
+                "cat.wrong",
+                "cat.complaint",
+                "cat.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "cat.question",
+                "cat.arrival",
+                "cat.balcony.comment",
+                "cat.balcony.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "cat.balcony.detail"
+              ]
+            }
+          ]
+        },
+        "boar": {
+          "caseId": "balcony",
+          "characterId": "boar",
+          "name": "בני",
+          "mode": "full",
+          "eligible": true,
+          "description": "קבלן תחזוקה שמתקן ניסוחים באותה מסירות כמו קירות.",
+          "events": {
+            "intro": "boar.greet",
+            "watched": "boar.watched",
+            "bell": "boar.bell",
+            "water": "boar.water",
+            "secret": "boar.secret",
+            "accusation": "boar.wrong",
+            "complaint": "boar.complaint",
+            "boast": "boar.boast",
+            "question": "boar.question",
+            "encounter": "boar.arrival",
+            "aftermath": "boar.balcony.comment",
+            "alibi": "boar.balcony.alibi",
+            "detail": "boar.secret",
+            "reconstruction": "boar.balcony.detail"
+          },
+          "lineIds": [
+            "boar.greet",
+            "boar.watched",
+            "boar.bell",
+            "boar.water",
+            "boar.secret",
+            "boar.wrong",
+            "boar.complaint",
+            "boar.boast",
+            "boar.question",
+            "boar.arrival",
+            "boar.balcony.comment",
+            "boar.balcony.alibi",
+            "boar.balcony.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "boar.greet",
+                "boar.watched",
+                "boar.bell",
+                "boar.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "boar.secret",
+                "boar.wrong",
+                "boar.complaint",
+                "boar.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "boar.question",
+                "boar.arrival",
+                "boar.balcony.comment",
+                "boar.balcony.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "boar.balcony.detail"
+              ]
+            }
+          ]
+        },
+        "turtle": {
+          "caseId": "balcony",
+          "characterId": "turtle",
+          "name": "צביקה",
+          "mode": "full",
+          "eligible": true,
+          "description": "שליח שחוק שרוצה שיניחו לו. זוכר כל שעה ומוסר כל פרט, תוך תלונות.",
+          "events": {
+            "intro": "turtle.greet",
+            "watched": "turtle.watched",
+            "bell": "turtle.bell",
+            "water": "turtle.water",
+            "secret": "turtle.secret",
+            "accusation": "turtle.wrong",
+            "complaint": "turtle.complaint",
+            "boast": "turtle.boast",
+            "question": "turtle.question",
+            "encounter": "turtle.arrival",
+            "aftermath": "turtle.balcony.comment",
+            "alibi": "turtle.balcony.alibi",
+            "detail": "turtle.balcony.detail"
+          },
+          "lineIds": [
+            "turtle.greet",
+            "turtle.watched",
+            "turtle.bell",
+            "turtle.water",
+            "turtle.secret",
+            "turtle.wrong",
+            "turtle.complaint",
+            "turtle.boast",
+            "turtle.question",
+            "turtle.arrival",
+            "turtle.balcony.comment",
+            "turtle.balcony.alibi",
+            "turtle.balcony.detail"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "turtle.greet",
+                "turtle.watched",
+                "turtle.bell",
+                "turtle.water"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "turtle.secret",
+                "turtle.wrong",
+                "turtle.complaint",
+                "turtle.boast"
+              ]
+            },
+            {
+              "label": "חלק 3",
+              "lineIds": [
+                "turtle.question",
+                "turtle.arrival",
+                "turtle.balcony.comment",
+                "turtle.balcony.alibi"
+              ]
+            },
+            {
+              "label": "חלק 4",
+              "lineIds": [
+                "turtle.balcony.detail"
+              ]
+            }
+          ]
+        },
+        "hedgehog": {
+          "caseId": "balcony",
+          "characterId": "hedgehog",
+          "name": "רינה",
+          "mode": "quick",
+          "eligible": true,
+          "description": "שכנה מעשית שרוצה רגע של שקט. יודעת איפה כדאי לעצור ולקרוא.",
+          "events": {
+            "intro": "hedgehog.intro",
+            "queue": "hedgehog.queue",
+            "notice": "hedgehog.notice",
+            "pause": "hedgehog.balcony.pause",
+            "space": "hedgehog.balcony.space",
+            "aftermath": "hedgehog.balcony.pause",
+            "encounter": "hedgehog.intro"
+          },
+          "lineIds": [
+            "hedgehog.intro",
+            "hedgehog.queue",
+            "hedgehog.notice",
+            "hedgehog.balcony.pause",
+            "hedgehog.balcony.space"
+          ],
+          "spoilers": false,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "hedgehog.intro",
+                "hedgehog.queue",
+                "hedgehog.notice",
+                "hedgehog.balcony.pause"
+              ]
+            },
+            {
+              "label": "חלק 2",
+              "lineIds": [
+                "hedgehog.balcony.space"
+              ]
+            }
+          ]
+        },
+        "guide": {
+          "caseId": "balcony",
+          "characterId": "guide",
+          "name": "משמרת השכונה",
+          "mode": "creator",
+          "eligible": false,
+          "description": "",
+          "events": {
+            "night": "guide.night",
+            "discovery": "guide.crime.balcony"
+          },
+          "lineIds": [
+            "guide.night",
+            "guide.crime.balcony"
+          ],
+          "spoilers": true,
+          "sections": [
+            {
+              "label": "חלק 1",
+              "lineIds": [
+                "guide.night",
+                "guide.crime.balcony"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  },
+  "requirements": [
+    {
+      "caseId": "fire",
+      "characterId": "goat",
+      "lines": [
+        {
+          "lineId": "goat.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-3c5a65a7",
+          "performanceKey": "goat:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-92bcdd9f",
+          "performanceKey": "goat:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-c6abe142",
+          "performanceKey": "goat:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.water",
+          "scriptVersion": 1,
+          "fingerprint": "text-20b912d4",
+          "performanceKey": "goat:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-9c35f65f",
+          "performanceKey": "goat:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-1d70a05d",
+          "performanceKey": "goat:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.complaint",
+          "scriptVersion": 2,
+          "fingerprint": "text-74dbcc27",
+          "performanceKey": "goat:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.boast",
+          "scriptVersion": 1,
+          "fingerprint": "text-f2415825",
+          "performanceKey": "goat:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-fa6b2f2f",
+          "performanceKey": "goat:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-2f462ba6",
+          "performanceKey": "goat:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.fire.comment",
+          "scriptVersion": 2,
+          "fingerprint": "text-8e717425",
+          "performanceKey": "goat:fire:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.fire.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-3a94118e",
+          "performanceKey": "goat:fire:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.fire.detail",
+          "scriptVersion": 2,
+          "fingerprint": "text-e7852580",
+          "performanceKey": "goat:fire:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "pigeon",
+      "lines": [
+        {
+          "lineId": "pigeon.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-4aa887c9",
+          "performanceKey": "pigeon:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-3f620982",
+          "performanceKey": "pigeon:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-9d40ff6a",
+          "performanceKey": "pigeon:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.water",
+          "scriptVersion": 2,
+          "fingerprint": "text-78d47be1",
+          "performanceKey": "pigeon:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.secret",
+          "scriptVersion": 2,
+          "fingerprint": "text-df546985",
+          "performanceKey": "pigeon:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-0a2f68fd",
+          "performanceKey": "pigeon:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-f5f80f77",
+          "performanceKey": "pigeon:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-af9fee4c",
+          "performanceKey": "pigeon:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.question",
+          "scriptVersion": 1,
+          "fingerprint": "text-3976d802",
+          "performanceKey": "pigeon:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-deb6e56b",
+          "performanceKey": "pigeon:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.fire.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-184b2aa4",
+          "performanceKey": "pigeon:fire:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.fire.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-607e33a6",
+          "performanceKey": "pigeon:fire:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.fire.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-771ec468",
+          "performanceKey": "pigeon:fire:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "snake",
+      "lines": [
+        {
+          "lineId": "snake.greet",
+          "scriptVersion": 5,
+          "fingerprint": "text-b0e3462f",
+          "performanceKey": "snake:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.watched",
+          "scriptVersion": 4,
+          "fingerprint": "text-81116994",
+          "performanceKey": "snake:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.bell",
+          "scriptVersion": 4,
+          "fingerprint": "text-ee23ba0e",
+          "performanceKey": "snake:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.water",
+          "scriptVersion": 3,
+          "fingerprint": "text-36267b8e",
+          "performanceKey": "snake:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-1e115d21",
+          "performanceKey": "snake:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.wrong",
+          "scriptVersion": 3,
+          "fingerprint": "text-f2d3c3df",
+          "performanceKey": "snake:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.complaint",
+          "scriptVersion": 4,
+          "fingerprint": "text-7e5db28b",
+          "performanceKey": "snake:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.boast",
+          "scriptVersion": 4,
+          "fingerprint": "text-1c486a95",
+          "performanceKey": "snake:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.question",
+          "scriptVersion": 3,
+          "fingerprint": "text-b37e42a9",
+          "performanceKey": "snake:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.arrival",
+          "scriptVersion": 3,
+          "fingerprint": "text-486f5012",
+          "performanceKey": "snake:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.fire.comment",
+          "scriptVersion": 3,
+          "fingerprint": "text-796bc3f5",
+          "performanceKey": "snake:fire:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.fire.alibi",
+          "scriptVersion": 2,
+          "fingerprint": "text-2762c77c",
+          "performanceKey": "snake:fire:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.fire.detail",
+          "scriptVersion": 2,
+          "fingerprint": "text-00b79be0",
+          "performanceKey": "snake:fire:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "cat",
+      "lines": [
+        {
+          "lineId": "cat.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-abe573de",
+          "performanceKey": "cat:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-b61be8b6",
+          "performanceKey": "cat:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-c8fd1508",
+          "performanceKey": "cat:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.water",
+          "scriptVersion": 1,
+          "fingerprint": "text-081f968f",
+          "performanceKey": "cat:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.secret",
+          "scriptVersion": 1,
+          "fingerprint": "text-5b7ffdfd",
+          "performanceKey": "cat:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.wrong",
+          "scriptVersion": 2,
+          "fingerprint": "text-fa7bbd85",
+          "performanceKey": "cat:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-3ba6e54b",
+          "performanceKey": "cat:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-45519122",
+          "performanceKey": "cat:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-e42b0064",
+          "performanceKey": "cat:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-51ba847a",
+          "performanceKey": "cat:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.fire.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-2fc3682c",
+          "performanceKey": "cat:fire:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.fire.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-2275de50",
+          "performanceKey": "cat:fire:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.fire.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-c6a54e8f",
+          "performanceKey": "cat:fire:detail",
+          "spoilerSensitivity": "solution"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "boar",
+      "lines": [
+        {
+          "lineId": "boar.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-96b06bb4",
+          "performanceKey": "boar:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-a3a4b091",
+          "performanceKey": "boar:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-ff87ad77",
+          "performanceKey": "boar:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.water",
+          "scriptVersion": 3,
+          "fingerprint": "text-27599943",
+          "performanceKey": "boar:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.secret",
+          "scriptVersion": 2,
+          "fingerprint": "text-ce715915",
+          "performanceKey": "boar:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-10cc59d4",
+          "performanceKey": "boar:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-010bc3ca",
+          "performanceKey": "boar:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.boast",
+          "scriptVersion": 1,
+          "fingerprint": "text-8fd362a2",
+          "performanceKey": "boar:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-2428ccc2",
+          "performanceKey": "boar:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-a78c7721",
+          "performanceKey": "boar:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.fire.comment",
+          "scriptVersion": 4,
+          "fingerprint": "text-ef4a3ca6",
+          "performanceKey": "boar:fire:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.fire.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-5b13390b",
+          "performanceKey": "boar:fire:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.fire.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-64a2a615",
+          "performanceKey": "boar:fire:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "turtle",
+      "lines": [
+        {
+          "lineId": "turtle.greet",
+          "scriptVersion": 3,
+          "fingerprint": "text-c7be054b",
+          "performanceKey": "turtle:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.watched",
+          "scriptVersion": 3,
+          "fingerprint": "text-66204540",
+          "performanceKey": "turtle:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.bell",
+          "scriptVersion": 2,
+          "fingerprint": "text-84668175",
+          "performanceKey": "turtle:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.water",
+          "scriptVersion": 2,
+          "fingerprint": "text-c914a92f",
+          "performanceKey": "turtle:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-d804cbf0",
+          "performanceKey": "turtle:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.wrong",
+          "scriptVersion": 3,
+          "fingerprint": "text-5f10b596",
+          "performanceKey": "turtle:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.complaint",
+          "scriptVersion": 2,
+          "fingerprint": "text-41cad03d",
+          "performanceKey": "turtle:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-807eaebf",
+          "performanceKey": "turtle:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-6e127df9",
+          "performanceKey": "turtle:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.arrival",
+          "scriptVersion": 2,
+          "fingerprint": "text-529ed8d6",
+          "performanceKey": "turtle:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.fire.comment",
+          "scriptVersion": 2,
+          "fingerprint": "text-d2f4a55b",
+          "performanceKey": "turtle:fire:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.fire.alibi",
+          "scriptVersion": 2,
+          "fingerprint": "text-765f5283",
+          "performanceKey": "turtle:fire:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.fire.detail",
+          "scriptVersion": 2,
+          "fingerprint": "text-ca2c22c8",
+          "performanceKey": "turtle:fire:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "badger",
+      "lines": [
+        {
+          "lineId": "badger.intro",
+          "scriptVersion": 4,
+          "fingerprint": "text-6f7d3db7",
+          "performanceKey": "badger:intro",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.receipt",
+          "scriptVersion": 3,
+          "fingerprint": "text-c11f205c",
+          "performanceKey": "badger:receipt",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.copies",
+          "scriptVersion": 3,
+          "fingerprint": "text-b14a5aed",
+          "performanceKey": "badger:copies",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.fire.notice",
+          "scriptVersion": 3,
+          "fingerprint": "text-9ca50d74",
+          "performanceKey": "badger:fire:notice",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.fire.care",
+          "scriptVersion": 3,
+          "fingerprint": "text-2d07e838",
+          "performanceKey": "badger:fire:care",
+          "spoilerSensitivity": "safe"
+        }
+      ]
+    },
+    {
+      "caseId": "fire",
+      "characterId": "guide",
+      "lines": [
+        {
+          "lineId": "guide.night",
+          "scriptVersion": 1,
+          "fingerprint": "text-ef46de7d",
+          "performanceKey": "guide:night",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "guide.crime.fire",
+          "scriptVersion": 1,
+          "fingerprint": "text-c851e264",
+          "performanceKey": "guide:crime:fire",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "guide.role",
+          "scriptVersion": 1,
+          "fingerprint": "text-774abb1f",
+          "performanceKey": "guide:role",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "guide.watch",
+          "scriptVersion": 1,
+          "fingerprint": "text-ba3c1092",
+          "performanceKey": "guide:watch",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "guide.observed",
+          "scriptVersion": 1,
+          "fingerprint": "text-1d4e48c8",
+          "performanceKey": "guide:observed",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "goat",
+      "lines": [
+        {
+          "lineId": "goat.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-3c5a65a7",
+          "performanceKey": "goat:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-92bcdd9f",
+          "performanceKey": "goat:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-c6abe142",
+          "performanceKey": "goat:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.water",
+          "scriptVersion": 1,
+          "fingerprint": "text-20b912d4",
+          "performanceKey": "goat:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-9c35f65f",
+          "performanceKey": "goat:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-1d70a05d",
+          "performanceKey": "goat:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.complaint",
+          "scriptVersion": 2,
+          "fingerprint": "text-74dbcc27",
+          "performanceKey": "goat:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.boast",
+          "scriptVersion": 1,
+          "fingerprint": "text-f2415825",
+          "performanceKey": "goat:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-fa6b2f2f",
+          "performanceKey": "goat:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-2f462ba6",
+          "performanceKey": "goat:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.courtyard.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-5ec4be8b",
+          "performanceKey": "goat:courtyard:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.courtyard.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-568c4e90",
+          "performanceKey": "goat:courtyard:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.courtyard.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-4a7ad1b3",
+          "performanceKey": "goat:courtyard:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "pigeon",
+      "lines": [
+        {
+          "lineId": "pigeon.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-4aa887c9",
+          "performanceKey": "pigeon:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-3f620982",
+          "performanceKey": "pigeon:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-9d40ff6a",
+          "performanceKey": "pigeon:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.water",
+          "scriptVersion": 2,
+          "fingerprint": "text-78d47be1",
+          "performanceKey": "pigeon:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.secret",
+          "scriptVersion": 2,
+          "fingerprint": "text-df546985",
+          "performanceKey": "pigeon:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-0a2f68fd",
+          "performanceKey": "pigeon:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-f5f80f77",
+          "performanceKey": "pigeon:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-af9fee4c",
+          "performanceKey": "pigeon:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.question",
+          "scriptVersion": 1,
+          "fingerprint": "text-3976d802",
+          "performanceKey": "pigeon:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-deb6e56b",
+          "performanceKey": "pigeon:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.courtyard.comment",
+          "scriptVersion": 3,
+          "fingerprint": "text-19adfdc6",
+          "performanceKey": "pigeon:courtyard:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.courtyard.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-99dd4b0f",
+          "performanceKey": "pigeon:courtyard:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.courtyard.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-01915323",
+          "performanceKey": "pigeon:courtyard:detail",
+          "spoilerSensitivity": "solution"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "snake",
+      "lines": [
+        {
+          "lineId": "snake.greet",
+          "scriptVersion": 5,
+          "fingerprint": "text-b0e3462f",
+          "performanceKey": "snake:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.watched",
+          "scriptVersion": 4,
+          "fingerprint": "text-81116994",
+          "performanceKey": "snake:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.bell",
+          "scriptVersion": 4,
+          "fingerprint": "text-ee23ba0e",
+          "performanceKey": "snake:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.water",
+          "scriptVersion": 3,
+          "fingerprint": "text-36267b8e",
+          "performanceKey": "snake:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-1e115d21",
+          "performanceKey": "snake:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.wrong",
+          "scriptVersion": 3,
+          "fingerprint": "text-f2d3c3df",
+          "performanceKey": "snake:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.complaint",
+          "scriptVersion": 4,
+          "fingerprint": "text-7e5db28b",
+          "performanceKey": "snake:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.boast",
+          "scriptVersion": 4,
+          "fingerprint": "text-1c486a95",
+          "performanceKey": "snake:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.question",
+          "scriptVersion": 3,
+          "fingerprint": "text-b37e42a9",
+          "performanceKey": "snake:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.arrival",
+          "scriptVersion": 3,
+          "fingerprint": "text-486f5012",
+          "performanceKey": "snake:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.courtyard.comment",
+          "scriptVersion": 3,
+          "fingerprint": "text-f62b00f8",
+          "performanceKey": "snake:courtyard:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.courtyard.alibi",
+          "scriptVersion": 2,
+          "fingerprint": "text-02e56374",
+          "performanceKey": "snake:courtyard:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.courtyard.detail",
+          "scriptVersion": 2,
+          "fingerprint": "text-be9c6f4f",
+          "performanceKey": "snake:courtyard:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "cat",
+      "lines": [
+        {
+          "lineId": "cat.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-abe573de",
+          "performanceKey": "cat:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-b61be8b6",
+          "performanceKey": "cat:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-c8fd1508",
+          "performanceKey": "cat:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.water",
+          "scriptVersion": 1,
+          "fingerprint": "text-081f968f",
+          "performanceKey": "cat:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.secret",
+          "scriptVersion": 1,
+          "fingerprint": "text-5b7ffdfd",
+          "performanceKey": "cat:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.wrong",
+          "scriptVersion": 2,
+          "fingerprint": "text-fa7bbd85",
+          "performanceKey": "cat:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-3ba6e54b",
+          "performanceKey": "cat:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-45519122",
+          "performanceKey": "cat:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-e42b0064",
+          "performanceKey": "cat:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-51ba847a",
+          "performanceKey": "cat:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.courtyard.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-99eae27a",
+          "performanceKey": "cat:courtyard:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.courtyard.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-38ed645d",
+          "performanceKey": "cat:courtyard:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.courtyard.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-3cdc91fe",
+          "performanceKey": "cat:courtyard:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "boar",
+      "lines": [
+        {
+          "lineId": "boar.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-96b06bb4",
+          "performanceKey": "boar:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-a3a4b091",
+          "performanceKey": "boar:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-ff87ad77",
+          "performanceKey": "boar:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.water",
+          "scriptVersion": 3,
+          "fingerprint": "text-27599943",
+          "performanceKey": "boar:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.secret",
+          "scriptVersion": 2,
+          "fingerprint": "text-ce715915",
+          "performanceKey": "boar:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-10cc59d4",
+          "performanceKey": "boar:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-010bc3ca",
+          "performanceKey": "boar:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.boast",
+          "scriptVersion": 1,
+          "fingerprint": "text-8fd362a2",
+          "performanceKey": "boar:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-2428ccc2",
+          "performanceKey": "boar:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-a78c7721",
+          "performanceKey": "boar:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.courtyard.comment",
+          "scriptVersion": 2,
+          "fingerprint": "text-96fc0937",
+          "performanceKey": "boar:courtyard:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.courtyard.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-33c85df4",
+          "performanceKey": "boar:courtyard:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.courtyard.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-e4723494",
+          "performanceKey": "boar:courtyard:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "turtle",
+      "lines": [
+        {
+          "lineId": "turtle.greet",
+          "scriptVersion": 3,
+          "fingerprint": "text-c7be054b",
+          "performanceKey": "turtle:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.watched",
+          "scriptVersion": 3,
+          "fingerprint": "text-66204540",
+          "performanceKey": "turtle:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.bell",
+          "scriptVersion": 2,
+          "fingerprint": "text-84668175",
+          "performanceKey": "turtle:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.water",
+          "scriptVersion": 2,
+          "fingerprint": "text-c914a92f",
+          "performanceKey": "turtle:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-d804cbf0",
+          "performanceKey": "turtle:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.wrong",
+          "scriptVersion": 3,
+          "fingerprint": "text-5f10b596",
+          "performanceKey": "turtle:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.complaint",
+          "scriptVersion": 2,
+          "fingerprint": "text-41cad03d",
+          "performanceKey": "turtle:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-807eaebf",
+          "performanceKey": "turtle:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-6e127df9",
+          "performanceKey": "turtle:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.arrival",
+          "scriptVersion": 2,
+          "fingerprint": "text-529ed8d6",
+          "performanceKey": "turtle:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.courtyard.comment",
+          "scriptVersion": 2,
+          "fingerprint": "text-f933d837",
+          "performanceKey": "turtle:courtyard:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.courtyard.alibi",
+          "scriptVersion": 2,
+          "fingerprint": "text-581075e3",
+          "performanceKey": "turtle:courtyard:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.courtyard.detail",
+          "scriptVersion": 2,
+          "fingerprint": "text-7392d320",
+          "performanceKey": "turtle:courtyard:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "badger",
+      "lines": [
+        {
+          "lineId": "badger.intro",
+          "scriptVersion": 4,
+          "fingerprint": "text-6f7d3db7",
+          "performanceKey": "badger:intro",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.receipt",
+          "scriptVersion": 3,
+          "fingerprint": "text-c11f205c",
+          "performanceKey": "badger:receipt",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.copies",
+          "scriptVersion": 3,
+          "fingerprint": "text-b14a5aed",
+          "performanceKey": "badger:copies",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.courtyard.notice",
+          "scriptVersion": 3,
+          "fingerprint": "text-2eaa4d88",
+          "performanceKey": "badger:courtyard:notice",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "badger.courtyard.chair",
+          "scriptVersion": 3,
+          "fingerprint": "text-ad2222ec",
+          "performanceKey": "badger:courtyard:chair",
+          "spoilerSensitivity": "safe"
+        }
+      ]
+    },
+    {
+      "caseId": "courtyard",
+      "characterId": "guide",
+      "lines": [
+        {
+          "lineId": "guide.night",
+          "scriptVersion": 1,
+          "fingerprint": "text-ef46de7d",
+          "performanceKey": "guide:night",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "guide.crime.courtyard",
+          "scriptVersion": 1,
+          "fingerprint": "text-e1fe57f8",
+          "performanceKey": "guide:crime:courtyard",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "goat",
+      "lines": [
+        {
+          "lineId": "goat.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-3c5a65a7",
+          "performanceKey": "goat:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-92bcdd9f",
+          "performanceKey": "goat:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-c6abe142",
+          "performanceKey": "goat:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.water",
+          "scriptVersion": 1,
+          "fingerprint": "text-20b912d4",
+          "performanceKey": "goat:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-9c35f65f",
+          "performanceKey": "goat:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-1d70a05d",
+          "performanceKey": "goat:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.complaint",
+          "scriptVersion": 2,
+          "fingerprint": "text-74dbcc27",
+          "performanceKey": "goat:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.boast",
+          "scriptVersion": 1,
+          "fingerprint": "text-f2415825",
+          "performanceKey": "goat:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-fa6b2f2f",
+          "performanceKey": "goat:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-2f462ba6",
+          "performanceKey": "goat:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "goat.balcony.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-849bf10a",
+          "performanceKey": "goat:balcony:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.balcony.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-bb39a743",
+          "performanceKey": "goat:balcony:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "goat.balcony.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-6354b154",
+          "performanceKey": "goat:balcony:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "pigeon",
+      "lines": [
+        {
+          "lineId": "pigeon.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-4aa887c9",
+          "performanceKey": "pigeon:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-3f620982",
+          "performanceKey": "pigeon:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-9d40ff6a",
+          "performanceKey": "pigeon:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.water",
+          "scriptVersion": 2,
+          "fingerprint": "text-78d47be1",
+          "performanceKey": "pigeon:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.secret",
+          "scriptVersion": 2,
+          "fingerprint": "text-df546985",
+          "performanceKey": "pigeon:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-0a2f68fd",
+          "performanceKey": "pigeon:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-f5f80f77",
+          "performanceKey": "pigeon:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-af9fee4c",
+          "performanceKey": "pigeon:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.question",
+          "scriptVersion": 1,
+          "fingerprint": "text-3976d802",
+          "performanceKey": "pigeon:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-deb6e56b",
+          "performanceKey": "pigeon:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "pigeon.balcony.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-5ff48b9d",
+          "performanceKey": "pigeon:balcony:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.balcony.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-dc9f6304",
+          "performanceKey": "pigeon:balcony:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "pigeon.balcony.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-ad4d9d36",
+          "performanceKey": "pigeon:balcony:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "snake",
+      "lines": [
+        {
+          "lineId": "snake.greet",
+          "scriptVersion": 5,
+          "fingerprint": "text-b0e3462f",
+          "performanceKey": "snake:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.watched",
+          "scriptVersion": 4,
+          "fingerprint": "text-81116994",
+          "performanceKey": "snake:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.bell",
+          "scriptVersion": 4,
+          "fingerprint": "text-ee23ba0e",
+          "performanceKey": "snake:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.water",
+          "scriptVersion": 3,
+          "fingerprint": "text-36267b8e",
+          "performanceKey": "snake:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-1e115d21",
+          "performanceKey": "snake:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.wrong",
+          "scriptVersion": 3,
+          "fingerprint": "text-f2d3c3df",
+          "performanceKey": "snake:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.complaint",
+          "scriptVersion": 4,
+          "fingerprint": "text-7e5db28b",
+          "performanceKey": "snake:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.boast",
+          "scriptVersion": 4,
+          "fingerprint": "text-1c486a95",
+          "performanceKey": "snake:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.question",
+          "scriptVersion": 3,
+          "fingerprint": "text-b37e42a9",
+          "performanceKey": "snake:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.arrival",
+          "scriptVersion": 3,
+          "fingerprint": "text-486f5012",
+          "performanceKey": "snake:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "snake.balcony.comment",
+          "scriptVersion": 3,
+          "fingerprint": "text-b84670ed",
+          "performanceKey": "snake:balcony:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.balcony.alibi",
+          "scriptVersion": 3,
+          "fingerprint": "text-3acfb850",
+          "performanceKey": "snake:balcony:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "snake.balcony.detail",
+          "scriptVersion": 3,
+          "fingerprint": "text-d7edbb58",
+          "performanceKey": "snake:balcony:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "cat",
+      "lines": [
+        {
+          "lineId": "cat.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-abe573de",
+          "performanceKey": "cat:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-b61be8b6",
+          "performanceKey": "cat:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-c8fd1508",
+          "performanceKey": "cat:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.water",
+          "scriptVersion": 1,
+          "fingerprint": "text-081f968f",
+          "performanceKey": "cat:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.secret",
+          "scriptVersion": 1,
+          "fingerprint": "text-5b7ffdfd",
+          "performanceKey": "cat:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.wrong",
+          "scriptVersion": 2,
+          "fingerprint": "text-fa7bbd85",
+          "performanceKey": "cat:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-3ba6e54b",
+          "performanceKey": "cat:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-45519122",
+          "performanceKey": "cat:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-e42b0064",
+          "performanceKey": "cat:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-51ba847a",
+          "performanceKey": "cat:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "cat.balcony.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-ad0f7355",
+          "performanceKey": "cat:balcony:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.balcony.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-d1f1db8b",
+          "performanceKey": "cat:balcony:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "cat.balcony.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-0ab65195",
+          "performanceKey": "cat:balcony:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "boar",
+      "lines": [
+        {
+          "lineId": "boar.greet",
+          "scriptVersion": 2,
+          "fingerprint": "text-96b06bb4",
+          "performanceKey": "boar:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.watched",
+          "scriptVersion": 2,
+          "fingerprint": "text-a3a4b091",
+          "performanceKey": "boar:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.bell",
+          "scriptVersion": 1,
+          "fingerprint": "text-ff87ad77",
+          "performanceKey": "boar:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.water",
+          "scriptVersion": 3,
+          "fingerprint": "text-27599943",
+          "performanceKey": "boar:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.secret",
+          "scriptVersion": 2,
+          "fingerprint": "text-ce715915",
+          "performanceKey": "boar:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.wrong",
+          "scriptVersion": 1,
+          "fingerprint": "text-10cc59d4",
+          "performanceKey": "boar:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.complaint",
+          "scriptVersion": 1,
+          "fingerprint": "text-010bc3ca",
+          "performanceKey": "boar:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.boast",
+          "scriptVersion": 1,
+          "fingerprint": "text-8fd362a2",
+          "performanceKey": "boar:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-2428ccc2",
+          "performanceKey": "boar:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.arrival",
+          "scriptVersion": 1,
+          "fingerprint": "text-a78c7721",
+          "performanceKey": "boar:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "boar.balcony.comment",
+          "scriptVersion": 1,
+          "fingerprint": "text-c96ca1c6",
+          "performanceKey": "boar:balcony:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.balcony.alibi",
+          "scriptVersion": 1,
+          "fingerprint": "text-d701c9a0",
+          "performanceKey": "boar:balcony:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "boar.balcony.detail",
+          "scriptVersion": 1,
+          "fingerprint": "text-f2d90a14",
+          "performanceKey": "boar:balcony:detail",
+          "spoilerSensitivity": "solution"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "turtle",
+      "lines": [
+        {
+          "lineId": "turtle.greet",
+          "scriptVersion": 3,
+          "fingerprint": "text-c7be054b",
+          "performanceKey": "turtle:signature:greet",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.watched",
+          "scriptVersion": 3,
+          "fingerprint": "text-66204540",
+          "performanceKey": "turtle:signature:watched",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.bell",
+          "scriptVersion": 2,
+          "fingerprint": "text-84668175",
+          "performanceKey": "turtle:bell",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.water",
+          "scriptVersion": 2,
+          "fingerprint": "text-c914a92f",
+          "performanceKey": "turtle:water",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.secret",
+          "scriptVersion": 3,
+          "fingerprint": "text-d804cbf0",
+          "performanceKey": "turtle:secret",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.wrong",
+          "scriptVersion": 3,
+          "fingerprint": "text-5f10b596",
+          "performanceKey": "turtle:wrong",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.complaint",
+          "scriptVersion": 2,
+          "fingerprint": "text-41cad03d",
+          "performanceKey": "turtle:signature:complaint",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.boast",
+          "scriptVersion": 2,
+          "fingerprint": "text-807eaebf",
+          "performanceKey": "turtle:signature:boast",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.question",
+          "scriptVersion": 2,
+          "fingerprint": "text-6e127df9",
+          "performanceKey": "turtle:signature:question",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.arrival",
+          "scriptVersion": 2,
+          "fingerprint": "text-529ed8d6",
+          "performanceKey": "turtle:signature:arrival",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "turtle.balcony.comment",
+          "scriptVersion": 2,
+          "fingerprint": "text-9c8c7d39",
+          "performanceKey": "turtle:balcony:comment",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.balcony.alibi",
+          "scriptVersion": 2,
+          "fingerprint": "text-f2026b1d",
+          "performanceKey": "turtle:balcony:alibi",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "turtle.balcony.detail",
+          "scriptVersion": 2,
+          "fingerprint": "text-e243a76c",
+          "performanceKey": "turtle:balcony:detail",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "hedgehog",
+      "lines": [
+        {
+          "lineId": "hedgehog.intro",
+          "scriptVersion": 2,
+          "fingerprint": "text-c7da7eca",
+          "performanceKey": "hedgehog:intro",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "hedgehog.queue",
+          "scriptVersion": 2,
+          "fingerprint": "text-54046358",
+          "performanceKey": "hedgehog:queue",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "hedgehog.notice",
+          "scriptVersion": 2,
+          "fingerprint": "text-716e4163",
+          "performanceKey": "hedgehog:notice",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "hedgehog.balcony.pause",
+          "scriptVersion": 1,
+          "fingerprint": "text-aaffc555",
+          "performanceKey": "hedgehog:balcony:pause",
+          "spoilerSensitivity": "safe"
+        },
+        {
+          "lineId": "hedgehog.balcony.space",
+          "scriptVersion": 1,
+          "fingerprint": "text-976b2203",
+          "performanceKey": "hedgehog:balcony:space",
+          "spoilerSensitivity": "safe"
+        }
+      ]
+    },
+    {
+      "caseId": "balcony",
+      "characterId": "guide",
+      "lines": [
+        {
+          "lineId": "guide.night",
+          "scriptVersion": 1,
+          "fingerprint": "text-ef46de7d",
+          "performanceKey": "guide:night",
+          "spoilerSensitivity": "investigation"
+        },
+        {
+          "lineId": "guide.crime.balcony",
+          "scriptVersion": 1,
+          "fingerprint": "text-33549f23",
+          "performanceKey": "guide:crime:balcony",
+          "spoilerSensitivity": "investigation"
+        }
+      ]
+    }
+  ]
+}

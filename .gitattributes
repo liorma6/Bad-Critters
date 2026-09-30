@@ -1,0 +1,12 @@
+* text=auto eol=lf
+*.cmd text eol=crlf
+*.wav -text
+*.webm -text
+*.ogg -text
+*.mp3 -text
+*.m4a -text
+*.webp -text
+*.png -text
+*.jpg -text
+*.docx -text
+*.pdf -text

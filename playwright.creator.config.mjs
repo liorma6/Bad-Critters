@@ -1,0 +1,3 @@
+import {defineConfig} from '@playwright/test';
+import {syntheticMicrophone} from './tests/synthetic-microphone.mjs';
+export default defineConfig({testDir:'./tests/creator-browser',outputDir:'test-results/creator-runs',timeout:60000,expect:{timeout:10000},workers:1,reporter:[['list'],['json',{outputFile:'test-results/creator-report.json'}]],use:{baseURL:'http://127.0.0.1:4176',channel:'chrome',headless:true,launchOptions:{args:['--use-fake-ui-for-media-stream','--use-fake-device-for-media-stream',`--use-file-for-fake-audio-capture=${syntheticMicrophone()}`]},screenshot:'only-on-failure',trace:'retain-on-failure'}});

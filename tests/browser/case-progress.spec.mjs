@@ -1,0 +1,8 @@
+import {test,expect} from '@playwright/test';
+import {CASES} from '../../src/content.js';
+for(const [index,c]of CASES.entries())test(`${c.id}: UI investigation, proof and reconstruction reach the result`,async({page})=>{
+ test.setTimeout(100000);await page.goto(`/?test-profile=case-${index}`);await page.locator('#choose-start').click();await page.locator(`[data-case="${index}"]`).click();await page.locator('#creator-start').click();if(index===0)await page.locator('#skip-intro').click();else await page.locator('#begin-case').click();await page.locator('#guide-action').click();await expect(page.locator('#guide-action')).toHaveText('לבדוק מה קרה',{timeout:22000});await page.locator('#guide-action').click();await page.locator('.accessible-map summary').click();
+ const proof=c.proofGroups.map(g=>g[0]),locations=[...new Set(proof.map(id=>c.clues.find(x=>x.id===id).location))];
+ for(const location of locations){const resident=page.locator(`[data-resident="${location}"]`);if(await resident.count()){await resident.click();await page.locator('[data-question="alibi"]').click();await page.locator('#leave-person').click();}else{await page.locator(`[data-location="${location}"]`).click();await page.locator('#back-world').click();}}
+ await page.locator('#accuse').click();await page.locator(`[data-suspect="${c.culprit}"]`).click();for(const id of proof)await page.locator(`input[value="${id}"]`).check();await page.locator('#review-accusation').click();await page.locator('#submit-accusation').click();await expect(page.locator('#next-case')).toBeVisible({timeout:33000});await expect(page.locator('#dialog-title')).toHaveText('התיק נסגר. הוויכוח לא.');
+});

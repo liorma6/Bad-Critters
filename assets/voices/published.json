@@ -1,0 +1,1066 @@
+{
+  "goat.greet": {
+    "file": "assets/voices/creator/goat.greet.v2.29cf9372-86e3-48e7-b1f5-3667007af53f.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-3c5a65a7",
+    "performanceKey": "goat:signature:greet",
+    "duration": 6.044833333333333,
+    "sha256": "f2cbb6dc1a7a60ef18ab0744870be4dd2f822898ecf88533b4a2604504cda6bb"
+  },
+  "goat.watched": {
+    "file": "assets/voices/creator/goat.watched.v2.a22c234e-0c1d-475c-aae8-d9b3eb4674e2.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-92bcdd9f",
+    "performanceKey": "goat:signature:watched",
+    "duration": 6.234104166666667,
+    "sha256": "c27b7b8f6274e8c095ed57467c2d5c1d24527328c536dad321e9c8516c118ef3"
+  },
+  "goat.bell": {
+    "file": "assets/voices/creator/goat.bell.v1.85c26280-798c-4ad6-afca-31cffed4088a.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-c6abe142",
+    "performanceKey": "goat:bell",
+    "duration": 5.845,
+    "sha256": "e2361a1491bcc9cce4e52f28c612b8f1b99d2988f17638c315f31dbe2d5c59a8"
+  },
+  "goat.water": {
+    "file": "assets/voices/creator/goat.water.v1.f62f665b-5bc8-45d6-ab59-4b8f9f201281.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-20b912d4",
+    "performanceKey": "goat:water",
+    "duration": 5.595,
+    "sha256": "72b54e231b7ea722e3538c10f1e0ca8a98f3fa8d1f8629319d5ceb73c779ed29"
+  },
+  "goat.secret": {
+    "file": "assets/voices/creator/goat.secret.v3.f51ff8e7-727b-4c34-8fd7-f4adce345e90.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-9c35f65f",
+    "performanceKey": "goat:secret",
+    "duration": 5.9549375,
+    "sha256": "5b21703bd54e17f0eb00f886d03905505aeba53c6f6bdfc7a19612019fb53943"
+  },
+  "goat.wrong": {
+    "file": "assets/voices/creator/goat.wrong.v1.b5da6e08-db96-4e52-9247-105fd4583c84.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-1d70a05d",
+    "performanceKey": "goat:wrong",
+    "duration": 5.0147916666666665,
+    "sha256": "a3f9cc8de439ae86dc926c620de023432ce3740bf355f4f110ad4df724253a97"
+  },
+  "goat.fire.comment": {
+    "file": "assets/voices/creator/goat.fire.comment.v2.df0b020c-a686-43d2-8de3-9fe7930da220.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-8e717425",
+    "performanceKey": "goat:fire:comment",
+    "duration": 6.8349375,
+    "sha256": "c2f3991e117bdf3ab9d090971db75d1f31681ab741a2ea39e48b4d90cea2fae7"
+  },
+  "goat.fire.alibi": {
+    "file": "assets/voices/creator/goat.fire.alibi.v1.d575c063-c11e-4951-8fc6-76928785e732.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-3a94118e",
+    "performanceKey": "goat:fire:alibi",
+    "duration": 8.954979166666666,
+    "sha256": "b0b9381243836b08b97f2650f054e998ea545887f3e3e6d50c74084753b4ae5d"
+  },
+  "goat.fire.detail": {
+    "file": "assets/voices/creator/goat.fire.detail.v2.0fd1a09e-f1d1-48a1-a8b0-b133ed16c04a.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-e7852580",
+    "performanceKey": "goat:fire:detail",
+    "duration": 6.305,
+    "sha256": "d42612fc03eed03d2980b0bb7b6641a31c292d3b2f8bb2b59de3a0725b106ab7"
+  },
+  "goat.courtyard.comment": {
+    "file": "assets/voices/creator/goat.courtyard.comment.v1.e8b11caa-205e-47a2-b901-39c17cb6c7ee.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-5ec4be8b",
+    "performanceKey": "goat:courtyard:comment",
+    "duration": 5.445,
+    "sha256": "ea3daccd953cc8de8dc3783e41b15433b596c7d06f06057196dfd2a4935d4bb7"
+  },
+  "goat.courtyard.alibi": {
+    "file": "assets/voices/creator/goat.courtyard.alibi.v1.423f789a-73b4-4fee-aa7c-bd7c928cedef.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-568c4e90",
+    "performanceKey": "goat:courtyard:alibi",
+    "duration": 8.294770833333333,
+    "sha256": "7b48b964a5f6f8da8fee9afb9efff18e09dd6e3177b8474a8e771b57fd6aa987"
+  },
+  "goat.courtyard.detail": {
+    "file": "assets/voices/creator/goat.courtyard.detail.v1.9573083a-73c4-41f7-b0ff-60030283afdf.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-4a7ad1b3",
+    "performanceKey": "goat:courtyard:detail",
+    "duration": 6.652979166666666,
+    "sha256": "422947ba6abe29e6c709b33f9d730e25344816a6674f39a1da3599e01bc82481"
+  },
+  "goat.balcony.comment": {
+    "file": "assets/voices/creator/goat.balcony.comment.v1.e8584dcc-ac57-4feb-8ed1-ff8df1404727.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-849bf10a",
+    "performanceKey": "goat:balcony:comment",
+    "duration": 5.784541666666667,
+    "sha256": "562bdee6e3c9a05229a0a0dca2f5b90a7e90704bb51949d91746dec7652198ac"
+  },
+  "goat.balcony.alibi": {
+    "file": "assets/voices/creator/goat.balcony.alibi.v1.7168326c-3188-437f-9b7b-1669379c6b00.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-bb39a743",
+    "performanceKey": "goat:balcony:alibi",
+    "duration": 6.105,
+    "sha256": "43e28ba3aef4a75591a8c6a53bdcc19c9c6f14c69f8f7307a4a0ea364dac1d31"
+  },
+  "goat.balcony.detail": {
+    "file": "assets/voices/creator/goat.balcony.detail.v1.8cb1b6e3-429a-482e-bae5-c2ef1ad27ba3.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-6354b154",
+    "performanceKey": "goat:balcony:detail",
+    "duration": 6.524604166666666,
+    "sha256": "a43d078a6fd109387a96141914db6b2cf1f859f24b6a2996452fa9211b8b386f"
+  },
+  "pigeon.greet": {
+    "file": "assets/voices/creator/pigeon.greet.v2.85e90b85-5c3f-41c6-a3a4-5fc13d4ecd2b.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-4aa887c9",
+    "performanceKey": "pigeon:signature:greet",
+    "duration": 4.8349166666666665,
+    "sha256": "3d6abba3d409d3ed9a282bd14bfd2df2d61e0c9898f070e716721a174ef96043"
+  },
+  "pigeon.watched": {
+    "file": "assets/voices/creator/pigeon.watched.v2.2971e6b1-22f5-4640-849b-2648d445a4dd.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-3f620982",
+    "performanceKey": "pigeon:signature:watched",
+    "duration": 3.884916666666667,
+    "sha256": "aa74c5c79ddf2e9a783a2a64fd66a3b146c938b4e0645f17d231e751d53710a1"
+  },
+  "pigeon.bell": {
+    "file": "assets/voices/creator/pigeon.bell.v1.ab4e6743-34b2-4047-b035-cc0f78814d75.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-9d40ff6a",
+    "performanceKey": "pigeon:bell",
+    "duration": 5.064770833333333,
+    "sha256": "bfec36767260f43c804e9e5f4bbae99bbe4af30e1527b5dce8ebf074ac874b44"
+  },
+  "pigeon.water": {
+    "file": "assets/voices/creator/pigeon.water.v2.e0049e5e-1691-47db-a5e5-45f282ae12bf.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-78d47be1",
+    "performanceKey": "pigeon:water",
+    "duration": 6.115,
+    "sha256": "806d6592db9c8107d91101ea94d514012744d0b2ae81ed03d6e5d2aff734a649"
+  },
+  "pigeon.secret": {
+    "file": "assets/voices/creator/pigeon.secret.v2.b2e2e5d6-3c04-4206-811e-5ff99493dba4.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-df546985",
+    "performanceKey": "pigeon:secret",
+    "duration": 6.065,
+    "sha256": "6bd58897bf611e00bd6cfef1c44f2034cdec0a26d2f8335e3eba5e96e389fba1"
+  },
+  "pigeon.wrong": {
+    "file": "assets/voices/creator/pigeon.wrong.v1.7c93cd56-a1dd-4475-a3fb-c070f90ebae9.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-0a2f68fd",
+    "performanceKey": "pigeon:wrong",
+    "duration": 4.775,
+    "sha256": "07d959bf8634c550612ac2df7b5a2f042c4b8c2f476764ee4db7153c39fdb234"
+  },
+  "pigeon.fire.comment": {
+    "file": "assets/voices/creator/pigeon.fire.comment.v1.20f49500-5135-4e3b-b530-435fe9de880b.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-184b2aa4",
+    "performanceKey": "pigeon:fire:comment",
+    "duration": 6.255,
+    "sha256": "d3dfa53b5d2636297b09f3076d962137ce382ff5df562deb2d99041c8ccae0be"
+  },
+  "pigeon.fire.alibi": {
+    "file": "assets/voices/creator/pigeon.fire.alibi.v1.c6748247-9b11-4fae-b98d-64f48bf42ef1.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-607e33a6",
+    "performanceKey": "pigeon:fire:alibi",
+    "duration": 7.8648541666666665,
+    "sha256": "910b1569f1bf49a1238b78d53a510fc9030d824f6d9813d6c6c4901fb405a82a"
+  },
+  "pigeon.fire.detail": {
+    "file": "assets/voices/creator/pigeon.fire.detail.v1.41409958-f3ca-4370-aa02-4cef595e3d44.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-771ec468",
+    "performanceKey": "pigeon:fire:detail",
+    "duration": 7.57475,
+    "sha256": "9e3bf2a7490acd84b45fe8ae6307952d68863ad032c814d356e7c9e9a4467cd0"
+  },
+  "pigeon.courtyard.comment": {
+    "file": "assets/voices/creator/pigeon.courtyard.comment.v3.2abf4cfa-23b0-4249-90fd-314a8d95f7df.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-19adfdc6",
+    "performanceKey": "pigeon:courtyard:comment",
+    "duration": 6.685,
+    "sha256": "7f92686a6171afbd2625bdc2d9dc5b13014597f3254d322dd1f97df592aec8dd"
+  },
+  "pigeon.courtyard.alibi": {
+    "file": "assets/voices/creator/pigeon.courtyard.alibi.v1.d5c2c071-4a42-45d9-b16d-b0c219e76a99.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-99dd4b0f",
+    "performanceKey": "pigeon:courtyard:alibi",
+    "duration": 6.194791666666666,
+    "sha256": "dccf16828fc9ee73d9d0292c2323ea76dbb2d7f50475b3c76811d3cb15754f55"
+  },
+  "pigeon.courtyard.detail": {
+    "file": "assets/voices/creator/pigeon.courtyard.detail.v1.6d440627-c3bd-4515-9630-f87e5538edf2.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-01915323",
+    "performanceKey": "pigeon:courtyard:detail",
+    "duration": 8.13475,
+    "sha256": "0fafec4d08453f517433e1ebf6e919039a7993a7638381f9b8fb3ab081147f77"
+  },
+  "pigeon.balcony.comment": {
+    "file": "assets/voices/creator/pigeon.balcony.comment.v1.ffce9ad2-63b4-4745-bf22-2b30fd39933a.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-5ff48b9d",
+    "performanceKey": "pigeon:balcony:comment",
+    "duration": 4.5949583333333335,
+    "sha256": "a8be0b03c732454f325aae2961e0771e8e49cab8c68bb1d90c3cedcab7fb648a"
+  },
+  "pigeon.balcony.alibi": {
+    "file": "assets/voices/creator/pigeon.balcony.alibi.v1.b4113f59-6d46-4d65-95a1-16f130a81020.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-dc9f6304",
+    "performanceKey": "pigeon:balcony:alibi",
+    "duration": 5.5349375,
+    "sha256": "ae7fff3091641953d8d108befd7593b404a43890988c764804297297ad6d23b7"
+  },
+  "pigeon.balcony.detail": {
+    "file": "assets/voices/creator/pigeon.balcony.detail.v1.2b851db3-8ed4-4e5e-a9ef-69e4f29a38a8.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-ad4d9d36",
+    "performanceKey": "pigeon:balcony:detail",
+    "duration": 5.294791666666667,
+    "sha256": "e28b6e53e49670226cead6418059e7b390c02d7252e5116b0eefd11bb8b3dc84"
+  },
+  "snake.greet": {
+    "file": "assets/voices/creator/snake.greet.v5.7febc259-a4c6-4ffc-a22f-8f68cb93442b.wav",
+    "scriptVersion": 5,
+    "fingerprint": "text-b0e3462f",
+    "performanceKey": "snake:signature:greet",
+    "duration": 8.081875,
+    "sha256": "cdd49bfdcbbde3c903e6c1603fd9ff4a0afa3d72926de5e32ec7a63b96ac8a43"
+  },
+  "snake.watched": {
+    "file": "assets/voices/creator/snake.watched.v4.9d7ddc8c-df60-4596-9fdf-4c454ebb7b2d.wav",
+    "scriptVersion": 4,
+    "fingerprint": "text-81116994",
+    "performanceKey": "snake:signature:watched",
+    "duration": 7.964979166666667,
+    "sha256": "798da706e45eef416e5a6b106b7d9b60d3ea90ed7a29ee94d93814e0348ca9ef"
+  },
+  "snake.bell": {
+    "file": "assets/voices/creator/snake.bell.v4.f04483d0-497a-4407-9fa7-8727a335c19b.wav",
+    "scriptVersion": 4,
+    "fingerprint": "text-ee23ba0e",
+    "performanceKey": "snake:bell",
+    "duration": 5.5,
+    "sha256": "f02ebf541d56a53ff7f6f6d0a30b72f4465eba1be325711393a57999eff74383"
+  },
+  "snake.water": {
+    "file": "assets/voices/creator/snake.water.v3.41decc4a-e0a0-427b-a200-dbc12c95fa62.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-36267b8e",
+    "performanceKey": "snake:water",
+    "duration": 7.4248125,
+    "sha256": "959d59cd33e93f4ac94bf7a95693e8ceee7e7b390aba03c2c6aac91c6ff1cdd7"
+  },
+  "snake.secret": {
+    "file": "assets/voices/creator/snake.secret.v3.07fdea31-6ccd-4b1d-aa1e-c9c2841ceb0f.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-1e115d21",
+    "performanceKey": "snake:secret",
+    "duration": 9.185,
+    "sha256": "5b4c6938b34443295ab86587353402cc9dac305cac17cc6845a3bc3a523935fd"
+  },
+  "snake.wrong": {
+    "file": "assets/voices/creator/snake.wrong.v3.543f1c09-af56-4afc-9c9f-7ad28ce6589f.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-f2d3c3df",
+    "performanceKey": "snake:wrong",
+    "duration": 7.1146875,
+    "sha256": "99eccb6647844c0ad62632c0d929de446c1c0c765b97bd9a1f4788ebfd588514"
+  },
+  "snake.fire.comment": {
+    "file": "assets/voices/creator/snake.fire.comment.v3.25d2db85-2448-4b15-95db-6a1ef37b6ba9.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-796bc3f5",
+    "performanceKey": "snake:fire:comment",
+    "duration": 6.5147916666666665,
+    "sha256": "789635d8461b380affe865e98f415e785540935281ed9cb476d7496d01075bd1"
+  },
+  "snake.fire.alibi": {
+    "file": "assets/voices/creator/snake.fire.alibi.v2.bd4526d5-d4e8-4b72-8a73-87744564dd82.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-2762c77c",
+    "performanceKey": "snake:fire:alibi",
+    "duration": 8.385,
+    "sha256": "f18a79c935cda0eceb12149f5b06cd5675b9155992b64bf24d7ab2c4d9eb2592"
+  },
+  "snake.fire.detail": {
+    "file": "assets/voices/creator/snake.fire.detail.v2.b5bfef58-4b2b-4518-b7f7-7e346cb874c1.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-00b79be0",
+    "performanceKey": "snake:fire:detail",
+    "duration": 6.444895833333334,
+    "sha256": "37e44fd47df33507b39e4f0d86788a7b2c05bc86f3702f5dc54e1e6cacd8a5ae"
+  },
+  "snake.courtyard.comment": {
+    "file": "assets/voices/creator/snake.courtyard.comment.v3.71ab4651-c55e-4b1b-b997-82781d8be8a2.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-f62b00f8",
+    "performanceKey": "snake:courtyard:comment",
+    "duration": 7.065,
+    "sha256": "5fec221ef34ac48802ee3b5fde9889523c5d2a73d4dfbf55f70f20591a2788f9"
+  },
+  "snake.courtyard.alibi": {
+    "file": "assets/voices/creator/snake.courtyard.alibi.v2.6073f0d8-20d6-4a7e-ae14-7e5084d23afe.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-02e56374",
+    "performanceKey": "snake:courtyard:alibi",
+    "duration": 9.66,
+    "sha256": "9e53df01049be9f578d5e86bd9a306a20e437784bcc4b6822a18d05dc94738c4"
+  },
+  "snake.courtyard.detail": {
+    "file": "assets/voices/creator/snake.courtyard.detail.v2.fd66e1f4-3f9a-45e9-945c-e9da8a448736.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-be9c6f4f",
+    "performanceKey": "snake:courtyard:detail",
+    "duration": 8.5629375,
+    "sha256": "fa7c45761fbb2ca631a0b530351878996501e1aad39b32b5eebec4b317e6e9da"
+  },
+  "snake.balcony.comment": {
+    "file": "assets/voices/creator/snake.balcony.comment.v3.cfdbfff0-cff5-4193-b1b3-7016c4043d9c.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-b84670ed",
+    "performanceKey": "snake:balcony:comment",
+    "duration": 5.904520833333334,
+    "sha256": "c247c9c427d6926c8b9c23e8540b9c2c7bb09b26abc52ba270f82dd5036d6e90"
+  },
+  "snake.balcony.alibi": {
+    "file": "assets/voices/creator/snake.balcony.alibi.v3.c0fa16a2-f38d-4f47-9f2d-597edd3d5aba.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-3acfb850",
+    "performanceKey": "snake:balcony:alibi",
+    "duration": 8.44,
+    "sha256": "bb82464204ed8f583095c92decffb534c0c888bf6f21265aab9ae088145859a6"
+  },
+  "snake.balcony.detail": {
+    "file": "assets/voices/creator/snake.balcony.detail.v3.965f64a0-b7f1-427b-98bd-e2820e3cb319.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-d7edbb58",
+    "performanceKey": "snake:balcony:detail",
+    "duration": 6.285,
+    "sha256": "7a3a5a4029a066a3f757a20f6dd96ef608413d0783dcbf4bd20a707234c33295"
+  },
+  "cat.greet": {
+    "file": "assets/voices/creator/cat.greet.v2.36039887-e77a-4d4d-8a84-0c2f2a8d5640.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-abe573de",
+    "performanceKey": "cat:signature:greet",
+    "duration": 6.18,
+    "sha256": "e0be6999b8f639fc88908040e2261f90768c68cace9c543c45d66e4cc089685d"
+  },
+  "cat.watched": {
+    "file": "assets/voices/creator/cat.watched.v2.09b381fb-0d8c-49e5-a868-c684efb3ebf6.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-b61be8b6",
+    "performanceKey": "cat:signature:watched",
+    "duration": 5.86,
+    "sha256": "50fd6fcf007b759b8414be411141c99e0abbcfd795c9e9c68dab7929991daa69"
+  },
+  "cat.bell": {
+    "file": "assets/voices/creator/cat.bell.v1.05cead74-ed76-4b8f-9958-cb6533b0e3e8.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-c8fd1508",
+    "performanceKey": "cat:bell",
+    "duration": 4.62,
+    "sha256": "85c103d0fe9b9f833c8fa7908035cfd89c948472242d4907432ad751dbfe808e"
+  },
+  "cat.water": {
+    "file": "assets/voices/creator/cat.water.v1.92018d9b-6873-4609-a480-15b5ff09cbce.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-081f968f",
+    "performanceKey": "cat:water",
+    "duration": 3.48,
+    "sha256": "f100f9e45c71b5c05de41d6c8b959f690945e2561dcde044e15b4c4ccc23a1d8"
+  },
+  "cat.secret": {
+    "file": "assets/voices/creator/cat.secret.v1.bed2a7e0-19b2-4453-b9b4-9060e1294809.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-5b7ffdfd",
+    "performanceKey": "cat:secret",
+    "duration": 4.02,
+    "sha256": "c35b4f52d8de0256c2c1f3426fd502e5e3cc4ba33839a35f5a3202534788a536"
+  },
+  "cat.wrong": {
+    "file": "assets/voices/creator/cat.wrong.v2.b4a65c31-c7df-4c1d-9527-f41a5d1c2b08.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-fa7bbd85",
+    "performanceKey": "cat:wrong",
+    "duration": 6.24,
+    "sha256": "5adc8e1b330648842340836528ba1c8ed004511b68f4d60a3d100958f8a8b113"
+  },
+  "cat.fire.comment": {
+    "file": "assets/voices/creator/cat.fire.comment.v1.5ee81413-bb02-4123-ae6a-047f9b058cd6.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-2fc3682c",
+    "performanceKey": "cat:fire:comment",
+    "duration": 3.76,
+    "sha256": "3664883cf94b1c6b4ee87fd048e7448e13b9380955382fb2c2a07a06438e2371"
+  },
+  "cat.fire.alibi": {
+    "file": "assets/voices/creator/cat.fire.alibi.v1.6de81854-8735-4ea0-9a36-2d4d49c74558.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-2275de50",
+    "performanceKey": "cat:fire:alibi",
+    "duration": 4.6,
+    "sha256": "63d0b89bc72f93b23fca2e6fdc0b34387d724b0f744b87b2ec9290b3bd03e6c6"
+  },
+  "cat.fire.detail": {
+    "file": "assets/voices/creator/cat.fire.detail.v1.be5a02a8-cd7c-4e96-9c88-f5ca71832be4.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-c6a54e8f",
+    "performanceKey": "cat:fire:detail",
+    "duration": 6.66,
+    "sha256": "c7c73e717d466d00fc0de8d9a885e16bb20f789dc95eaafcadb45c3892038cea"
+  },
+  "cat.courtyard.comment": {
+    "file": "assets/voices/creator/cat.courtyard.comment.v1.2371b3f0-48e7-4316-8900-3c2eb58a6d07.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-99eae27a",
+    "performanceKey": "cat:courtyard:comment",
+    "duration": 3.64,
+    "sha256": "65fc09966fe33760d6a0b83637fb40a3640930a915d50c9c5d2c87514baad6a0"
+  },
+  "cat.courtyard.alibi": {
+    "file": "assets/voices/creator/cat.courtyard.alibi.v1.9d193757-4764-49c7-8114-8a2e5c80af7c.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-38ed645d",
+    "performanceKey": "cat:courtyard:alibi",
+    "duration": 4.8,
+    "sha256": "06bf4e43bca32e80d5d8a1bfd5da8ee49637cd049a80e13333d9e140874bfa52"
+  },
+  "cat.courtyard.detail": {
+    "file": "assets/voices/creator/cat.courtyard.detail.v1.e9dceef3-1ce4-4b32-85e0-6d83aa45c991.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-3cdc91fe",
+    "performanceKey": "cat:courtyard:detail",
+    "duration": 5.66,
+    "sha256": "639adf0fb1112861a45e1562bf00dcecbfed0f77c6d10869caaa1df651e8ddd5"
+  },
+  "cat.balcony.comment": {
+    "file": "assets/voices/creator/cat.balcony.comment.v1.395ae96e-20c2-4b2a-91fc-6b533c210881.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-ad0f7355",
+    "performanceKey": "cat:balcony:comment",
+    "duration": 3.76,
+    "sha256": "aa23c30bc6555d17f2dba364d7ae9f63270e79782af472e9e570591ab314f916"
+  },
+  "cat.balcony.alibi": {
+    "file": "assets/voices/creator/cat.balcony.alibi.v1.51a581de-6c03-4464-b52d-e03d62f303f9.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-d1f1db8b",
+    "performanceKey": "cat:balcony:alibi",
+    "duration": 5.04,
+    "sha256": "d7cd0d0b37419c3b251c3dd34ddef6e2e8b6d3468e8a938edf642d4a87db35e9"
+  },
+  "cat.balcony.detail": {
+    "file": "assets/voices/creator/cat.balcony.detail.v1.00c7de71-0ff6-41a4-9442-9acd4cfbe4ca.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-0ab65195",
+    "performanceKey": "cat:balcony:detail",
+    "duration": 5.8,
+    "sha256": "bdd99db20a23762324e1d037a90237eee8f80c6af39afd423a6da6ae959aaaac"
+  },
+  "boar.greet": {
+    "file": "assets/voices/creator/boar.greet.v2.910595c8-0462-4e8c-9bf4-10fb4a5c99cf.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-96b06bb4",
+    "performanceKey": "boar:signature:greet",
+    "duration": 5.82,
+    "sha256": "0689e61ac326b09e28c54d42fd1650ffb05374c902090052830f398dd4c766fe"
+  },
+  "boar.watched": {
+    "file": "assets/voices/creator/boar.watched.v2.d537eb30-29b7-411a-8e4e-eb628594c6f0.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-a3a4b091",
+    "performanceKey": "boar:signature:watched",
+    "duration": 5.44,
+    "sha256": "41401366ab47d5973399c86960285b54329ae6a7121503582da40185cff876bf"
+  },
+  "boar.bell": {
+    "file": "assets/voices/creator/boar.bell.v1.f393189e-5d86-47a1-8b2c-133a6c5f9350.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-ff87ad77",
+    "performanceKey": "boar:bell",
+    "duration": 5.28,
+    "sha256": "b746c73520732cc321acffe3d7f75b73d85abb158d7c75ecc4c163b58bff93bc"
+  },
+  "boar.water": {
+    "file": "assets/voices/creator/boar.water.v3.e772cd49-3877-43c3-8074-7955cd277fd7.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-27599943",
+    "performanceKey": "boar:water",
+    "duration": 6.06,
+    "sha256": "e6eed62b439fe4abc9ca3fd44e5427c4e186c1e8b3bd75ca3c56e7d0d900067b"
+  },
+  "boar.secret": {
+    "file": "assets/voices/creator/boar.secret.v2.2f50cf13-385c-45a5-af31-c02813a05848.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-ce715915",
+    "performanceKey": "boar:secret",
+    "duration": 7.66,
+    "sha256": "f58e59b51a43308ad511b825da28e53b67264b147bc6d5fcfe14eae28bc93591"
+  },
+  "boar.wrong": {
+    "file": "assets/voices/creator/boar.wrong.v1.617d1269-519b-4ece-bcb9-3538fb492855.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-10cc59d4",
+    "performanceKey": "boar:wrong",
+    "duration": 6.16,
+    "sha256": "579aeb2d3d4ac2c166753004b597faa82101e7d9821e5434993ecfd7a8f28777"
+  },
+  "boar.fire.comment": {
+    "file": "assets/voices/creator/boar.fire.comment.v4.cda7456b-ec4e-4919-ac04-ffc5810b8192.wav",
+    "scriptVersion": 4,
+    "fingerprint": "text-ef4a3ca6",
+    "performanceKey": "boar:fire:comment",
+    "duration": 4.36,
+    "sha256": "22c50514ab8ef39939ed8a1e0d70855ac76f4eb6a756f18f782ad02bb534d2cb"
+  },
+  "boar.fire.alibi": {
+    "file": "assets/voices/creator/boar.fire.alibi.v1.1505a840-a8bd-411a-97b1-9f0eb09306b2.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-5b13390b",
+    "performanceKey": "boar:fire:alibi",
+    "duration": 6.52,
+    "sha256": "eb2e38b5035fb1ad50a886bf2663c072347bb7e6cec867ae3c0ab1e3ed697f96"
+  },
+  "boar.fire.detail": {
+    "file": "assets/voices/creator/boar.fire.detail.v1.55652433-517f-4cb2-9bfd-915080b5ef4e.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-64a2a615",
+    "performanceKey": "boar:fire:detail",
+    "duration": 6.4,
+    "sha256": "ce280b4a1378aeca51106955f6509acb7333906452fefe00ff0b85255798af39"
+  },
+  "boar.courtyard.comment": {
+    "file": "assets/voices/creator/boar.courtyard.comment.v2.44ceb02e-4dc6-4fd0-97af-b9aba19c2f3f.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-96fc0937",
+    "performanceKey": "boar:courtyard:comment",
+    "duration": 6,
+    "sha256": "bdcb17d5c2814529cf42e6419c4fa533d82c46fc0510414991344aa6ba0bff9f"
+  },
+  "boar.courtyard.alibi": {
+    "file": "assets/voices/creator/boar.courtyard.alibi.v1.5b02cb26-676c-48d7-811c-e14705a7beb0.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-33c85df4",
+    "performanceKey": "boar:courtyard:alibi",
+    "duration": 6.1,
+    "sha256": "08d8ebc97e3520a4cd8519ddd1ae13feae0ad4632bc382349caaac6d35903449"
+  },
+  "boar.courtyard.detail": {
+    "file": "assets/voices/creator/boar.courtyard.detail.v1.728e52f4-c8a1-4675-b03b-da66321a25db.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-e4723494",
+    "performanceKey": "boar:courtyard:detail",
+    "duration": 5.98,
+    "sha256": "149eac7e20ba489a98027ddd974c633c2d184f16378af4f5813fbeb19580a9cb"
+  },
+  "boar.balcony.comment": {
+    "file": "assets/voices/creator/boar.balcony.comment.v1.a8b751fe-8ee0-4f6c-a73c-4975d75e032e.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-c96ca1c6",
+    "performanceKey": "boar:balcony:comment",
+    "duration": 5.86,
+    "sha256": "7e7bf3eb0550561e4c9937c5b423406f94cc5f688fcf3184c0c321a8dbff8d59"
+  },
+  "boar.balcony.alibi": {
+    "file": "assets/voices/creator/boar.balcony.alibi.v1.ef2b2705-bd60-405e-a4c0-1d06cf6d0a3e.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-d701c9a0",
+    "performanceKey": "boar:balcony:alibi",
+    "duration": 4.66,
+    "sha256": "217f207e2e5a158e1ad07bb3080dfc4065e6a2507088c07a97bb3b9c7b34c191"
+  },
+  "boar.balcony.detail": {
+    "file": "assets/voices/creator/boar.balcony.detail.v1.bac8bdd7-fde7-4ee1-a1ea-488da0f8e491.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-f2d90a14",
+    "performanceKey": "boar:balcony:detail",
+    "duration": 8.16,
+    "sha256": "3d8e8ff9ead4bff219242c26921b313dc5e2c370d31a31ca9377d0777b61c56c"
+  },
+  "turtle.greet": {
+    "file": "assets/voices/creator/turtle.greet.v3.1baf6053-8eb7-443f-816a-252495e1dbee.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-c7be054b",
+    "performanceKey": "turtle:signature:greet",
+    "duration": 6.6,
+    "sha256": "e2023196267e691024483dd0c8afd5db42f78a7299ebb16af3c94b32a5af917d"
+  },
+  "turtle.watched": {
+    "file": "assets/voices/creator/turtle.watched.v3.e2d31b00-71ed-44df-89bd-ca6f8284d73f.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-66204540",
+    "performanceKey": "turtle:signature:watched",
+    "duration": 4.88,
+    "sha256": "29fddb9eaf28abad86d84ab68eaed91c5e118a16bb1f5dc8353a789c581ba229"
+  },
+  "turtle.bell": {
+    "file": "assets/voices/creator/turtle.bell.v2.61394fd7-51db-40a5-b0ee-376cbdbfa7b0.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-84668175",
+    "performanceKey": "turtle:bell",
+    "duration": 4.52,
+    "sha256": "a947dcaf919851daf1bf31d5a9203b97a1679921ac4b6cbe5a2d0456ccbf5b69"
+  },
+  "turtle.water": {
+    "file": "assets/voices/creator/turtle.water.v2.00a5e8b3-a4fb-44ba-9f11-f54a86e7fe42.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-c914a92f",
+    "performanceKey": "turtle:water",
+    "duration": 6.88,
+    "sha256": "e6b6466c91f7ce47920ba6e6f8640a871cd9e9a82db1967117fa397c98983176"
+  },
+  "turtle.secret": {
+    "file": "assets/voices/creator/turtle.secret.v3.0b6ebe14-d813-42cf-854b-692faf410124.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-d804cbf0",
+    "performanceKey": "turtle:secret",
+    "duration": 4.98,
+    "sha256": "8e888d274f76b46d012ad0f30d026ad6fac7e961d07692dc85a6e7c3624dce0d"
+  },
+  "turtle.wrong": {
+    "file": "assets/voices/creator/turtle.wrong.v3.f4767e4b-af4a-48e1-9523-2a8e3c9be26a.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-5f10b596",
+    "performanceKey": "turtle:wrong",
+    "duration": 5.62,
+    "sha256": "3d2bcaf0b3ecd3bea2d94271dbfb5b10895eda615bb4e33da5e3eb2ce1845cf1"
+  },
+  "turtle.fire.comment": {
+    "file": "assets/voices/creator/turtle.fire.comment.v2.ebd49da5-f338-460c-ad27-6ea993bb8493.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-d2f4a55b",
+    "performanceKey": "turtle:fire:comment",
+    "duration": 6.72,
+    "sha256": "03d376273ad0d96a9c8caddee75a8b738214a1b8cb58e4eff14162e831ebca66"
+  },
+  "turtle.fire.alibi": {
+    "file": "assets/voices/creator/turtle.fire.alibi.v2.6b271398-a42c-42a5-8f05-53199996433c.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-765f5283",
+    "performanceKey": "turtle:fire:alibi",
+    "duration": 8.94,
+    "sha256": "916325dc96501d205eeb4ff1380bb6cbc622e0008ac4576c27a5cfaa2275bfa2"
+  },
+  "turtle.fire.detail": {
+    "file": "assets/voices/creator/turtle.fire.detail.v2.177776c6-329e-4a05-b217-9d8c2bc3dc86.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-ca2c22c8",
+    "performanceKey": "turtle:fire:detail",
+    "duration": 9.78,
+    "sha256": "677bde6316de24caeaa22de603337abe2ba5b6dc0691b11c4447f3ca20f864f8"
+  },
+  "turtle.courtyard.comment": {
+    "file": "assets/voices/creator/turtle.courtyard.comment.v2.7d1b2bf2-2a07-4b4f-8671-8d303f92e0e8.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-f933d837",
+    "performanceKey": "turtle:courtyard:comment",
+    "duration": 11.04,
+    "sha256": "709f9a4b02a39d5c1057da522db6839823413dc0b5ae70b2ebfcf81299c09f5e"
+  },
+  "turtle.courtyard.alibi": {
+    "file": "assets/voices/creator/turtle.courtyard.alibi.v2.10948ef9-8e00-4180-96e4-70c185b5c79f.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-581075e3",
+    "performanceKey": "turtle:courtyard:alibi",
+    "duration": 9.52,
+    "sha256": "fbee9565de4f66c7511b072378b026b4905fa244f040e1de62f44c6112015e7d"
+  },
+  "turtle.courtyard.detail": {
+    "file": "assets/voices/creator/turtle.courtyard.detail.v2.36e186bb-6081-4dd3-b2a5-904c9e49115b.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-7392d320",
+    "performanceKey": "turtle:courtyard:detail",
+    "duration": 8.98,
+    "sha256": "d6eb11fd4954e205fd810f5bffbaf54b80e0be0ea2fb6cc7f321994045487dd4"
+  },
+  "turtle.balcony.comment": {
+    "file": "assets/voices/creator/turtle.balcony.comment.v2.48156748-cb79-4a74-b8e3-0d9fe5dcbf84.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-9c8c7d39",
+    "performanceKey": "turtle:balcony:comment",
+    "duration": 8.72,
+    "sha256": "351c79bdf814bffc54238ebbf285bb53e7e6f144e1f5e187554e9bf305a012f3"
+  },
+  "turtle.balcony.alibi": {
+    "file": "assets/voices/creator/turtle.balcony.alibi.v2.ada7a0e6-51b5-495a-b631-10f2089ceca5.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-f2026b1d",
+    "performanceKey": "turtle:balcony:alibi",
+    "duration": 8.58,
+    "sha256": "2583a628638876df583567797aa046a20aaa61df26b8a36911d2eac406ffe478"
+  },
+  "turtle.balcony.detail": {
+    "file": "assets/voices/creator/turtle.balcony.detail.v2.6ca16eb2-b6f3-4097-8032-79259f33e1d4.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-e243a76c",
+    "performanceKey": "turtle:balcony:detail",
+    "duration": 8.76,
+    "sha256": "2b708478fefbfc2f04c9ed56974538f0bcc34f9f4fcb9ecb7d9f273e1cd15445"
+  },
+  "guide.role": {
+    "file": "assets/voices/creator/guide.role.v1.ff07ad1e-d835-4797-97e5-e833537c18f9.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-774abb1f",
+    "performanceKey": "guide:role",
+    "duration": 6.16,
+    "sha256": "35e6ad1e33b057bc226e1700407a9bd4db6d9d363d375108a963d6d909f34c52"
+  },
+  "guide.watch": {
+    "file": "assets/voices/creator/guide.watch.v1.e7094cdf-11c9-4e77-8d86-4eeb66657778.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-ba3c1092",
+    "performanceKey": "guide:watch",
+    "duration": 5.98,
+    "sha256": "21d6e6eec1f15a111e6e2c755739978b77615734cbf6e0e3a2e3f9c6ba2da20f"
+  },
+  "guide.observed": {
+    "file": "assets/voices/creator/guide.observed.v1.ae4ad21d-e6a5-4cfc-b148-ad5c661ea287.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-1d4e48c8",
+    "performanceKey": "guide:observed",
+    "duration": 5.5,
+    "sha256": "19f4ca4c8f66ed52936b4fe19372bbae4f3953e9ea12660b45c48afaeb0eb0a7"
+  },
+  "guide.night": {
+    "file": "assets/voices/creator/guide.night.v1.3a7938b8-72c8-4a5a-b135-f2bab2f4a09d.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-ef46de7d",
+    "performanceKey": "guide:night",
+    "duration": 5.7,
+    "sha256": "99e36c14b53d3971d0c45f0c54a8b41c8623b2ff17fcc55886c7a6785858e048"
+  },
+  "guide.crime.fire": {
+    "file": "assets/voices/creator/guide.crime.fire.v1.4c51edd8-2bfa-4423-a159-6ef77a436409.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-c851e264",
+    "performanceKey": "guide:crime:fire",
+    "duration": 6.76,
+    "sha256": "02a37fdf2402e0b813ec6b3f0fb83f4461620f202c3f9f80bed6f49536b82e59"
+  },
+  "guide.crime.courtyard": {
+    "file": "assets/voices/creator/guide.crime.courtyard.v1.ce6a03b6-1a68-4fc8-b2bc-036c62569532.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-e1fe57f8",
+    "performanceKey": "guide:crime:courtyard",
+    "duration": 7.42,
+    "sha256": "dd8cde8bc5b8e84671e01a10630a49a385eccb0b33759f83ad64eda78678dfa7"
+  },
+  "guide.crime.balcony": {
+    "file": "assets/voices/creator/guide.crime.balcony.v1.2d322464-7444-43c2-bb53-c7a61dba091b.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-33549f23",
+    "performanceKey": "guide:crime:balcony",
+    "duration": 7.3,
+    "sha256": "e340889b27d377d8f28f4ab729911bb3576daa74a0dd3d7d2b6ae39469dd857e"
+  },
+  "goat.complaint": {
+    "file": "assets/voices/creator/goat.complaint.v2.ffdef047-3816-4f01-ac40-469fe4379e27.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-74dbcc27",
+    "performanceKey": "goat:signature:complaint",
+    "duration": 5.3949375,
+    "sha256": "61277aa61b8206b0a7c665e2daeec5ce298383f4cecab6c046452c267a192c2d"
+  },
+  "goat.boast": {
+    "file": "assets/voices/creator/goat.boast.v1.2503b174-25d6-43d2-9687-f12de26175a2.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-f2415825",
+    "performanceKey": "goat:signature:boast",
+    "duration": 8.094,
+    "sha256": "b93044bc9057a477ec981f93ebf513a4d14b0f1ffec0c6cc0a40af8c6b03a318"
+  },
+  "goat.question": {
+    "file": "assets/voices/creator/goat.question.v2.7f2c1c4d-2805-48ef-820b-c468d0b19622.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-fa6b2f2f",
+    "performanceKey": "goat:signature:question",
+    "duration": 5.134916666666666,
+    "sha256": "535a182cb7a18581b4c3fa202e060ef38dc3b58e31ba82ae6a782efb74ebf9c1"
+  },
+  "goat.arrival": {
+    "file": "assets/voices/creator/goat.arrival.v1.5b13ade1-a86b-4f88-bb86-fd435856507e.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-2f462ba6",
+    "performanceKey": "goat:signature:arrival",
+    "duration": 6.255,
+    "sha256": "fab60f132ec112cffb603ec80aa3ca23f315447f48ddce9d2280c931a5220c5e"
+  },
+  "pigeon.complaint": {
+    "file": "assets/voices/creator/pigeon.complaint.v1.2d418c69-4ab6-4f72-80ea-0812bfb48a69.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-f5f80f77",
+    "performanceKey": "pigeon:signature:complaint",
+    "duration": 5.324979166666667,
+    "sha256": "a0f9e072a1a0b4449b7744af54cde3cecf65c289012f48ca891141cb08947dcd"
+  },
+  "pigeon.boast": {
+    "file": "assets/voices/creator/pigeon.boast.v2.74081d22-2cd6-4574-9baa-b43713e2bb84.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-af9fee4c",
+    "performanceKey": "pigeon:signature:boast",
+    "duration": 6.544895833333333,
+    "sha256": "8e8c11d14c352f0764a7ab33e8eaa9835c4d0c6c0a386a80d342dec3d73c1c0f"
+  },
+  "pigeon.question": {
+    "file": "assets/voices/creator/pigeon.question.v1.16a83397-0ec0-4a1d-9d7d-ec25a03aad67.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-3976d802",
+    "performanceKey": "pigeon:signature:question",
+    "duration": 5.3148125,
+    "sha256": "39b1cacb296330ed27efdb88dc351d183805613fa2437dad1add6eaca6eba25e"
+  },
+  "pigeon.arrival": {
+    "file": "assets/voices/creator/pigeon.arrival.v1.f35f5ecd-a0d8-48ba-aad6-8e35097b24b3.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-deb6e56b",
+    "performanceKey": "pigeon:signature:arrival",
+    "duration": 3.895,
+    "sha256": "54b551b43e87e7e4145b66a12ad9997d2a3e3e4132f50a989398f1f7172b7304"
+  },
+  "snake.complaint": {
+    "file": "assets/voices/creator/snake.complaint.v4.0fb953ed-d308-43f1-9052-e7ad3bfb4ed6.wav",
+    "scriptVersion": 4,
+    "fingerprint": "text-7e5db28b",
+    "performanceKey": "snake:signature:complaint",
+    "duration": 4.754958333333334,
+    "sha256": "872ec17f2505887f54f190a32fd39f573609734737108563576818b395ae575a"
+  },
+  "snake.boast": {
+    "file": "assets/voices/creator/snake.boast.v4.91321179-616e-405a-bcbf-7689baeed286.wav",
+    "scriptVersion": 4,
+    "fingerprint": "text-1c486a95",
+    "performanceKey": "snake:signature:boast",
+    "duration": 7.414958333333334,
+    "sha256": "98ee1d8fff2e204092e377d92a15314cda3f5f2d2282cdcbd9608bb23983b832"
+  },
+  "snake.question": {
+    "file": "assets/voices/creator/snake.question.v3.7ac97644-56aa-486c-a84f-9d31e1174109.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-b37e42a9",
+    "performanceKey": "snake:signature:question",
+    "duration": 9.014645833333333,
+    "sha256": "8f4093613ab95504bcbff38eac6dae09d1bd67bc412e08674f9353c8ab65185d"
+  },
+  "snake.arrival": {
+    "file": "assets/voices/creator/snake.arrival.v3.25534136-7ec5-4cac-b6ab-04c2055db238.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-486f5012",
+    "performanceKey": "snake:signature:arrival",
+    "duration": 7.134729166666666,
+    "sha256": "96ad634d8a1c205d95b2cc68e1c67fdf5c9c322ac1955968940f8be030087394"
+  },
+  "cat.complaint": {
+    "file": "assets/voices/creator/cat.complaint.v1.eb2f9224-3086-4f86-b5d1-57e0969cab2e.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-3ba6e54b",
+    "performanceKey": "cat:signature:complaint",
+    "duration": 5.76,
+    "sha256": "95750ba8d5ec171365a10ea7ff9f4b9abb3fdbd4a509b460983552ea6deeae25"
+  },
+  "cat.boast": {
+    "file": "assets/voices/creator/cat.boast.v2.d3f6f522-eccd-4bdb-a876-db4c9a3d69bc.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-45519122",
+    "performanceKey": "cat:signature:boast",
+    "duration": 5.22,
+    "sha256": "c6f98b353850d55e868006c93c4464383412ddcfe874a72781427de638799100"
+  },
+  "cat.question": {
+    "file": "assets/voices/creator/cat.question.v2.51a1f096-9335-4524-a0ea-a4f80f1f1d44.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-e42b0064",
+    "performanceKey": "cat:signature:question",
+    "duration": 4,
+    "sha256": "850bbe33c4728f9a088ca55d7f240e34a90457f342fdc6d0c69060d6dfd1e2d3"
+  },
+  "cat.arrival": {
+    "file": "assets/voices/creator/cat.arrival.v1.35013194-601c-421c-a7bf-67a59d351c41.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-51ba847a",
+    "performanceKey": "cat:signature:arrival",
+    "duration": 4.74,
+    "sha256": "8e64fb5abee9ab2c60aa303d7672669521184c8414042afa289506a71563883b"
+  },
+  "boar.complaint": {
+    "file": "assets/voices/creator/boar.complaint.v1.e3911a7f-20d8-4f82-a7d2-978c48b67b99.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-010bc3ca",
+    "performanceKey": "boar:signature:complaint",
+    "duration": 5.08,
+    "sha256": "fe6b7414e193bed2d43e2b3dd88f638e794f6c6f2c5cd1f9404b356bd7386a9a"
+  },
+  "boar.boast": {
+    "file": "assets/voices/creator/boar.boast.v1.a374b482-af2c-4142-8701-ae3e3eb03f06.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-8fd362a2",
+    "performanceKey": "boar:signature:boast",
+    "duration": 6.16,
+    "sha256": "a2144863e1d6f2478c93efee53822fee90cf3937721e03f1356aa0dd5aff9de9"
+  },
+  "boar.question": {
+    "file": "assets/voices/creator/boar.question.v2.b03d8f6f-6190-4c3b-9f62-ac823cce3e47.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-2428ccc2",
+    "performanceKey": "boar:signature:question",
+    "duration": 5.7,
+    "sha256": "330ad8ea8e6d0ed5161398a2b9ffd34038642184fa30befdd0e44a3556bda94c"
+  },
+  "boar.arrival": {
+    "file": "assets/voices/creator/boar.arrival.v1.9a8d563d-11ac-454f-b1bc-a2041ed2e866.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-a78c7721",
+    "performanceKey": "boar:signature:arrival",
+    "duration": 5.8,
+    "sha256": "a8a075ed0ef86dfdef4827653e509f00178b4c283e8b3a2c2d07e8d7ebdf74ab"
+  },
+  "turtle.complaint": {
+    "file": "assets/voices/creator/turtle.complaint.v2.62e1d981-e046-4d2c-8af9-d75c18778968.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-41cad03d",
+    "performanceKey": "turtle:signature:complaint",
+    "duration": 4.02,
+    "sha256": "4f24226139f98601df45e18c4050878d8ca8fe08f825e6de79962558d55ad68a"
+  },
+  "turtle.boast": {
+    "file": "assets/voices/creator/turtle.boast.v2.73e3df99-49f6-49f2-8dbd-021ec2ef7811.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-807eaebf",
+    "performanceKey": "turtle:signature:boast",
+    "duration": 5.44,
+    "sha256": "d14fdd32f723d8b72997ae61f5be141bbbb0fa6935bdf5f08b377039574037f5"
+  },
+  "turtle.question": {
+    "file": "assets/voices/creator/turtle.question.v2.98be3568-7acf-48d1-b690-b6f6f5a5891d.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-6e127df9",
+    "performanceKey": "turtle:signature:question",
+    "duration": 5.32,
+    "sha256": "87ed8ad06e89b0a334f238649306f48b6be86f7115b2fa5a2e154c7e0c8a29d8"
+  },
+  "turtle.arrival": {
+    "file": "assets/voices/creator/turtle.arrival.v2.bd9306b0-69d7-481b-9ea0-286998349bad.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-529ed8d6",
+    "performanceKey": "turtle:signature:arrival",
+    "duration": 2.58,
+    "sha256": "6801cdcc041f7e6d0b943cf550f5a2537d9a3794fddddfb7007dcfe4abb75e59"
+  },
+  "badger.intro": {
+    "file": "assets/voices/creator/badger.intro.v4.f5a44b77-18bc-486c-b6f3-b2e0d9eb8747.wav",
+    "scriptVersion": 4,
+    "fingerprint": "text-6f7d3db7",
+    "performanceKey": "badger:intro",
+    "duration": 5.82,
+    "sha256": "e28ed7e2b215ca9780f70b77ad03be1afe917e23b0faea90523b08530961560e"
+  },
+  "badger.receipt": {
+    "file": "assets/voices/creator/badger.receipt.v3.907b9bd6-236f-4d0b-90e0-e61f284b5122.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-c11f205c",
+    "performanceKey": "badger:receipt",
+    "duration": 9.48,
+    "sha256": "fdd2bb08065efebc54d3559130efae939cdf588d0b20418e7934d8546e2e1df1"
+  },
+  "badger.copies": {
+    "file": "assets/voices/creator/badger.copies.v3.f1c2ed4c-3085-4286-ac71-c034dd3de113.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-b14a5aed",
+    "performanceKey": "badger:copies",
+    "duration": 7.2,
+    "sha256": "dcbfbd7f49f4681fe7b960613419b4c73630514f9064a385fbb58c7ea87c7775"
+  },
+  "badger.fire.notice": {
+    "file": "assets/voices/creator/badger.fire.notice.v3.91ae20b0-8607-440e-bae5-b3342234f2f7.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-9ca50d74",
+    "performanceKey": "badger:fire:notice",
+    "duration": 7.82,
+    "sha256": "ee032181a5a2c9a4a95f00c833880f6eb94c3cb22d8ff4054593f8da2de552f3"
+  },
+  "badger.fire.care": {
+    "file": "assets/voices/creator/badger.fire.care.v3.01cc9a73-be8b-40f5-8e29-855d55ca5aad.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-2d07e838",
+    "performanceKey": "badger:fire:care",
+    "duration": 6.7,
+    "sha256": "1ed1481c0de7fdd809542da3008e13492aeadf26a331df4bffca857d6c4dde10"
+  },
+  "badger.courtyard.notice": {
+    "file": "assets/voices/creator/badger.courtyard.notice.v3.378a45ce-81c1-4010-baae-b01902b19aae.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-2eaa4d88",
+    "performanceKey": "badger:courtyard:notice",
+    "duration": 8.34,
+    "sha256": "02cf549121d399b91ef20f7e019b90c2ae57b7b3d2e51bf1c15cf4f1d84dbd7d"
+  },
+  "badger.courtyard.chair": {
+    "file": "assets/voices/creator/badger.courtyard.chair.v3.d02316da-2a0a-43c2-b06c-821b8a180167.wav",
+    "scriptVersion": 3,
+    "fingerprint": "text-ad2222ec",
+    "performanceKey": "badger:courtyard:chair",
+    "duration": 6.72,
+    "sha256": "de7717592742fcd16476d4c1eee6d98292ea612bd5da0748299f450fcc337f28"
+  },
+  "hedgehog.intro": {
+    "file": "assets/voices/creator/hedgehog.intro.v2.3ddc918a-782c-49c4-ac39-5a3f2b8369ea.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-c7da7eca",
+    "performanceKey": "hedgehog:intro",
+    "duration": 5.58,
+    "sha256": "15762b1035973aff800fbe8773441e129a2423a7309e9231a0988c176b2728fd"
+  },
+  "hedgehog.queue": {
+    "file": "assets/voices/creator/hedgehog.queue.v2.e7b2e13b-f108-44da-9421-3edb0b46f2d9.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-54046358",
+    "performanceKey": "hedgehog:queue",
+    "duration": 6.48,
+    "sha256": "dcd1b0ad13e5ffd398b838dde02b30af64c4a296ddd0458a846bcd7496cb331e"
+  },
+  "hedgehog.notice": {
+    "file": "assets/voices/creator/hedgehog.notice.v2.b3e91812-0e0b-49f9-b5fd-c8d68ecffc13.wav",
+    "scriptVersion": 2,
+    "fingerprint": "text-716e4163",
+    "performanceKey": "hedgehog:notice",
+    "duration": 7.62,
+    "sha256": "b38b4f568a9a530850f9189c7c46cc5d3f5fe13397097605dadc8535e1ac40da"
+  },
+  "hedgehog.balcony.pause": {
+    "file": "assets/voices/creator/hedgehog.balcony.pause.v1.11c7bfea-fe99-4afb-b2a1-be96435bc550.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-aaffc555",
+    "performanceKey": "hedgehog:balcony:pause",
+    "duration": 7.98,
+    "sha256": "6987a3927300d0c3ac13f69a3abe9735d2e1cdc3aa112aa3a25785fb109ee343"
+  },
+  "hedgehog.balcony.space": {
+    "file": "assets/voices/creator/hedgehog.balcony.space.v1.fc39e17e-a7c5-442b-86e8-f1d95167beaa.wav",
+    "scriptVersion": 1,
+    "fingerprint": "text-976b2203",
+    "performanceKey": "hedgehog:balcony:space",
+    "duration": 7.98,
+    "sha256": "82fe37af882a22d4d7e0d717a1b61a7875844f8a54c343f98f8e8a1e0aa7e8c5"
+  }
+}

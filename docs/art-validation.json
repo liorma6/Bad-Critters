@@ -1,0 +1,122 @@
+[
+  {
+    "asset": "goat-dark",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 313412,
+    "transparentPixels": 1085432,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "home-burned",
+    "size": [
+      1024,
+      1536
+    ],
+    "bytes": 545048,
+    "transparentPixels": 421884,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "pigeon-dark",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 336932,
+    "transparentPixels": 1042612,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "snake-dark",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 285808,
+    "transparentPixels": 1083702,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "cat-dark",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 299738,
+    "transparentPixels": 1088626,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "turtle-dark",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 325420,
+    "transparentPixels": 1010360,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "home-collapsed",
+    "size": [
+      1024,
+      1536
+    ],
+    "bytes": 484890,
+    "transparentPixels": 409055,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "courtyard-evidence",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 308310,
+    "transparentPixels": 970145,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "badger-alive",
+    "size": [
+      1024,
+      1536
+    ],
+    "bytes": 280328,
+    "transparentPixels": 996281,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "hedgehog-alive",
+    "size": [
+      1024,
+      1536
+    ],
+    "bytes": 356186,
+    "transparentPixels": 889645,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "hedgehog-injured",
+    "size": [
+      1774,
+      887
+    ],
+    "bytes": 373688,
+    "transparentPixels": 871181,
+    "alphaPreserved": true
+  },
+  {
+    "asset": "boar-dark",
+    "size": [
+      1536,
+      1024
+    ],
+    "bytes": 417482,
+    "transparentPixels": 858165,
+    "alphaPreserved": true
+  }
+]
