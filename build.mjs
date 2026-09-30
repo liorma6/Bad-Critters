@@ -45,6 +45,9 @@ const release=`dist/releases/${version}`;await mkdir(release,{recursive:true});
 for(const path of sources.filter(p=>p!=='index.html')){await mkdir(resolve(release,path,'..'),{recursive:true});await cp(path,`${release}/${path}`);}
 const html=(await readFile('index.html','utf8')).replace('<head>','<head><base href="/releases/'+version+'/">');
 await writeFile('dist/index.html',html);await cp('_headers','dist/_headers');
+// Discovery files stay at stable root URLs, outside the fingerprinted game release.
+for(const file of ['robots.txt','sitemap.xml'])await cp(file,`dist/${file}`);
+await cp('assets/icon.svg','dist/favicon.svg');
 const walk=async dir=>(await Promise.all((await readdir(dir,{withFileTypes:true})).map(async e=>e.isDirectory()?walk(`${dir}/${e.name}`):`${dir}/${e.name}`))).flat();
 const assets=await walk('dist');let bytes=0,maxBytes=0,largest='';
 for(const file of assets){const size=(await stat(file)).size;bytes+=size;if(size>maxBytes){maxBytes=size;largest=file;}if(size>25*1024*1024)throw Error(`Cloudflare 25 MiB per-file limit exceeded: ${file}`);}

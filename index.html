@@ -1,5 +1,33 @@
 <!doctype html>
-<html lang="he" dir="rtl"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#253f39"><meta name="description" content="זובלוף — שלוש תעלומות, שישה שכנים ומשמרת אחת."><title>זובלוף</title><link rel="icon" href="assets/icon.svg" type="image/svg+xml"><link rel="stylesheet" href="src/style.css"><link rel="stylesheet" href="src/dubbing.css"></head>
+<html lang="he" dir="rtl"><head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#253f39">
+<title>זובלוף — משחק תעלומות ודיבוב בעברית</title>
+<meta name="description" content="זובלוף הוא משחק תעלומות חינמי בעברית: הכירו שש חיות בשכונת נווה־בערך, אספו ראיות ופענחו שלושה תיקים. אפשר גם לדבב את הדמויות בקול שלכם ולשחק ישירות בדפדפן.">
+<link rel="canonical" href="https://zoobluff.com/">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="he_IL">
+<meta property="og:site_name" content="זובלוף">
+<meta property="og:title" content="זובלוף — משחק תעלומות ודיבוב בעברית">
+<meta property="og:description" content="שלוש תעלומות, שש חיות ושכונה מלאה סודות. חקרו, אספו ראיות ודבבו את הדמויות בקול שלכם — במשחק חינמי בעברית בדפדפן.">
+<meta property="og:url" content="https://zoobluff.com/">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "זובלוף",
+  "url": "https://zoobluff.com/",
+  "inLanguage": "he-IL",
+  "description": "משחק תעלומות ודיבוב חינמי בעברית, המתרחש בשכונת נווה־בערך ומשוחק בדפדפן."
+}
+</script>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="src/style.css">
+<link rel="stylesheet" href="src/dubbing.css">
+<link rel="stylesheet" href="src/site-info.css">
+</head>
 <body><div id="app">
 <header><a class="brand" href="/" aria-label="זובלוף — התחלה"><span class="brand-eye">◉</span><span>זובלוף<small>רחוב יפה. אנשים קשים.</small></span></a><div class="header-actions"><button id="cinema">מצב צילום</button><button id="settings">הגדרות</button></div></header>
 <main><section class="world-column">
@@ -13,6 +41,11 @@
 <details class="accessible-map"><summary>גישה מהירה לשכנים ולמקומות</summary><div id="map-buttons"></div></details>
 </section>
 <aside><div class="notebook-heading"><span class="eyebrow">העיניים שלכם. הסודות שלהם.</span><h2>תיק החקירה</h2><p id="objective"></p></div><div class="case-note"><span class="pin"></span><span id="brief"></span></div><div class="sidebar-actions"><button id="aside-notebook">▤ מחברת החקירה <span id="clue-count">0</span></button><button id="accuse" class="primary">בניית האשמה</button></div><p id="accuse-requirements" class="microcopy"></p><div class="activity-heading">מה קורה בחוץ <span>תצפיות בלבד</span></div><ol id="activity"></ol><div class="bottom-actions"><button id="hint">רמז קטן</button><button id="cases">כל התיקים</button><button id="restart">מחדש</button></div><p class="aside-foot">כאן גם לחפים מפשע יש מה להסתיר.</p></aside></main>
+<section class="about-game" aria-labelledby="about-game-title">
+<h2 id="about-game-title">זובלוף — משחק תעלומות ודיבוב בעברית</h2>
+<p>ברוכים הבאים לשכונת נווה־בערך: שש חיות, שלוש תעלומות והרבה סודות. הכירו את השכנים, צפו במתרחש, אספו ראיות במחברת החקירה ופענחו את התיקים. אפשר לשחק עם קולות הדמויות המקוריים או להקליט דיבוב משלכם. המשחק חינמי ופועל ישירות בדפדפן, ללא התקנה.</p>
+<noscript><p>כדי להפעיל את המשחק יש לאפשר JavaScript בדפדפן.</p></noscript>
+</section>
 <footer>זובלוף <span>שלוש תעלומות · שש חיות · אפס פרטיות</span></footer>
 <nav id="action-dock" aria-label="פעולות החקירה"><span id="dock-phase" aria-live="polite"></span><button id="notebook"><span aria-hidden="true">▤</span> מחברת החקירה <b id="unread-count" hidden></b></button><button id="next-action" class="primary"></button><button id="context-help" aria-label="עזרה לצעד הנוכחי">? <span>עזרה</span></button></nav>
 </div><div id="overlay" class="overlay" hidden><section id="dialog" role="dialog" aria-modal="true" aria-labelledby="dialog-title" tabindex="-1"></section></div><link rel="stylesheet" href="src/interaction.css"><script type="module" src="src/main.js"></script></body></html>

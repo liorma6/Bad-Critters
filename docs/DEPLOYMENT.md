@@ -42,3 +42,17 @@ After deployment, run `node scripts/verify-production.mjs https://ACTUAL-URL` to
 ## Repository and recordings
 
 The source repository is `https://github.com/liorma6/Bad-Critters`. The public `assets/voices/published.json` snapshot and its approved playback files allow the same game to be rebuilt from a clean checkout. Original recordings, the private studio library, history, backups, local credentials and generated build folders are excluded by `.gitignore`. On the recording computer, the local studio remains authoritative. Keep the legacy browser storage keys so the rename does not reset local progress or personal dubbing.
+
+## Search discovery
+
+The homepage provides a descriptive Hebrew title, a meta description, a canonical URL pointing to `https://zoobluff.com/`, Open Graph metadata and `WebSite` JSON-LD naming the game זובלוף. The short description below the game is in the original HTML and remains readable without JavaScript. These same canonical signals are served on the legacy workers.dev address; that address remains accessible for players with existing local recordings.
+
+`robots.txt`, `sitemap.xml` and `/favicon.svg` are copied to stable root URLs during the build. The sitemap contains only the public homepage; cases are in-page game state and have no separate indexable URLs. Assets stay crawlable for rendering. Private creator materials remain excluded from the build and return 404, rather than relying on robots.txt for privacy. No analytics, cookies or external runtime dependency is added by these SEO changes.
+
+The `sc-domain:zoobluff.com` property is verified in the owner's [Google Search Console](https://search.google.com/search-console?resource_id=sc-domain%3Azoobluff.com). Keep the `google-site-verification` TXT record in Cloudflare DNS to retain ownership verification. On 2026-09-30 Google successfully processed the sitemap and discovered its one page; the homepage indexing request was also accepted into the priority crawl queue. Use the Sitemaps report and URL Inspection for subsequent status checks; submission does not guarantee indexing or a search position.
+
+Run `node scripts/verify-seo.mjs https://zoobluff.com` after publication. It checks the served discovery files and content types, XML and JSON-LD, canonical metadata, readable text without JavaScript, mobile layout, game startup and the unchanged published voice catalog. Run `node scripts/verify-production.mjs https://zoobluff.com` for the normal routing and private-file checks. A new domain may temporarily resolve to its previous parking server through stale ISP DNS caches; compare authoritative DNS before changing correct site metadata in response to such a failure.
+
+Cloudflare may inject its optional RUM analytics beacon. The existing `script-src 'self'` policy blocks that third-party script; the SEO verifier reports this provider warning separately from game or crawlability failures. The RUM setting and CSP remain unchanged.
+
+Google references: [SEO starter guide](https://developers.google.com/search/docs/fundamentals/seo-starter-guide), [site names](https://developers.google.com/search/docs/appearance/site-names), [sitemap submission](https://developers.google.com/search/docs/crawling-indexing/sitemaps/build-sitemap).

@@ -1,0 +1,5 @@
+.about-game{max-width:1386px;margin:28px auto 0;padding:18px 24px;border-top:1px solid var(--line);color:var(--ink)}
+.about-game h2{font-size:17px;margin:0 0 8px}
+.about-game p{max-width:850px;font-size:13px;margin:0;line-height:1.8}
+.cinema .about-game{display:none}
+@media(max-width:760px){.about-game{margin:20px 12px 0;padding:14px 6px}.about-game h2{font-size:15px}.about-game p{font-size:12px}}
