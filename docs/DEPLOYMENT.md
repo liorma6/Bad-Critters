@@ -1,5 +1,9 @@
 # Cloudflare Workers Static Assets
 
+Live game: https://bad-critters.board-experience-engine.workers.dev
+
+Published to the `bad-critters` Worker on 2026-09-30, with all 133 approved creator recordings. Source: https://github.com/liorma6/Bad-Critters. Update the site from this project with `npm run deploy`; pushing to GitHub alone does not deploy it.
+
 This release deploys only to the `bad-critters` Worker. `wrangler.jsonc` contains an assets directory and no Worker script, routes, custom domains, databases, R2 or upload endpoints. Assets are served directly. The standard `workers.dev` URL supplies HTTPS; no DNS changes are needed. The old `.openai/hosting.json` is preserved as historical Sites metadata and is not used by these commands.
 
 Run from the project root with Node 20+:

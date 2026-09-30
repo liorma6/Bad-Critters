@@ -1,5 +1,7 @@
 # Bad Critters / חיות רעות
 
+**[Play חיות רעות / Bad Critters](https://bad-critters.board-experience-engine.workers.dev)**
+
 A playable Hebrew neighborhood mystery: six principal animal caricatures, two supporting neighbors, three serious cases, an illustrated living street and an RTL investigation notebook. Each case offers creator voices, a complete five-line spoiler-free supporting role, or a complete 13-line principal role after a spoiler warning. One personally cast character keeps the same voice throughout the case. Vanilla JavaScript and Canvas; no runtime dependencies, backend or accounts.
 
 ## Run
