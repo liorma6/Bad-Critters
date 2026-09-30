@@ -8,7 +8,11 @@ The domain remains registered at Hostinger; its authoritative nameservers are `a
 
 Published to the `bad-critters` Worker on 2026-09-30, with all 133 approved creator recordings. Source: https://github.com/liorma6/Bad-Critters. Update the site from this project with `npm run deploy`; pushing to GitHub alone does not deploy it.
 
-This release deploys only to the `bad-critters` Worker. `wrangler.jsonc` contains an assets directory and the `zoobluff.com` custom domain, with no Worker script, databases, R2 or upload endpoints. Assets are served directly. Cloudflare manages the custom-domain DNS record and HTTPS certificate. The old `.openai/hosting.json` is preserved as historical Sites metadata and is not used by these commands.
+The paid-dubbing update was deployed on 2026-10-01 as Worker version `2728167a-84d9-4e5a-9aed-f24811ba66bc`, game release `0d0ecfb0028baee9`. All 133 approved creator audio files and the published audio catalog remain unchanged. Verification covered 84 logic/storage/API tests and 62 browser scenarios across the full and focused correction runs. The API's positive purchase response was tested with fixtures; no real charge was made. Use `node scripts/verify-purchase-api.mjs https://zoobluff.com` for live negative-activation and private-file checks.
+
+Live production and purchase API checks passed on workers.dev. Production, SEO and purchase API checks also passed on the actual `zoobluff.com` hostname using a process-only resolver override to its public Cloudflare DNS address, with TLS certificate validation enabled. The local network resolver still returned the former Hostinger parking IP during this check; no system DNS settings or authoritative records were changed.
+
+This release deploys only to the `bad-critters` Worker. Static game assets are served directly, and `worker/index.js` handles `/api/dubbing/*` for Gumroad purchase verification. There are no databases, R2 buckets or recording upload endpoints. Cloudflare manages the custom-domain DNS record and HTTPS certificate. The old `.openai/hosting.json` is preserved as historical Sites metadata and is not used by these commands.
 
 Run from the project root with Node 20+:
 
@@ -35,7 +39,21 @@ Checked against current official documentation on 2026-09-27:
 - [Platform limits](https://developers.cloudflare.com/workers/platform/limits/#static-assets): 20,000 files on Free, 100,000 on Paid, 25 MiB per file. The build fails above the Free file count or per-file size limits; see `build-report.json` for this build's measured footprint.
 - [Headers](https://developers.cloudflare.com/workers/static-assets/headers/): MIME types inferred from extensions, ETags and revalidation by default, `_headers` overrides.
 - [Static asset configuration](https://developers.cloudflare.com/workers/static-assets/binding/): this game uses `not_found_handling: none`; it has no client-side path routes requiring SPA fallback.
-- [Billing](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/): static asset requests are free and unlimited. This project has no billable application Worker logic or paid storage setup.
+- [Billing](https://developers.cloudflare.com/workers/static-assets/billing-and-limitations/): static asset requests remain free and unlimited. The purchase API uses ordinary Worker request allowances; no paid storage is configured.
+
+## Paid personal dubbing
+
+Creator-voiced gameplay stays free. The one-time Gumroad product is [זובלוף — דיבוב אישי ללא הגבלה](https://liorma.gumroad.com/l/zoobluff-dubbing), product ID `igraNwrit43FLzFkjlV2bw==`, priced at ILS 9.90. Gumroad may settle the charge in USD and add applicable tax; the product and in-game checkout disclose this before payment. The product's Content tab contains a License key block, activation instructions and a link to `https://zoobluff.com/?dubbing=activate`. The Receipt tab includes Hebrew instructions. Keep the license block enabled.
+
+The product is published. A checkout inspection showed ILS 10.04 despite the configured ILS 9.90 product price, so Gumroad's currency conversion prevents promising an exact final ILS charge. No real payment was made during setup; unrelated existing cart items were preserved and the added test item was removed.
+
+`POST /api/dubbing/activate` sends only the supplied license key and the configured product ID to Gumroad's public license verification API, with `increment_uses_count=false`. It requires a positive-price purchase for this exact product, rejects refunded, disputed, revoked and test purchases, and stores no customer email or payment details. No seller API token is required. A server-only AES-GCM secret encrypts the verified license into a Secure, HttpOnly, SameSite=Lax cookie, scoped to this origin and `/api/dubbing`. The cookie lasts 90 days and verification is repeated after six hours; revoked purchases can retain access for that interval plus the five-minute in-page cache. A provider outage leaves the cookie intact for retry but does not newly unlock recording. Browser storage flags, query parameters and test profiles never grant access.
+
+Set up the secret once with `node scripts/setup-dubbing-secret.mjs` after Wrangler sign-in. The script checks existing secret names and preserves an existing `DUBBING_SESSION_SECRET`; a new random value is passed over stdin and never written to source or printed. Do not rotate it on routine deployment, since rotation signs existing browser sessions out. `GUMROAD_PRODUCT_ID` is a public identifier in Wrangler configuration. The activation API uses a 20-per-minute per-IP provider-verification limit. `/api/dubbing/access` checks the encrypted cookie. All game assets and recordings remain local/browser functionality; this is a purchase gate, not DRM against a user rewriting a locally running open-source client.
+
+Paid players can record one complete role or every role in a case, including the narrator. Each case is explicitly cast; all-role play is enabled only after every required line is approved and decoded. Existing compatible takes are reused across cases. Failed personal playback stays in subtitles without switching to the creator. Neither licensing nor deployment modifies the creator's original takes or player IndexedDB records.
+
+Validation: `node --test --test-isolation=none tests/*.test.mjs`; `npx playwright test -c playwright.paid.config.mjs`; the normal production and SEO verifiers. Purchase browser fixtures intercept the API only in test code and do not claim a real charged sale. The local Node preview uses the same verification handler and an ephemeral session secret; its cookie resets when that preview server restarts.
 
 After deployment, run `node scripts/verify-production.mjs https://ACTUAL-URL` to verify the actual page, 404 handling, asset content types and cache headers, no audio prefetch and immediate play. Also check a microphone take on HTTPS and reload. No public URL should be reported until deployment succeeds.
 

@@ -3,11 +3,19 @@ import {readFile,stat} from 'node:fs/promises';
 import path from 'node:path';
 import {releaseCreatorFiles as creatorPublicFiles} from './tools/creator/release.mjs';
 import {liveCatalogue} from './tools/creator/server.mjs';
+import {handleDubbing} from './worker/dubbing.js';
+import {randomBytes} from 'node:crypto';
+const dubbingEnv={GUMROAD_PRODUCT_ID:'igraNwrit43FLzFkjlV2bw==',DUBBING_SESSION_SECRET:process.env.DUBBING_SESSION_SECRET||randomBytes(32).toString('hex')};
 const root=process.cwd(),port=Number(process.env.PORT||4173);
 const catalogue=liveCatalogue(root);
 const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json; charset=utf-8','.css':'text/css; charset=utf-8','.svg':'image/svg+xml','.mp3':'audio/mpeg','.m4a':'audio/mp4','.mp4':'audio/mp4','.ogg':'audio/ogg','.webm':'audio/webm','.wav':'audio/wav','.png':'image/png','.webp':'image/webp'};
 Object.assign(mime,{'.txt':'text/plain; charset=utf-8','.xml':'application/xml; charset=utf-8'});
 http.createServer(async(req,res)=>{try{
+ if(req.url.startsWith('/api/dubbing/')){
+  let body='';for await(const chunk of req){body+=chunk;if(body.length>1024){res.writeHead(413);res.end();return;}}
+  const request=new Request(`http://${req.headers.host}${req.url}`,{method:req.method,headers:req.headers,...(body?{body}:{})});
+  const response=await handleDubbing(request,dubbingEnv);res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;
+ }
  if(!['GET','HEAD'].includes(req.method))throw Error('Read-only preview');
  const url=new URL(req.url,'http://localhost'),requested=decodeURIComponent(url.pathname).replace(/^\/+/,''),relative=requested==='favicon.svg'?'assets/icon.svg':requested,file=path.resolve(root,relative||'index.html');
  if(relative==='assets/voices/available.json'){

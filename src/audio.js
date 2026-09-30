@@ -15,12 +15,15 @@ export class AudioManager {
  incident(kind){if(!this.context||!this.settings.sound)return;const duration=kind==='courtyard'?.45:1.5,ctx=this.context,buffer=ctx.createBuffer(1,Math.floor(ctx.sampleRate*duration),ctx.sampleRate),data=buffer.getChannelData(0);for(let i=0;i<data.length;i++)data[i]=(Math.random()*2-1)*Math.pow(1-i/data.length,2);const source=ctx.createBufferSource(),filter=ctx.createBiquadFilter(),gain=ctx.createGain();source.buffer=buffer;filter.type='lowpass';filter.frequency.value=kind==='fire'?700:180;gain.gain.value=.14;source.connect(filter);filter.connect(gain);gain.connect(ctx.destination);source.start();this.tone(kind==='fire'?174:64,duration,.025,'triangle');}
  tick(dt){this.musicTime+=dt;if(this.musicTime>5&&this.settings.music&&this.settings.sound){this.musicTime=0;const notes=[196,246.94,293.66,329.63];this.tone(notes[Math.floor(Math.random()*notes.length)],2,.012);}}
  hasCreator(id){const entry=this.creatorFiles[id],line=LINE[id];return this.available.has(id)&&(!entry||entry.scriptVersion===line?.scriptVersion&&(!entry.fingerprint||entry.fingerprint===line.fingerprint)&&(!entry.performanceKey||entry.performanceKey===line.performanceKey));}
- configureCase(caseId,characterId=null){
-  if(characterId&&(!roleManifest(caseId,characterId)?.eligible||!this.store?.coverage(caseId,characterId).complete))throw Error('Incomplete personal role');
-  this.stop();this.caseId=caseId;this.personalCharacter=characterId;this.repairNeeded=new Set();
-  this.casting={caseId,characterId,mode:characterId?'personal':'creator',setId:characterId?`${caseId}:${characterId}`:null,requirements:characterId?requiredLines(caseId,characterId).map(l=>({lineId:l.id,fingerprint:l.fingerprint})):[],confirmedAt:new Date().toISOString()};
+ configureCase(caseId,selection=null){
+  const characterIds=[...new Set(Array.isArray(selection)?selection:selection?[selection]:[])];
+  for(const id of characterIds)if(!roleManifest(caseId,id)?.eligible||!this.store?.coverage(caseId,id).complete)throw Error('Incomplete personal role');
+  this.stop();this.caseId=caseId;this.personalCharacters=new Set(characterIds);this.personalCharacter=characterIds.length===1?characterIds[0]:null;this.repairNeeded=new Set();
+  const characterId=this.personalCharacter;
+  this.casting={caseId,characterId,characterIds,mode:characterIds.length?'personal':'creator',setId:characterId?`${caseId}:${characterId}`:null,requirements:characterIds.flatMap(id=>requiredLines(caseId,id).map(l=>({lineId:l.id,fingerprint:l.fingerprint}))),confirmedAt:new Date().toISOString()};
   return this.casting;
  }
+ isPersonal(id){return this.personalCharacters?.has(id)||this.personalCharacter===id;}
  speak(event,characterId='guide',forceSubtitle=true){return this.say(dialogueLine(this.caseId,characterId,event).id,forceSubtitle);}
  ambientEvent(event,characterId){return this.ambient(dialogueLine(this.caseId,characterId,event).id);}
  ambient(id){if(this.busy||Date.now()-(this.cooldowns.get(id)||0)<45000)return false;this.cooldowns.set(id,Date.now());this.say(id,true);return true;}
@@ -38,11 +41,11 @@ export class AudioManager {
   const resolve=async()=>{
    await this.ready;if(!options.preview&&Date.now()-this.refreshedAt>2000)await this.refreshCreator();if(this.store)await this.store.ready;if(generation!==this.generation)return;
    if(!this.settings.sound&&!options.preview){textOnly();return;}
-   const personal=!options.preview&&this.personalCharacter===line.resident;
+   const personal=!options.preview&&this.isPersonal(line.resident);
    const take=options.preview?options.take:personal?this.store?.get(line):null;
    if(take){this.clearMedia();this.objectURL=URL.createObjectURL(take.blob);announce(options.preview?'preview':'personal');this.playMedia(this.objectURL,line,generation,finish,personal?personalFailure:textOnly);}
    else if(personal)personalFailure();else creator();
-  };resolve().catch(()=>{if(!options.preview&&this.personalCharacter===line.resident)personalFailure();else textOnly();});return line;
+  };resolve().catch(()=>{if(!options.preview&&this.isPersonal(line.resident))personalFailure();else textOnly();});return line;
  }
  playMedia(url,line,generation,finish,fallback){
   if(generation!==this.generation)return;

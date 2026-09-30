@@ -12,6 +12,7 @@ export const ROLE_DESCRIPTIONS={
  turtle:'שליח שחוק שרוצה שיניחו לו. זוכר כל שעה ומוסר כל פרט, תוך תלונות.',
  badger:'רואה חשבון קמצן עם פאוץ׳ מטבעות וקבלות. מוכן לחכות שעות בשביל עשר אגורות.',
  hedgehog:'שכנה מעשית שרוצה רגע של שקט. יודעת איפה כדאי לעצור ולקרוא.',
+ guide:'קריין משמרת השכונה. מסביר איך לחקור ומלווה את המעבר ללילה.',
 };
 export const COMMON_DIALOGUE_EVENTS={intro:'greet',watched:'watched',bell:'bell',water:'water',secret:'secret',accusation:'wrong',complaint:'complaint',boast:'boast',question:'question',encounter:'arrival'};
 const compactEvents={
@@ -20,7 +21,7 @@ const compactEvents={
  balcony:{intro:'hedgehog.intro',queue:'hedgehog.queue',notice:'hedgehog.notice',pause:'hedgehog.balcony.pause',space:'hedgehog.balcony.space',aftermath:'hedgehog.balcony.pause',encounter:'hedgehog.intro'},
 };
 function role(caseId,characterId,events,mode){
- const character=[...RESIDENTS,...SUPPORTING].find(r=>r.id===characterId)||{id:'guide',name:'משמרת השכונה'};
+ const character=[...RESIDENTS,...SUPPORTING].find(r=>r.id===characterId)||{id:'guide',name:'קריין משמרת השכונה'};
  const lineIds=[...new Set(Object.values(events))];
  return {caseId,characterId,name:character.name,mode,eligible:mode!=='creator',description:ROLE_DESCRIPTIONS[characterId]||'',events,lineIds,
   // Every full role gets the same public warning. This internal classification is never a casting clue.
@@ -38,7 +39,7 @@ export const CASE_RECORDING_MANIFEST=Object.fromEntries(CASES.map(c=>{
  const quick=QUICK_ROLES[c.id];characters[quick]=role(c.id,quick,compactEvents[c.id],'quick');
  const guide={night:'guide.night',discovery:`guide.crime.${c.id}`};
  if(c.id==='fire')Object.assign(guide,{role:'guide.role',watch:'guide.watch',observed:'guide.observed'});
- characters.guide=role(c.id,'guide',guide,'creator');
+ characters.guide=role(c.id,'guide',guide,'guide');
  return [c.id,{caseId:c.id,quickRole:quick,characters}];
 }));
 export const roleManifest=(caseId,characterId)=>CASE_RECORDING_MANIFEST[caseId]?.characters[characterId]||null;

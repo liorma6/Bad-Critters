@@ -25,7 +25,7 @@ try{const p=JSON.parse(localStorage.getItem(storageKey));if(p&&p.completed)progr
 let spokenGuide=null,dubbing=null,earlyLines=[],earlyElapsed=0;
 const audio=new AudioManager(line=>{spokenGuide=line?.resident==='guide'?line:null;const show=line&&!modalOpen&&!spokenGuide;$('subtitle').style.display=show?'block':'none';$('subtitle').innerHTML=show?`<strong>${line.character}</strong>${line.text}`:'';if(started)refresh();});audio.settings=progress.settings;
 const voices=new VoiceStore({name:testProfile?`neighborhood-voices-test-${testProfile}`:undefined,onWarning:toast});audio.store=voices;
-dubbing=new QuickDubbing({store:voices,audio,openDialog,getActive:()=>audio.personalCharacter||null,onStart:(index,active,options)=>{if(options.resume){if(active&&voices.coverage(CASES[index].id,active).complete)audio.repairNeeded?.clear();closeDialog();return;}progress.caseCasting=audio.configureCase(CASES[index].id,active);delete progress.voiceCharacter;save();launchCase(index,options);}});
+dubbing=new QuickDubbing({store:voices,audio,openDialog,getActive:()=>audio.personalCharacters?.size>1?[...audio.personalCharacters]:audio.personalCharacter||null,onStart:(index,active,options)=>{if(options.resume){const ids=Array.isArray(active)?active:active?[active]:[];if(ids.length&&ids.every(id=>voices.coverage(CASES[index].id,id).complete))audio.repairNeeded?.clear();closeDialog();return;}progress.caseCasting=audio.configureCase(CASES[index].id,active);delete progress.voiceCharacter;save();launchCase(index,options);}});
 audio.onPersonalFailure=()=>{toast('הקול האישי לא נטען. ממשיכים בכתוביות; אפשר לתקן אחרי השיחה.');};
 const repairButton=document.createElement('button');repairButton.id='repair-voice';repairButton.textContent='תיקון הקול האישי';repairButton.hidden=true;repairButton.onclick=()=>dubbing.open(state.index,{resume:true,repair:true});document.querySelector('.header-actions').append(repairButton);
 function save(){try{localStorage.setItem(storageKey,JSON.stringify(progress));}catch{toast('השמירה אינה זמינה בדפדפן. אפשר להמשיך לשחק.');}}
@@ -35,7 +35,7 @@ function closeDialog(){const completedNotebook=state.tutorial.enabled&&state.tut
 function startCase(index,options={}){audio.unlock();dubbing.open(index,options);}
 function launchCase(index,{tutorial=index===0&&!progress.tutorialDone}={}){
  audio.unlock();audio.stop();clearTimeout(toastTimer);$('toast').classList.remove('visible');$('toast').textContent='';state=createState(index,{tutorial});lastSerial=-1;selected=null;chosen.clear();started=true;reconSegment=-1;noticeId=null;notebookSection='case';stuckTime=0;hintOffered=false;$('finding').hidden=true;closeDialog();
- earlyLines=[...new Set([audio.personalCharacter,QUICK_ROLES[state.case.id]].filter(Boolean))].map(id=>dialogueLine(state.case.id,id,'encounter'));earlyElapsed=0;audio.cooldowns.clear();
+ earlyLines=[...new Set([...(audio.personalCharacters||[]),QUICK_ROLES[state.case.id]].filter(id=>id!=='guide'))].map(id=>dialogueLine(state.case.id,id,'encounter'));earlyElapsed=0;audio.cooldowns.clear();
  record(state,'תחילת המשמרת. הלילה יתחיל רק כשנבחר לסיים את התצפית.','tutorial','17:00');
  openDialog(`תיק ${index+1} · ${state.case.title}`,`<p>${state.case.brief}</p><p class="dialog-intro">אתם משמרת השכונה. הכירו את השכנים, בדקו מה משתנה, וחברו ראיות. הלילה מתחיל רק כשתבחרו להתקדם.</p><div class="dialog-buttons"><button class="primary" id="begin-case">${tutorial?'להכיר את ירחמיאל':'לצאת לשכונה'}</button>${tutorial?'<button id="skip-intro">משחק ללא הדרכה</button>':''}</div>`);
  $('begin-case').onclick=()=>{closeDialog();if(tutorial)audio.speak('role');else document.querySelector('.world-column').scrollIntoView({block:'start',behavior:'smooth'});};if($('skip-intro'))$('skip-intro').onclick=()=>{skipTutorial(state);closeDialog();};refresh();
@@ -157,4 +157,4 @@ function frame(now){
  if(!modalOpen||lastWorldState!==state||lastWorldWidth!==canvas.clientWidth){render(canvas,state,elapsed,playing&&(!tutorialBlocking(state)||state.tutorial.step==='watch'));lastWorldState=state;lastWorldWidth=canvas.clientWidth;}
  coach.update();uiTimer+=elapsed;if(uiTimer>.2){uiTimer=0;refresh();}requestAnimationFrame(frame);
 }
-await artReady;refresh();welcome();requestAnimationFrame(frame);
+await artReady;refresh();welcome();if(new URLSearchParams(location.search).get('dubbing')==='activate')dubbing.open(0,{activate:true});requestAnimationFrame(frame);

@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {openRecord as openFullRecord,acceptSpoilers} from './dubbing-helpers.mjs';
+test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 const openRecord=page=>openFullRecord(page,'goat','mic-errors');
 const diagnostic=page=>page.locator('#microphone-diagnostics');
 for(const name of ['NotFoundError','NotReadableError','AbortError'])test(`acquisition ${name} is identified and can retry in place`,async({page})=>{

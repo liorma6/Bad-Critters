@@ -1,5 +1,7 @@
 # One consistent voice per character
 
+Update, 2026-10-01: personal dubbing now requires the one-time Gumroad purchase described in [DEPLOYMENT.md](DEPLOYMENT.md#paid-personal-dubbing). The additional all-character option records every role in the selected case, including the narrator, and validates every role before casting them together. The narrator is therefore no longer creator-only in that option. Creator-voiced play is free. The historical checks below describe the earlier single-role release; current purchase and multi-role checks live in `tests/dubbing-access.test.mjs` and `tests/browser/purchase.spec.mjs`.
+
 This revision supersedes signature-only personal dubbing and mixed personal/creator fallback for the selected character. It preserves the microphone implementation and its diagnostics, input selector, quiet-level meter, optional enhancement, decoded signal checks and safe cleanup.
 
 At every new case or replay, casting starts unselected: creator voices for everyone, the complete five-line supporting part, or one complete 13-line principal part. Saved recordings can be reused, but the player explicitly confirms this case's choice. New case casting never inherits the preceding character. The guide is creator-only.

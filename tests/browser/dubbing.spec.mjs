@@ -1,5 +1,7 @@
 ﻿import {test,expect} from '@playwright/test';
 import {openRecord,acceptSpoilers} from './dubbing-helpers.mjs';
+// Purchaser fixture for existing microphone regression coverage; never shipped.
+test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 test('record, review, approve, reload, replace and delete a draft line; partial role starts only with creator',async({page})=>{
  const errors=[];page.on('pageerror',e=>errors.push(e.message));await openRecord(page);
  await expect(page.locator('#accept-take')).toBeDisabled();await page.locator('#record-take').click();await expect(page.locator('#stop-take')).toBeEnabled();await page.waitForTimeout(1100);await page.locator('#stop-take').click();await expect(page.locator('#listen-take')).toBeEnabled();await expect(page.locator('#accept-take')).toBeDisabled();await page.locator('#listen-take').click();await expect(page.locator('#accept-take')).toBeEnabled();await page.locator('#accept-take').click();await expect(page.locator('#take-count')).toContainText('1 מתוך 13');await expect(page.locator('#play-personal')).toBeDisabled();
@@ -24,5 +26,5 @@ test('RTL mobile full-role grouping, skip and creator start without recording',a
  await page.setViewportSize({width:390,height:844});await openRecord(page,'snake');await expect(page.locator('html')).toHaveAttribute('dir','rtl');await page.locator('#skip-take').click();await expect(page.locator('.eyebrow').last()).toContainText('משפט 2');expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth)).toBe(true);await page.screenshot({path:'docs/screenshots/quick-dubbing-mobile.png'});await page.locator('#change-voice').click();await expect(page.locator('[data-voice]')).toHaveCount(6);await page.locator('#play-now').click();await page.locator('#skip-intro').click();await expect(page.locator('#overlay')).toBeHidden();
 });
 test('creator path starts immediately and tutorial is preserved',async({page})=>{
- await page.goto('/?test-profile=creator');await page.locator('#start').click();await page.locator('#creator-start').click();await page.locator('#begin-case').click();await page.locator('#guide-action').click();await expect(page.locator('#dialog-title')).toHaveText('ירחמיאל');await page.locator('#leave-person').click();await expect(page.locator('#guide-objective')).toContainText('עדשה');
+ await page.goto('/?test-profile=creator');await page.locator('#start').click();await page.locator('#creator-start').click();await page.locator('#begin-case').click();await expect(page.locator('#tutorial-coach')).toHaveAttribute('data-step','lens');await expect(page.locator('#guide-objective')).toContainText('עדשה');await page.locator('#lens').click();await expect(page.locator('#tutorial-coach')).toHaveAttribute('data-step','place-lens');
 });

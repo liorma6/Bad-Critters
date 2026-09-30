@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {seedRole,acceptSpoilers} from './dubbing-helpers.mjs';
+test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 
 test('changed personal line is visibly marked for rerecording without losing the other takes',async({page})=>{
  const profile='round2-stale';await page.goto('/?test-profile='+profile);

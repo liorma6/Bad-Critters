@@ -54,7 +54,7 @@ for(const line of VOICES){
  const revision=DIALOGUE_REVISIONS[line.id];if(revision){line.scriptVersion=revision.version;line.hint=revision.hint;}
  line.performanceKey=`${line.resident}:${line.key?'signature:'+line.key:line.id.split('.').slice(1).join(':')}`;
  line.fingerprint=recordingFingerprint(line.text,line.performanceKey);
- line.personal=line.resident!=='guide';
+ line.personal=true;
  const solution=['cat.fire.detail','pigeon.courtyard.detail','boar.balcony.detail'].includes(line.id);
  line.spoilerSensitivity=solution?'solution':SMALL_ROLE_LINES.some(l=>l[0]===line.id)||line.key||/\.(bell|water|wrong)$/.test(line.id)?'safe':'investigation';
  line.hint??='לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.';

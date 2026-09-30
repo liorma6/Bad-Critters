@@ -1556,7 +1556,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:role",
       "fingerprint": "text-774abb1f",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.role.v1.ff07ad1e-d835-4797-97e5-e833537c18f9.wav"
@@ -1573,7 +1573,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:watch",
       "fingerprint": "text-ba3c1092",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.watch.v1.e7094cdf-11c9-4e77-8d86-4eeb66657778.wav"
@@ -1590,7 +1590,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:observed",
       "fingerprint": "text-1d4e48c8",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.observed.v1.ae4ad21d-e6a5-4cfc-b148-ad5c661ea287.wav"
@@ -1607,7 +1607,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:night",
       "fingerprint": "text-ef46de7d",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.night.v1.3a7938b8-72c8-4a5a-b135-f2bab2f4a09d.wav"
@@ -1624,7 +1624,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:crime:fire",
       "fingerprint": "text-c851e264",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.crime.fire.v1.4c51edd8-2bfa-4423-a159-6ef77a436409.wav"
@@ -1641,7 +1641,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:crime:courtyard",
       "fingerprint": "text-e1fe57f8",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.crime.courtyard.v1.ce6a03b6-1a68-4fc8-b2bc-036c62569532.wav"
@@ -1658,7 +1658,7 @@
       "scriptVersion": 1,
       "performanceKey": "guide:crime:balcony",
       "fingerprint": "text-33549f23",
-      "personal": false,
+      "personal": true,
       "spoilerSensitivity": "investigation",
       "hint": "לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.",
       "installed": "assets/voices/creator/guide.crime.balcony.v1.2d322464-7444-43c2-bb53-c7a61dba091b.wav"

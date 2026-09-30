@@ -10,6 +10,20 @@ const validation={hasSignal:true,duration:1,maxRms:.1,peak:.2};
 const take=()=>({blob:new Blob(['unit-fixture'],{type:'audio/webm'}),validation});
 const store=()=>new VoiceStore({indexedDB:new IDBFactory(),validateBlob:async()=>validation});
 
+test('multi-character casting requires complete roles, includes narrator and never substitutes creator on personal failure',async()=>{
+ const previousFetch=globalThis.fetch;globalThis.fetch=async()=>({ok:true,json:async()=>[]});
+ const s=store(),audio=new AudioManager(()=>{});audio.store=s;await s.ready;await audio.ready;
+ try{
+  const ids=Object.keys(CASE_RECORDING_MANIFEST.fire.characters);
+  for(const id of ids)for(const line of requiredLines('fire',id))await s.put(line,take(),{caseId:'fire'});
+  audio.configureCase('fire',ids);assert.equal(audio.personalCharacters.size,8);assert.equal(audio.casting.requirements.length,88);
+  assert(audio.isPersonal('guide'));assert(audio.isPersonal('cat'));
+  await s.delete('cat.greet');audio.say('cat.greet');await new Promise(r=>setImmediate(r));assert(audio.repairNeeded.has('cat.greet'));assert.equal(audio.voiceSourceKind,'personal-subtitles');
+  assert.throws(()=>audio.configureCase('fire',ids),/Incomplete personal role/);
+  audio.configureCase('balcony',null);assert.equal(audio.personalCharacters.size,0);assert.equal(audio.isPersonal('cat'),false);
+ }finally{audio.stop();s.db.close();globalThis.fetch=previousFetch;}
+});
+
 test('every authored line has finite reachable coverage; every quick part is complete, safe and <= 6',()=>{
  assert(assertDialogueManifest());const union=new Set();
  for(const c of CASES){

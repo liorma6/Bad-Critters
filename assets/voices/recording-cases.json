@@ -495,10 +495,10 @@
         "guide": {
           "caseId": "fire",
           "characterId": "guide",
-          "name": "משמרת השכונה",
-          "mode": "creator",
-          "eligible": false,
-          "description": "",
+          "name": "קריין משמרת השכונה",
+          "mode": "guide",
+          "eligible": true,
+          "description": "קריין משמרת השכונה. מסביר איך לחקור ומלווה את המעבר ללילה.",
           "events": {
             "night": "guide.night",
             "discovery": "guide.crime.fire",
@@ -1027,10 +1027,10 @@
         "guide": {
           "caseId": "courtyard",
           "characterId": "guide",
-          "name": "משמרת השכונה",
-          "mode": "creator",
-          "eligible": false,
-          "description": "",
+          "name": "קריין משמרת השכונה",
+          "mode": "guide",
+          "eligible": true,
+          "description": "קריין משמרת השכונה. מסביר איך לחקור ומלווה את המעבר ללילה.",
           "events": {
             "night": "guide.night",
             "discovery": "guide.crime.courtyard"
@@ -1546,10 +1546,10 @@
         "guide": {
           "caseId": "balcony",
           "characterId": "guide",
-          "name": "משמרת השכונה",
-          "mode": "creator",
-          "eligible": false,
-          "description": "",
+          "name": "קריין משמרת השכונה",
+          "mode": "guide",
+          "eligible": true,
+          "description": "קריין משמרת השכונה. מסביר איך לחקור ומלווה את המעבר ללילה.",
           "events": {
             "night": "guide.night",
             "discovery": "guide.crime.balcony"

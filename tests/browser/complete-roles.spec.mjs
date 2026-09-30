@@ -1,6 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {CASES} from '../../src/content.js';
 import {openRecord,seedRole,acceptSpoilers,observeSpeech,expectSpeech,wav} from './dubbing-helpers.mjs';
+test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 
 test('casting shows real counts, uniform spoiler consent, and the complete safe quick role',async({page})=>{
  await page.goto('/?test-profile=choice');await page.locator('#start').click();await expect(page.locator('#choose-quick')).toContainText('5 משפטים');await page.locator('#choose-voice').click();

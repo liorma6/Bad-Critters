@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {acceptSpoilers} from './dubbing-helpers.mjs';
+test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 test('character artwork and four registered mouth states render; recording start remains visible',async({page})=>{
  await page.goto('/?test-profile=visual');await page.locator('#start').click();await page.screenshot({path:'docs/screenshots/quick-dubbing-entry.png'});await page.locator('#choose-voice').click();await page.screenshot({path:'docs/screenshots/quick-dubbing-cast.png'});await page.locator('[data-voice="goat"]').click();await acceptSpoilers(page);await page.setViewportSize({width:390,height:844});await page.locator('#dialog').evaluate(d=>d.scrollTop=0);const bounds=await page.locator('#play-now').boundingBox();expect(bounds.y).toBeGreaterThanOrEqual(0);expect(bounds.y+bounds.height).toBeLessThan(844);await page.screenshot({path:'docs/screenshots/quick-dubbing-mobile.png'});
  await page.route('**/rig-visual',route=>route.fulfill({contentType:'text/html',body:'<!doctype html><html><body style="margin:0;background:#f5ecd9"><canvas id="rig" width="800" height="1200"></canvas></body></html>'}));await page.goto('/rig-visual');

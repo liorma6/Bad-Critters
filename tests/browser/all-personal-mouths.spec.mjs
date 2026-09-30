@@ -13,10 +13,10 @@ test('SYNTHETIC every personal line drives its own speaker and mouth, then reset
     if(seen.has(id))continue;seen.add(id);audio.say(id);
     const deadline=performance.now()+4000;
     while(performance.now()<deadline&&!(speech.resident===role.characterId&&speech.mouth>0))await new Promise(r=>setTimeout(r,20));
-    if(speech.resident!==role.characterId||speech.mouth===0||!MOUTH_RIGS[role.characterId]||audio.voiceSourceKind!=='personal')failures.push(id);else heard.push(id);
+    if(speech.resident!==role.characterId||speech.mouth===0||(role.characterId!=='guide'&&!MOUTH_RIGS[role.characterId])||audio.voiceSourceKind!=='personal')failures.push(id);else heard.push(id);
     audio.stop();if(speech.resident!==null||speech.mouth!==0)failures.push(id+':reset');
    }
   }
   await audio.context.close();store.db.close();return {heard:heard.length,total:VOICES.filter(l=>l.personal).length,failures};
- },[...wav()]);expect(result.failures).toEqual([]);expect(result.heard).toBe(result.total);expect(result.total).toBe(126);
+ },[...wav()]);expect(result.failures).toEqual([]);expect(result.heard).toBe(result.total);expect(result.total).toBe(133);
 });

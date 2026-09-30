@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {openRecord as openFullRecord,acceptSpoilers} from './dubbing-helpers.mjs';
+test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 const openRecord=(page,profile='mic-synthetic')=>openFullRecord(page,'goat',profile);
 const diagnostics=page=>page.locator('#microphone-diagnostics');
 const inputPeak=page=>diagnostics(page).textContent().then(text=>Number(text.match(/peak RMS: ([\de+.-]+)/)[1]));

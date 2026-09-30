@@ -1562,7 +1562,7 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Tutorial / transition: role
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.role.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 
 ### guide.watch
 
@@ -1574,7 +1574,7 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Tutorial / transition: watch
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.watch.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 
 ### guide.observed
 
@@ -1586,7 +1586,7 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Tutorial / transition: observed
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.observed.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 
 ### guide.night
 
@@ -1598,7 +1598,7 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Tutorial / transition: night
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.night.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 
 ### guide.crime.fire
 
@@ -1610,7 +1610,7 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Incident discovery, before inspection
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.crime.fire.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 
 ### guide.crime.courtyard
 
@@ -1622,7 +1622,7 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Incident discovery, before inspection
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.crime.courtyard.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 
 ### guide.crime.balcony
 
@@ -1634,5 +1634,5 @@ Voice direction: Clear, calm, factual adult Hebrew. Treat death and injury serio
 - Gameplay trigger: Incident discovery, before inspection
 - Performance note: לדבר אל השכן באופן טבעי. אפשר לקחת נשימה בין המשפטים.
 - Suggested filename: `assets/voices/guide.crime.balcony.v1.mp3`
-- Case / tutorial dialogue
+- Personal role line — requires the complete current-case script
 

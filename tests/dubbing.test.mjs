@@ -9,7 +9,7 @@ import {mouthState,speech,resetSpeech} from '../src/speech-animation.js';
 const take=(text='test')=>({blob:new Blob([text],{type:'audio/webm;codecs=opus'}),duration:3,validation:{hasSignal:true,duration:3,maxRms:.1,peak:.2},processing:{enhance:false,noiseSuppression:true}});
 test('six distinct reusable signature subsets remain within the full principal roles',()=>{
  for(const r of RESIDENTS){const set=SIGNATURE_SETS[r.id];assert.equal(set.length,6);assert.deepEqual(set.map(l=>l.key),['greet','watched','complaint','boast','question','arrival']);for(const s of set){const l=LINE[s.id];assert(l.personal);assert(l.hint);assert(l.direction);assert.equal(l.scriptVersion,s.scriptVersion);assert.equal(l.context,SIGNATURE_TRIGGERS[l.key]);assert(!/\.secret|\.detail|\.alibi/.test(l.id));}for(const c of CASES){assert(CASE_CAST[c.id].includes(r.id));for(const key of ['comment','alibi','detail'])assert(LINE[`${r.id}.${c.id}.${key}`]?.essential,`${r.id} must have substantive dialogue in ${c.id}`);}}
- assert.equal(VOICES.filter(l=>l.personal).length,126);assert.match(LINE['goat.boast'].text,/כלבת, צהבת וזהבת/);assert.match(LINE['cat.complaint'].text,/אפשר\.\.\./);
+ assert.equal(VOICES.filter(l=>l.personal).length,133);assert.match(LINE['goat.boast'].text,/כלבת, צהבת וזהבת/);assert.match(LINE['cat.complaint'].text,/אפשר\.\.\./);
 });
 test('accepted takes survive reload, replace and delete; incompatible versions never play',async()=>{
  const indexedDB=new IDBFactory(),name='test-takes',a=new VoiceStore({name,indexedDB});await a.ready;const line=LINE['goat.greet'];assert(await a.put(line,take()));assert.equal(a.count('goat'),1);
