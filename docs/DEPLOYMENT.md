@@ -43,11 +43,13 @@ Checked against current official documentation on 2026-09-27:
 
 ## Paid personal dubbing
 
-### Email accounts (implementation prepared, activation pending)
+### Email accounts and recording resume (2026-10-01)
+
+Published as Worker version `e444f185-fb47-4618-8966-ddc34820b781`, game release `7350c126a206a009`. All 133 published creator recordings remain unchanged. Production, SEO, authenticated-feature configuration, anonymous purchase denial and static-information-page checks passed on the real zoobluff.com hostname using a process-only public DNS override with TLS checks enabled. The in-app browser's local resolver still displayed the old Hostinger parking page; no system DNS change was made.
 
 The independent cancellation navigation link was removed and the provisions were moved inside the terms in live release `cf851ee0a3b58c4f`, Worker version `23c30516-5ffc-48a0-8231-87134a3cf3c9`, commit `01c7d2c`. Business address, business type and phone remain absent at the operator's request.
 
-The email-account implementation is currently guarded by `ACCOUNTS_ENABLED=true`. Do not enable or publish the new account/privacy flow before setting `RESEND_API_KEY` as a Worker secret and `AUTH_EMAIL_FROM` to an approved verified sender. No Resend upgrade has been purchased. The existing account has three verified domains and adding zoobluff.com prompts a paid upgrade. Using a Sending-access-only key scoped to boardexperienceengine.com is awaiting the operator's approval, along with the real delivery test. Never put this key in Git, client assets, logs or public Wrangler vars.
+The email-account implementation is enabled with `ACCOUNTS_ENABLED=true`. The operator explicitly approved creating the restricted Resend credential after reviewing its scope. The `Zoobluff login` key has Sending access only, scoped to the already verified boardexperienceengine.com domain; it is saved as the encrypted `RESEND_API_KEY` Worker secret. The sender is `זובלוף <login@boardexperienceengine.com>`. No Resend upgrade was purchased; the existing free account's three domain slots remain unchanged. Never put this key in Git, client assets, logs or public Wrangler vars. Existing Paid and session encryption secrets were preserved.
 
 Dedicated D1 database: `zoobluff-accounts`, ID `f1e5adc4-3b9a-4f03-9978-96d72b15bb57`, binding `ACCOUNTS_DB`. The six tables and indexes in `migrations/0001_accounts.sql` were initialized through its Cloudflare dashboard Console on 2026-10-01. Do not rerun that initial SQL on an initialized database. The unrelated board-engine-db was not changed. Existing Wrangler OAuth lacks D1 administration scope; the dashboard was used without expanding that grant.
 
@@ -61,7 +63,9 @@ Entitlements are reverified after six hours, plus up to five minutes of client c
 
 The recording-first flow is unchanged. Authentication/payment appear only when starting with complete personal recordings or explicitly restoring a purchase. Account restoration does not restore deleted local voices or sync them between devices. Privacy copy describes Resend, D1 and the actual account retention/session behavior. Keep it paired with activation of the feature.
 
-Validation so far: 99 Node tests and 10 focused browser scenarios pass (97 in the full run, followed by the expanded 10-test account suite), including real SQLite constraints, single-use/expired/exhausted codes, failed delivery, rate limits, encrypted storage, cookie deletion/relogin, ownership, refunds, parallel checkouts, free recording before authentication, mobile layout and preserved recordings. Resend and Paid positive responses use test fixtures; real email delivery and a paid production purchase have not been performed. Build and Wrangler dry-run pass with all 133 creator recordings unchanged.
+Validation: 99 Node tests and 18 focused browser scenarios pass, including real SQLite constraints, single-use/expired/exhausted codes, failed delivery, rate limits, encrypted storage, cookie deletion/relogin, ownership, refunds, parallel checkouts, free recording before authentication, mobile layout and preserved recordings. One real transactional login email to the operator's authorized service address was accepted by Resend and subsequently displayed Delivered. Its actual code was verified through the production workers.dev game, and the authenticated session survived a reload. A live 990 ILS pending checkout was prepared, but no card was entered or charge made. Successful paid purchase/refund/recovery scenarios remain fixture-based.
+
+The reported intermittent 4-of-5 recording count did not reproduce with five fresh microphone captures, including delayed storage commits, saving while preview was playing and reloading. A related reproducible resume defect was fixed: when the stored cursor points to an already approved final line but an earlier line is unapproved, resume now opens the first missing line instead of repeatedly returning to the final one. The incomplete summary names the line numbers requiring review/save. Existing audio bytes, approval records and storage keys are preserved; no recordings were deleted or automatically approved.
 
 ### Recording and site information update (2026-10-01)
 

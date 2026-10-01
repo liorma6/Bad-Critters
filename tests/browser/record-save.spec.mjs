@@ -33,6 +33,27 @@ test('saving the final quick line completes the role and keeps a single obvious 
  await expect(page.locator('#dialog-title')).toHaveText('התפקיד מוכן');await expect(page.locator('#use-complete')).toBeEnabled();
 });
 
+test('five fresh captures survive delayed commits and the final save counts every line after reload',async({page})=>{
+ await page.goto('/?test-profile=five-fresh');await page.locator('#start').click();await page.locator('#choose-quick').click();
+ await page.evaluate(async()=>{const {VoiceStore}=await import('/src/voice-store.js');const persist=VoiceStore.prototype.persist;VoiceStore.prototype.persist=async function(record){if(record.reviewed)await new Promise(resolve=>setTimeout(resolve,250));return persist.call(this,record);};});
+ for(let i=0;i<5;i++){
+  await expect(page.locator('.record-header .eyebrow')).toContainText(`משפט ${i+1}`);await page.locator('#record-take').click();await expect(page.locator('#stop-take')).toBeEnabled();await page.waitForTimeout(700);await page.locator('#stop-take').click();await expect(page.locator('#accept-take')).toBeEnabled();
+  if(i===4){await page.locator('#listen-take').click();await expect(page.locator('#listen-take')).toContainText('עצירת');}
+  await page.locator('#accept-take').click();await expect(page.locator('#accept-take')).toBeDisabled();
+ }
+ await expect(page.locator('#dialog-title')).toHaveText('התפקיד מוכן');
+ await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();await expect(page.locator('#dialog-title')).toHaveText('התפקיד מוכן');
+ expect(await page.evaluate(async()=>{const {VoiceStore}=await import('/src/voice-store.js');const s=new VoiceStore({name:'neighborhood-voices-test-five-fresh'});await s.ready;const c=s.coverage('fire','badger');s.db.close();return c;})).toMatchObject({approved:5,total:5,complete:true,missing:[]});
+});
+
+test('an earlier unapproved line cannot trap resume on the already saved final line',async({page})=>{
+ await page.goto('/?test-profile=resume-missing');await seedRole(page,{profile:'resume-missing',characterId:'badger'});
+ await page.evaluate(async()=>{const {VoiceStore}=await import('/src/voice-store.js'),{requiredLines}=await import('/src/dialogue-manifest.js');const s=new VoiceStore({name:'neighborhood-voices-test-resume-missing'});await s.ready;const lines=requiredLines('fire','badger');await s.putDraft(lines[0],s.get(lines[0]),{caseId:'fire'});await s.checkpoint('fire','badger',lines.at(-1).id);s.db.close();});
+ await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();
+ await expect(page.locator('.record-header .eyebrow')).toContainText('משפט 1 מתוך 5');await page.locator('#accept-take').click();
+ await (await recordingControl(page,'[data-line="4"]')).click();await page.locator('#accept-take').click();await expect(page.locator('#dialog-title')).toHaveText('התפקיד מוכן');
+});
+
 test('mobile recorder is concise and primary save stays reachable without overflow',async({page})=>{
  await page.setViewportSize({width:390,height:844});await openRecord(page,'goat','simple-mobile');
  await expect(page.locator('#accept-take')).toBeVisible();expect(await page.locator('#dialog button:visible').count()).toBe(5);

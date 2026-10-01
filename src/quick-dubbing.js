@@ -1,4 +1,4 @@
-﻿import {RESIDENTS,SUPPORTING,LINE,CASES} from './content.js';
+import {RESIDENTS,SUPPORTING,LINE,CASES} from './content.js';
 import {CASE_RECORDING_MANIFEST,QUICK_ROLES,roleManifest,requiredLines,estimateRecordingMinutes} from './dialogue-manifest.js';
 import {QuickRecorder,microphoneMessage} from './recorder.js';
 import {MicrophonePanel,microphonePanelMarkup} from './microphone-panel.js';
@@ -136,7 +136,8 @@ export class QuickDubbing {
  }
  incomplete(active){
   const coverage=this.store.coverage(this.caseId,active);this.active=active;
-  this.openDialog('הטיוטה נשמרה',`<p>${coverage.approved} מתוך ${coverage.total} משפטים מוכנים. כדי לשמור על קול אחד, הדמות תשתמש בקול האישי רק כשהתפקיד כולו שלם.</p><p>${this.options.resume?'אפשר להמשיך לתקן, או לחזור למשחק בליהוק הקיים. משפטים חסרים יופיעו בכתוביות עד לתיקון.':'אפשר להמשיך להקליט, או להתחיל כשהיוצר מדבב את הדמות לאורך כל התיק. לא נערבב בין הקולות.'}</p><div class="dialog-buttons"><button id="continue-draft" class="primary">להמשיך את הטיוטה</button><button id="creator-start">${this.options.resume?'להמשיך בכתוביות בליהוק הקיים':'להתחיל עם קולות היוצר'}</button></div>`);
+  const lines=requiredLines(this.caseId,active),missing=lines.map((line,index)=>this.store.get(line)?null:index+1).filter(Boolean);
+  this.openDialog('הטיוטה נשמרה',`<p>${coverage.approved} מתוך ${coverage.total} משפטים מוכנים. כדי לשמור על קול אחד, הדמות תשתמש בקול האישי רק כשהתפקיד כולו שלם.</p><p>נותר לבדוק ולשמור ${missing.length===1?'את משפט':'את המשפטים'} ${missing.join(', ')}. ההקלטות הקיימות נשמרו; לחצו להמשך כדי להגיע למשפט שדורש השלמה.</p><p>${this.options.resume?'אפשר להמשיך לתקן, או לחזור למשחק בליהוק הקיים. משפטים חסרים יופיעו בכתוביות עד לתיקון.':'אפשר להמשיך להקליט, או להתחיל כשהיוצר מדבב את הדמות לאורך כל התיק. לא נערבב בין הקולות.'}</p><div class="dialog-buttons"><button id="continue-draft" class="primary">להמשיך את הטיוטה</button><button id="creator-start">${this.options.resume?'להמשיך בכתוביות בליהוק הקיים':'להתחיל עם קולות היוצר'}</button></div>`);
   $('continue-draft').onclick=()=>this.selectRole(active,true);$('creator-start').onclick=()=>this.start(null);
  }
  status(text){if($('record-status'))$('record-status').textContent=text;}

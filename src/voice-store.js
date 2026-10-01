@@ -86,7 +86,12 @@ export class VoiceStore {
   const set={setId,caseId,characterId,requirements:requiredLines(caseId,characterId).map(l=>({lineId:l.id,scriptVersion:l.scriptVersion,fingerprint:l.fingerprint,performanceKey:l.performanceKey})),status:coverage.complete?'complete':'draft',lastLineId:lastLineId||this.sets.get(setId)?.lastLineId||role.lineIds[0],updatedAt:new Date().toISOString()};
   this.sets.set(setId,set);try{if(!this.db)throw Error('No database');await this.transaction('readwrite',s=>s.put(set),'sets');}catch{this.warn();}return set;
  }
- resumeIndex(caseId,characterId){const lines=requiredLines(caseId,characterId),last=this.sets.get(`${caseId}:${characterId}`)?.lastLineId;return Math.max(0,lines.findIndex(l=>l.id===last));}
+ resumeIndex(caseId,characterId){
+  const lines=requiredLines(caseId,characterId),last=this.sets.get(`${caseId}:${characterId}`)?.lastLineId,index=Math.max(0,lines.findIndex(l=>l.id===last));
+  // A saved final line must not trap an incomplete role in an endless summary loop.
+  const missing=lines.findIndex(line=>!this.get(line));
+  return missing>=0&&this.get(lines[index])?missing:index;
+ }
  async verifyRole(caseId,characterId){
   await this.ready;if(!roleManifest(caseId,characterId)?.eligible)return false;
   for(const line of requiredLines(caseId,characterId)){
