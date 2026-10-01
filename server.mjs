@@ -12,7 +12,7 @@ const mime={'.html':'text/html; charset=utf-8','.js':'text/javascript; charset=u
 Object.assign(mime,{'.txt':'text/plain; charset=utf-8','.xml':'application/xml; charset=utf-8'});
 http.createServer(async(req,res)=>{try{
  if(req.url.startsWith('/api/dubbing/')){
-  let body='';for await(const chunk of req){body+=chunk;if(body.length>1024){res.writeHead(413);res.end();return;}}
+  let body='';for await(const chunk of req){body+=chunk;if(body.length>1200){res.writeHead(413);res.end();return;}}
   const request=new Request(`http://${req.headers.host}${req.url}`,{method:req.method,headers:req.headers,...(body?{body}:{})});
   const response=await handleDubbing(request,dubbingEnv);res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;
  }

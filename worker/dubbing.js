@@ -1,3 +1,4 @@
+import {createPaidCheckout,verifyPaid} from './paid.js';
 const COOKIE='zoobluff_dubbing';
 const MAX_AGE=60*60*24*90;
 const RECHECK_MS=6*60*60*1000;
@@ -24,6 +25,7 @@ export function validPurchase(result,productId){
  return result?.success===true&&p?.product_id===productId&&p.refunded===false&&p.disputed===false&&!p.chargebacked&&!p.chargedback&&!p.license_disabled&&!p.access_revoked&&!p.test&&!p.is_test_purchase&&!p.subscription_ended_at&&!p.subscription_failed_at&&Number(p.price)>0;
 }
 async function verify(key,env,fetcher){
+ if(key.startsWith('ZB1.'))return verifyPaid(key,env,fetcher);
  const response=await fetcher('https://api.gumroad.com/v2/licenses/verify',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({product_id:env.GUMROAD_PRODUCT_ID,license_key:key,increment_uses_count:'false'}),signal:AbortSignal.timeout(10000)});
  if(response.status===429||response.status>=500)throw Error('Provider unavailable');
  const result=await response.json();
@@ -32,17 +34,17 @@ async function verify(key,env,fetcher){
 }
 export async function handleDubbing(request,env,{fetcher=fetch,now=Date.now()}={}){
  const url=new URL(request.url),path=url.pathname;
- if(!['/api/dubbing/access','/api/dubbing/activate'].includes(path))return json({error:'לא נמצא'},404);
- const activate=path.endsWith('/activate');
+ if(!['/api/dubbing/access','/api/dubbing/activate','/api/dubbing/checkout'].includes(path))return json({error:'לא נמצא'},404);
+ const checkout=path.endsWith('/checkout'),activate=path.endsWith('/activate')||checkout;
  if(request.method!==(activate?'POST':'GET'))return json({error:'בקשה לא נתמכת'},405,{Allow:activate?'POST':'GET'});
  if(request.headers.get('Sec-Fetch-Site')==='cross-site'||(request.headers.has('Origin')&&request.headers.get('Origin')!==url.origin)||(activate&&request.headers.get('Origin')!==url.origin))return json({error:'הפעילו את הדיבוב מתוך המשחק.'},403);
  if(!env.GUMROAD_PRODUCT_ID||!env.DUBBING_SESSION_SECRET||env.DUBBING_SESSION_SECRET.length<32)return json({unlocked:false,error:'הפעלת הדיבוב אינה זמינה כרגע. המשחק החינמי זמין כרגיל.'},503);
  let payload,key;
  if(activate){
   if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'בקשה לא תקינה'},400);
-  if(Number(request.headers.get('Content-Length'))>1024)return json({error:'קוד ההפעלה ארוך מדי'},400);
-  try{const raw=await request.text();if(raw.length>1024)throw Error();key=JSON.parse(raw).licenseKey?.trim();}catch{return json({error:'בקשה לא תקינה'},400);}
-  if(typeof key!=='string'||!key||key.length>160)return json({error:'הזינו את קוד ההפעלה מהקבלה.'},400);
+  if(Number(request.headers.get('Content-Length'))>1200)return json({error:'קוד ההפעלה ארוך מדי'},400);
+  try{const raw=await request.text();if(raw.length>1200)throw Error();key=JSON.parse(raw).licenseKey?.trim()??'';}catch{return json({error:'בקשה לא תקינה'},400);}
+  if(typeof key!=='string'||(!key&&!checkout)||key.length>(key.startsWith('ZB1.')?900:160))return json({error:'הזינו את קוד שחזור הרכישה.'},400);
  }else{
   const value=request.headers.get('Cookie')?.split(';').map(s=>s.trim()).find(s=>s.startsWith(`${COOKIE}=`))?.slice(COOKIE.length+1);
   if(!value)return json({unlocked:false});
@@ -53,7 +55,15 @@ export async function handleDubbing(request,env,{fetcher=fetch,now=Date.now()}={
  }
  if(env.DUBBING_RATE_LIMITER){const {success}=await env.DUBBING_RATE_LIMITER.limit({key:request.headers.get('CF-Connecting-IP')||'unknown'});if(!success)return json({unlocked:false,error:'יותר מדי ניסיונות. חכו דקה ונסו שוב.'},429,{'Retry-After':'60'});}
  try{
-  if(!await verify(key,env,fetcher))return json({unlocked:false,error:'לא נמצאה רכישה פעילה לקוד הזה. בדקו שהעתקתם את קוד ההפעלה של זובלוף מהקבלה.'},activate?403:200,{'Set-Cookie':cookie(request,'',0)});
+  if(checkout){
+   // An existing entitlement or completed pending order must never create a second charge.
+   const current=await handleDubbing(new Request(`${url.origin}/api/dubbing/access`,{headers:{Cookie:request.headers.get('Cookie')||''}}),env,{fetcher,now});
+   const access=await current.json();
+   if(current.status!==200)return json(access,current.status);
+   if(access.unlocked)return json({unlocked:true},200,current.headers.has('Set-Cookie')?{'Set-Cookie':current.headers.get('Set-Cookie')}:{});
+   if(!key||!await verify(key,env,fetcher))return json({unlocked:false,...await createPaidCheckout(key,env,fetcher,url.origin)});
+  }
+  if(!checkout&&!await verify(key,env,fetcher))return json({unlocked:false,error:key.startsWith('ZB1.')?'התשלום עדיין לא אושר. אם כבר שילמתם, המתינו רגע ולחצו בדיקת התשלום. אין צורך לשלם שוב.':'לא נמצאה רכישה פעילה לקוד הזה. בדקו שהעתקתם את קוד ההפעלה של זובלוף מהקבלה.'},activate?403:200,{'Set-Cookie':cookie(request,'',0)});
   const value=await seal({key,checkedAt:now,expiresAt:now+MAX_AGE*1000},env,url.origin);
   return json({unlocked:true},200,{'Set-Cookie':cookie(request,value)});
  }catch{return json({unlocked:false,error:'לא הצלחנו לבדוק את הרכישה כרגע. נסו שוב בעוד רגע; אין צורך לשלם שוב.'},503);}

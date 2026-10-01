@@ -158,4 +158,4 @@ function frame(now){
  if(!modalOpen||lastWorldState!==state||lastWorldWidth!==canvas.clientWidth){render(canvas,state,elapsed,playing&&(!tutorialBlocking(state)||state.tutorial.step==='watch'));lastWorldState=state;lastWorldWidth=canvas.clientWidth;}
  coach.update();uiTimer+=elapsed;if(uiTimer>.2){uiTimer=0;refresh();}requestAnimationFrame(frame);
 }
-await artReady;refresh();welcome();if(new URLSearchParams(location.search).get('dubbing')==='activate')dubbing.open(0,{activate:true});requestAnimationFrame(frame);
+await artReady;refresh();welcome();const dubbingReturn=new URLSearchParams(location.search).get('dubbing');if(['activate','paid-return'].includes(dubbingReturn))dubbing.open(0,{activate:dubbingReturn==='activate',paidReturn:dubbingReturn==='paid-return'});requestAnimationFrame(frame);

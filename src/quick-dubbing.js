@@ -3,7 +3,7 @@ import {CASE_RECORDING_MANIFEST,QUICK_ROLES,roleManifest,requiredLines,estimateR
 import {QuickRecorder,microphoneMessage} from './recorder.js';
 import {MicrophonePanel,microphonePanelMarkup} from './microphone-panel.js';
 import {portrait as residentPortrait} from './render.js';
-import {DubbingAccess,DUBBING_PRODUCT_URL} from './dubbing-access.js';
+import {DubbingAccess} from './dubbing-access.js';
 import {siteLinks} from './site-links.js';
 const $=id=>document.getElementById(id);
 const character=id=>[...RESIDENTS,...SUPPORTING].find(r=>r.id===id)||{id:'guide',name:'קריין משמרת השכונה'};
@@ -31,34 +31,57 @@ export class QuickDubbing {
   this.caseIndex=caseIndex;this.options=options;this.lockedCharacter=options.resume?this.getActive():null;this.active=null;this.allMode=false;
   this.openDialog('קול אחד לכל דמות', '<p role="status">טוענים את ההקלטות השמורות…</p>');const view=this.view;
   await this.store.ready;if(view!==this.view)return;
-  if(options.activate){if(await this.requireAccess(()=>this.entry()))this.entry();return;}
+  if(options.paidReturn){
+   const intent=this.access.saved().intent;
+   if(Number.isInteger(intent?.caseIndex)&&CASES[intent.caseIndex]&&Array.isArray(intent.characterIds)&&intent.characterIds.length&&intent.characterIds.every(id=>roleManifest(CASES[intent.caseIndex].id,id)?.eligible)){
+    this.caseIndex=intent.caseIndex;this.allMode=intent.characterIds.length>1;this.active=intent.characterIds[0];
+    await this.start(this.allMode?intent.characterIds:this.active);return;
+   }
+  }
+  if(options.activate||options.paidReturn){if(await this.requireAccess(()=>this.entry()))this.entry();return;}
   if(options.repair&&this.lockedCharacter){if(Array.isArray(this.lockedCharacter))this.chooseAll();else this.selectRole(this.lockedCharacter,true);return;}
   this.entry();
  }
  entry(){
   this.allMode=false;
   const quick=roleManifest(this.caseId,QUICK_ROLES[this.caseId]);
-  this.openDialog('מי מדבר בתיק הזה?',`<span class="eyebrow">תיק ${this.caseIndex+1} · ${CASES[this.caseIndex].title}</span><h3 class="dub-title">תפקיד שלם.<br>אותו קול בכל פעם.</h3><p>המשחק עם קולות היוצר חינמי. רוצים לדבב בעצמכם? דיבוב אישי עולה 9.90 ₪ חד־פעמי וכולל תפקיד קצר, דמות שלמה או כל הדמויות בתיק. הקלטות תואמות נשארות זמינות לשימוש חוזר.</p>${this.options.resume?'<p class="inline-success">הליהוק של התיק הפעיל נשאר קבוע. אפשר לתקן הקלטות ולשמור טיוטות; בחירת קול אחר תתאפשר בתחילת תיק.</p>':''}<div class="profile quick-role-summary">${portrait(character(quick.characterId))}<div><strong>${quick.name}</strong><p>${quick.description}</p><p>${this.coverageText(quick.characterId)}</p><small>${this.estimate(quick.characterId)}</small></div></div><div class="dub-paths"><button class="primary" id="creator-start">${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'לשחק עם קולות היוצר · חינם'}</button><button id="choose-quick">דיבוב קצר ומלא · ${quick.name} · ${quick.lineIds.length} משפטים</button><button id="choose-voice">דיבוב מלא של דמות אחרת</button><button id="choose-all">למשקיענים: כל הדמויות</button><button id="activate-dubbing" class="purchase-link">כבר קניתי · הפעלת הדיבוב</button></div><p class="microcopy">התפקיד הקצר בטוח להקלטה לפני החקירה. דיבוב מלא כולל אזהרת ספוילרים לפני הצגת התסריט.</p><p id="access-status" role="status"></p><p class="privacy">${privacy}</p>`);
+  this.openDialog('מי מדבר בתיק הזה?',`<span class="eyebrow">תיק ${this.caseIndex+1} · ${CASES[this.caseIndex].title}</span><h3 class="dub-title">תפקיד שלם.<br>אותו קול בכל פעם.</h3><p>המשחק עם קולות היוצר חינמי. רוצים לדבב בעצמכם? קודם מקליטים ושומרים בחינם — תפקיד קצר, דמות שלמה או את כל הדמויות. רק כשמסיימים וניגשים לשחק בקול האישי, משלמים 9.90 ₪ פעם אחת. אחר כך אפשר לשחק, לתקן ולדבב שוב ללא הגבלה.</p>${this.options.resume?'<p class="inline-success">הליהוק של התיק הפעיל נשאר קבוע. אפשר לתקן הקלטות ולשמור טיוטות; בחירת קול אחר תתאפשר בתחילת תיק.</p>':''}<div class="profile quick-role-summary">${portrait(character(quick.characterId))}<div><strong>${quick.name}</strong><p>${quick.description}</p><p>${this.coverageText(quick.characterId)}</p><small>${this.estimate(quick.characterId)}</small></div></div><div class="dub-paths"><button class="primary" id="creator-start">${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'לשחק עם קולות היוצר · חינם'}</button><button id="choose-quick">דיבוב קצר ומלא · ${quick.name} · ${quick.lineIds.length} משפטים</button><button id="choose-voice">דיבוב מלא של דמות אחרת</button><button id="choose-all">למשקיענים: כל הדמויות</button><button id="activate-dubbing" class="purchase-link">כבר קניתי · הפעלת הדיבוב</button></div><p class="microcopy">התפקיד הקצר בטוח להקלטה לפני החקירה. דיבוב מלא כולל אזהרת ספוילרים לפני הצגת התסריט.</p><p id="access-status" role="status"></p><p class="privacy">${privacy}</p>`);
   $('creator-start').onclick=()=>this.start(null);$('choose-quick').onclick=()=>this.selectRole(quick.characterId);$('choose-voice').onclick=()=>this.choose();$('choose-all').onclick=()=>this.chooseAll();$('activate-dubbing').onclick=()=>this.payment(()=>this.entry());
   if(this.access.unlocked){$('access-status').className='inline-success';$('access-status').textContent='✓ הדיבוב פתוח לכם. כל האפשרויות כלולות ברכישה שלכם, ללא תשלום נוסף.';}
  }
  async requireAccess(action){
   const view=this.view;if($('access-status'))$('access-status').textContent='בודקים את הגישה לדיבוב…';
-  const allowed=await this.access.check();if(view!==this.view)return false;
+  let allowed=await this.access.check();if(view!==this.view)return false;
+  const saved=this.access.saved();
+  if(!allowed&&saved.recoveryCode){allowed=await this.access.activate(saved.recoveryCode);if(view!==this.view)return false;}
   if(!allowed){this.payment(action);return false;}return true;
  }
  payment(afterUnlock){
-  this.openDialog('הקולות שלכם. השכונה שלנו.',`<div class="purchase-intro"><span class="eyebrow">זובלוף · דיבוב אישי</span><h3 class="dub-title">המשחק חינם.<br>הדיבוב שלכם — בלי הגבלה.</h3><p>אפשר לשחק בכל התיקים עם קולות היוצר ללא תשלום. רוצים לתת לדמויות את הקול שלכם?</p><p class="purchase-price"><bdi>9.90 ₪</bdi><span>רכישה חד־פעמית · בלי מנוי</span></p></div><ul class="purchase-benefits"><li>תפקיד קצר, דמות שלמה או כל הדמויות — גם הקריין.</li><li>מקליטים, מתקנים ומדבבים שוב ושוב ללא תשלום נוסף.</li><li>בהמשך יתווספו עוד תיקים ודמויות לפי בקשות הרוכשים הראשונים!</li></ul><a id="buy-dubbing" class="purchase-button" href="${DUBBING_PRODUCT_URL}" target="_blank" rel="noopener noreferrer">לרכישת דיבוב ב־9.90 ₪ ↗</a><p class="microcopy">התשלום נפתח ב־Gumroad. מסים או המרת מטבע, אם יחולו, יוצגו לפני אישור התשלום. אחרי הרכישה חוזרים לכאן עם קוד ההפעלה מהקבלה.</p><form id="activate-form" class="activation-form"><h3>כבר קניתי</h3><label for="license-key">קוד ההפעלה מהקבלה (License key)</label><input id="license-key" name="license-key" type="text" dir="ltr" autocomplete="off" spellcheck="false" maxlength="160" required placeholder="XXXX-XXXX-XXXX-XXXX"><button id="activate-license" class="primary" type="submit">להפעיל את הדיבוב</button><p id="purchase-status" role="status" aria-live="polite">${esc(this.access.error||'אותו קוד מפעיל את הדיבוב גם במכשיר נוסף, בלי לקנות שוב.')}</p><a href="https://gumroad.com/license-key-lookup" target="_blank" rel="noopener noreferrer">לא מוצאים את הקוד? שחזור הקבלה</a></form><p class="privacy">${privacy} ההפעלה נשמרת בדפדפן הזה; אם נתוני האתר נמחקים, אפשר להזין שוב את הקוד. קוד ההפעלה נשלח לאימות מול Gumroad, ללא הקלטות.</p><div class="dialog-buttons"><button id="purchase-free">${this.options.resume?'לחזור למשחק':'לשחק בחינם עם קולות היוצר'}</button><button id="purchase-back">חזרה לבחירה</button></div>${siteLinks}`);
+  this.openDialog('התפקיד שלכם מוכן למשחק',`<div class="purchase-intro"><span class="eyebrow">זובלוף · דיבוב אישי</span><h3 class="dub-title">הקלטתם? עכשיו משחקים<br>בקולות שלכם.</h3><p>ההקלטה והשמירה בחינם. פתיחת המשחק עם הקולות האישיים עולה 9.90 ₪ פעם אחת. ההקלטות נשארות במכשיר גם אם לא משלמים. המשחק עם קולות היוצר תמיד חינמי.</p><p class="purchase-price"><bdi>9.90 ₪</bdi><span>מחיר סופי בשקלים · רכישה חד־פעמית · בלי מנוי</span></p></div><ul class="purchase-benefits"><li>תפקיד קצר, דמות שלמה או כל הדמויות — גם הקריין.</li><li>משחקים, מתקנים ומדבבים שוב ושוב ללא תשלום נוסף.</li><li>בהמשך יתווספו עוד תיקים ודמויות לפי בקשות הרוכשים הראשונים!</li></ul><button id="buy-dubbing" class="purchase-button">לתשלום של 9.90 ₪</button><a id="paid-checkout" class="purchase-button" hidden>להמשיך לתשלום מאובטח · 9.90 ₪</a><p class="microcopy">התשלום מתבצע בעברית ב־Paid / PayMe, בשקלים ובתשלום אחד. פרטי הכרטיס מוזנים רק בעמוד המאובטח של ספק התשלום. אחרי התשלום חוזרים אוטומטית למשחק.</p><button id="check-payment">כבר שילמתי · בדיקת התשלום</button><p id="checkout-status" role="status" aria-live="polite"></p><details class="activation-form"><summary>שחזור רכישה וקוד גיבוי</summary><p>קוד הרכישה נשמר בדפדפן. שמרו עותק גם במקום פרטי, כדי להפעיל את הרכישה במכשיר נוסף או אחרי מחיקת נתוני האתר. הקוד אינו גיבוי להקלטות.</p><label for="recovery-code">קוד הגיבוי שלכם</label><textarea id="recovery-code" dir="ltr" readonly rows="3"></textarea><form id="activate-form"><label for="license-key">קוד רכישה שמור, או License key מרכישת Gumroad קודמת</label><input id="license-key" name="license-key" type="text" dir="ltr" autocomplete="off" spellcheck="false" maxlength="900" required><button id="activate-license" class="primary" type="submit">שחזור הגישה</button><p id="purchase-status" role="status" aria-live="polite">${esc(this.access.error||'אין צורך לרכוש שוב. אפשר להשתמש באותו קוד במכשיר נוסף.')}</p><a href="https://gumroad.com/license-key-lookup" target="_blank" rel="noopener noreferrer">שחזור קבלה מרכישת Gumroad קודמת</a></form></details><p class="privacy">${privacy} פרטי הרכישה נבדקים בשרת מול ספק התשלום; ההקלטות אינן נשלחות אליו.</p><div class="dialog-buttons"><button id="purchase-free">${this.options.resume?'לחזור למשחק':'לשחק בחינם עם קולות היוצר'}</button><button id="purchase-back">חזרה להקלטות</button></div>${siteLinks}`);
   const view=this.view;
-  $('activate-form').onsubmit=async event=>{event.preventDefault();const key=$('license-key').value.trim();if(!key)return;$('activate-license').disabled=true;$('purchase-status').textContent='מאמתים את הרכישה…';
-   const ok=await this.access.activate(key);if(view!==this.view)return;
-   if(ok){$('license-key').value='';afterUnlock();}else{$('activate-license').disabled=false;$('purchase-status').textContent=this.access.error;}
+  $('recovery-code').value=this.access.saved().recoveryCode||'הקוד יופיע לאחר הכנת התשלום.';
+  $('checkout-status').textContent=this.access.error||'';
+  const activate=async key=>{
+   $('check-payment').disabled=true;$('activate-license').disabled=true;$('checkout-status').textContent='בודקים את אישור התשלום…';
+   const ok=key?await this.access.activate(key):await this.access.request('access');if(view!==this.view)return;
+   if(ok){$('license-key').value='';afterUnlock();}else{$('check-payment').disabled=false;$('activate-license').disabled=false;$('checkout-status').textContent=this.access.error||'לא נמצאה רכישה בדפדפן הזה. אפשר להזין קוד רכישה שמור תחת שחזור רכישה.';$('purchase-status').textContent=$('checkout-status').textContent;}
   };
-  $('purchase-free').onclick=()=>this.start(null);$('purchase-back').onclick=()=>this.entry();
+  $('check-payment').onclick=()=>activate(this.access.saved().recoveryCode);
+  $('activate-form').onsubmit=event=>{event.preventDefault();const key=$('license-key').value.trim();if(key)activate(key);};
+  $('buy-dubbing').onclick=async()=>{
+   $('buy-dubbing').disabled=true;$('checkout-status').textContent='מכינים תשלום של 9.90 ₪…';
+   const intent=this.active?{caseIndex:this.caseIndex,characterIds:this.allMode?this.allRoles().map(r=>r.characterId):[this.active]}:null;
+   const result=await this.access.checkout(intent);if(view!==this.view)return;
+   if(result?.unlocked){afterUnlock();return;}
+   if(!result){$('buy-dubbing').disabled=false;$('checkout-status').textContent=this.access.error;return;}
+   $('buy-dubbing').hidden=true;$('paid-checkout').href=result.checkoutUrl;$('paid-checkout').hidden=false;
+   $('recovery-code').value=result.recoveryCode;$('checkout-status').textContent='התשלום מוכן. ההקלטות וקוד החזרה שמורים במכשיר. לחצו להמשיך לתשלום המאובטח.';$('paid-checkout').focus();
+  };
+  $('purchase-free').onclick=()=>this.start(null);$('purchase-back').onclick=()=>this.allMode?this.allDashboard():this.active?this.readyRole():this.entry();
  }
  allRoles(){return Object.values(CASE_RECORDING_MANIFEST[this.caseId].characters).filter(r=>r.eligible);}
  async chooseAll(){
-  if(!await this.requireAccess(()=>this.chooseAll()))return;this.allMode=true;this.allDashboard();
+  this.allMode=true;this.allDashboard();
  }
  allDashboard(){
   const roles=this.allRoles(),complete=roles.every(r=>this.store.coverage(this.caseId,r.characterId).complete),total=roles.reduce((n,r)=>n+r.lineIds.length,0),approved=roles.reduce((n,r)=>n+this.store.coverage(this.caseId,r.characterId).approved,0);
@@ -68,13 +91,12 @@ export class QuickDubbing {
  coverageText(id){const c=this.store.coverage(this.caseId,id);return `${c.total} משפטים בסך הכול · ${c.recorded} הקלטות תואמות · ${c.newCount-c.rerecordCount} חדשים להקלטה${c.rerecordCount?` · ${c.rerecordCount} דורשים הקלטה מחדש`:''}${c.reviewCount?` · ${c.reviewCount} להאזנה ואישור`:''}`;}
  estimate(id){const lines=requiredLines(this.caseId,id),remaining=lines.filter(l=>!this.store.draft(l)||this.store.draft(l).validity!=='valid'),review=lines.filter(l=>this.store.draft(l)?.validity==='valid'&&!this.store.get(l));return remaining.length||review.length?`כ־${estimateRecordingMinutes(remaining,review)} דקות להשלמה (הערכה, כולל האזנה)`:'התפקיד כבר שלם; נותר לאשר את הליהוק לתיק הזה.';}
  async choose(){
-  if(!await this.requireAccess(()=>this.choose()))return;this.allMode=false;
+  this.allMode=false;
   const roles=Object.values(CASE_RECORDING_MANIFEST[this.caseId].characters).filter(r=>r.mode==='full');
   this.openDialog('תפקיד מלא לתיק הזה',`<p>בוחרים דמות אחת. כל שאר הדמויות נשארות בקול היוצר. התסריט כולל את כל ההסתעפויות בתיק הנוכחי בלבד.</p><p class="warning">כל התפקידים המלאים עשויים לכלול מידע מהחקירה ומהפתרון. לפני הצגת התסריט תופיע בקשת אישור.</p><div class="voice-cast">${roles.map(r=>`<article class="voice-card"><div class="profile">${portrait(character(r.characterId))}<div><h3>${r.name}</h3><p>${r.description}</p></div></div><p class="role-coverage">${this.coverageText(r.characterId)}</p><p class="microcopy">${this.estimate(r.characterId)}</p><button data-voice="${r.characterId}" class="primary">${this.store.coverage(this.caseId,r.characterId).complete?'לבחור קול שמור לתיק הזה':'לבחור ולהשלים את התפקיד'}</button></article>`).join('')}</div><div class="dub-footer"><button id="quick-instead">לתפקיד הקצר ללא ספוילרים</button><button id="play-now">${this.options.resume?'לחזור למשחק':'להתחיל עם קולות היוצר'}</button></div>`,true);
   document.querySelectorAll('[data-voice]').forEach(b=>b.onclick=()=>this.selectRole(b.dataset.voice));$('quick-instead').onclick=()=>this.selectRole(QUICK_ROLES[this.caseId]);$('play-now').onclick=()=>this.start(null);
  }
  async selectRole(id,edit=false){
-  if(!await this.requireAccess(()=>this.selectRole(id,edit)))return;
   this.active=id;const role=roleManifest(this.caseId,id);if(!role?.eligible)return;
   if(this.store.coverage(this.caseId,id).complete&&!edit){this.readyRole();return;}
   if(role.mode!=='quick'){this.warning();return;}
@@ -89,18 +111,21 @@ export class QuickDubbing {
  readyRole(){
   if(this.allMode){this.allDashboard();return;}
   const r=roleManifest(this.caseId,this.active);
-  this.openDialog('התפקיד מוכן',`<div class="profile">${portrait(character(this.active))}<div><h3>${r.name}</h3><p>${this.coverageText(this.active)}</p></div></div><p>כל ${r.lineIds.length} המשפטים אושרו. לפני ההתחלה נבדוק שוב שהקבצים ניתנים לפענוח. בכל משפט של הדמות יושמע רק הקול האישי; במקרה של תקלה תופיע כתובית.</p><p id="casting-status" role="status"></p><div class="dialog-buttons"><button id="use-complete" class="primary">${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'לאשר את הקול שלי לתיק הזה'}</button><button id="edit-complete">להאזין ולתקן</button><button id="creator-start">${this.options.resume?'לחזור למשחק':'לשחק עם קולות היוצר'}</button></div>`);
+  this.openDialog('התפקיד מוכן',`<div class="profile">${portrait(character(this.active))}<div><h3>${r.name}</h3><p>${this.coverageText(this.active)}</p></div></div><p>כל ${r.lineIds.length} המשפטים אושרו. לפני ההתחלה נבדוק שוב שהקבצים ניתנים לפענוח. בכל משפט של הדמות יושמע רק הקול האישי; במקרה של תקלה תופיע כתובית.</p><p id="casting-status" role="status"></p><div class="dialog-buttons"><button id="use-complete" class="primary">${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'להתחיל לשחק בקול שלי'}</button><button id="edit-complete">להאזין ולתקן</button><button id="creator-start">${this.options.resume?'לחזור למשחק':'לשחק עם קולות היוצר'}</button></div>`);
   $('use-complete').onclick=()=>this.start(this.active);$('edit-complete').onclick=()=>this.selectRole(this.active,true);$('creator-start').onclick=()=>this.start(null);
  }
  async start(active=null){
-  if(active&&!await this.requireAccess(()=>this.start(active)))return;
   const view=this.view;this.recorder.cancel();this.audio.stop();this.audio.unlock();
-  if(this.options.resume){this.onStart(this.caseIndex,this.lockedCharacter,this.options);return;}
+  if(this.options.resume){
+   if(this.lockedCharacter&&!await this.requireAccess(()=>this.start(this.lockedCharacter)))return;
+   this.onStart(this.caseIndex,this.lockedCharacter,this.options);return;
+  }
   if(active){
    const status=$('casting-status')||$('record-status');if(status)status.textContent='בודקים את כל קובצי התפקיד…';
    if($('play-personal'))$('play-personal').disabled=true;if($('use-complete'))$('use-complete').disabled=true;
    const ids=Array.isArray(active)?active:[active];
    for(const id of ids){const valid=await this.store.verifyRole(this.caseId,id);if(view!==this.view)return;if(!valid){if(this.allMode)this.allDashboard();else this.incomplete(id);return;}}
+   if(!await this.requireAccess(()=>this.start(active)))return;
   }
   this.onStart(this.caseIndex,active,this.options);
  }
@@ -148,7 +173,6 @@ export class QuickDubbing {
   $('enhance-voice').onchange=e=>this.enhance=e.target.checked;$('noise-reduction').onchange=e=>this.noiseReduction=e.target.checked;
   this.micPanel.mount(()=>{this.attempt++;this.recorder.cancel();this.audio.stop();this.requesting=false;this.finalizing=false;this.draft=this.store.draft(line);this.previewing=false;this.controls();this.status('המיקרופון הוחלף. לחצו הקלטה כדי להתחיל בכניסה שנבחרה.');});
   const beginRecording=async()=>{
-   if(!await this.requireAccess(()=>this.record(index)))return;
    const attempt=++this.attempt;this.audio.stop();this.draft=null;this.previewing=false;this.requesting=true;this.finalizing=false;this.status('פותחים את המיקרופון…');this.controls();
    try{const ok=await this.recorder.start({enhance:!!this.enhance,noiseReduction:!!this.noiseReduction,deviceId:this.micPanel.deviceId});if(view!==this.view||attempt!==this.attempt)return;this.requesting=false;this.status(ok?'מקליטים… כשסיימתם, לחצו עצירה.':'ההקלטה בוטלה.');}
    catch(error){if(view===this.view&&attempt===this.attempt){this.requesting=false;this.status(microphoneMessage(error));}}
