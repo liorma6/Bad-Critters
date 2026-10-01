@@ -1,4 +1,6 @@
 import {createPaidCheckout,verifyPaid} from './paid.js';
+import {accountsEnabled,handleAccount} from './accounts.js';
+import {handleAccountPurchase} from './account-purchases.js';
 const COOKIE='zoobluff_dubbing';
 const MAX_AGE=60*60*24*90;
 const RECHECK_MS=6*60*60*1000;
@@ -34,11 +36,13 @@ async function verify(key,env,fetcher){
 }
 export async function handleDubbing(request,env,{fetcher=fetch,now=Date.now()}={}){
  const url=new URL(request.url),path=url.pathname;
+ if(path.startsWith('/api/dubbing/auth/'))return handleAccount(request,env,{fetcher,now});
  if(!['/api/dubbing/access','/api/dubbing/activate','/api/dubbing/checkout'].includes(path))return json({error:'לא נמצא'},404);
  const checkout=path.endsWith('/checkout'),activate=path.endsWith('/activate')||checkout;
  if(request.method!==(activate?'POST':'GET'))return json({error:'בקשה לא נתמכת'},405,{Allow:activate?'POST':'GET'});
  if(request.headers.get('Sec-Fetch-Site')==='cross-site'||(request.headers.has('Origin')&&request.headers.get('Origin')!==url.origin)||(activate&&request.headers.get('Origin')!==url.origin))return json({error:'הפעילו את הדיבוב מתוך המשחק.'},403);
  if(!env.GUMROAD_PRODUCT_ID||!env.DUBBING_SESSION_SECRET||env.DUBBING_SESSION_SECRET.length<32)return json({unlocked:false,error:'הפעלת הדיבוב אינה זמינה כרגע. המשחק החינמי זמין כרגיל.'},503);
+ if(accountsEnabled(env))return handleAccountPurchase(request,env,{fetcher,now});
  let payload,key;
  if(activate){
   if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'בקשה לא תקינה'},400);

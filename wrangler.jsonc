@@ -3,6 +3,7 @@
   "name": "bad-critters",
   "main": "worker/index.js",
   "vars": { "GUMROAD_PRODUCT_ID": "igraNwrit43FLzFkjlV2bw==" },
+  "d1_databases": [{ "binding": "ACCOUNTS_DB", "database_name": "zoobluff-accounts", "database_id": "f1e5adc4-3b9a-4f03-9978-96d72b15bb57", "migrations_dir": "migrations" }],
   "ratelimits": [{ "name": "DUBBING_RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }],
   "compatibility_date": "2026-09-27",
   "workers_dev": true,

@@ -31,11 +31,22 @@ async function api(method,body,env,fetcher){
 export function validPaidSale(sale,order,env){
  return sale?.seller_payme_id===env.PAID_SELLER_ID&&sale.sale_payme_id===order.saleId&&sale.transaction_id===order.reference&&sale.sale_status==='completed'&&Number(sale.sale_type)===1&&Number(sale.sale_price)===PAID_PRICE&&sale.sale_currency==='ILS'&&sale.sale_description===PAID_PRODUCT&&Number(sale.sale_installments)===1;
 }
-export async function verifyPaid(code,env,fetcher){
+export async function inspectPaid(code,env,fetcher){
  const order=await readPaidTicket(code,env);if(!order)return false;
  // Query this exact sale, never accept a browser redirect/callback as proof.
  const result=await api('get-sales',{sale_payme_id:order.saleId,sale_status:'completed',page_size:1},env,fetcher);
- return result.items?.length===1&&validPaidSale(result.items[0],order,env);
+ if(result.items?.length!==1||!validPaidSale(result.items[0],order,env))return null;
+ return {id:`paid:${order.saleId}`,email:result.items[0].sale_buyer_details?.buyer_email||''};
+}
+export async function verifyPaid(code,env,fetcher){return !!await inspectPaid(code,env,fetcher);}
+export async function recoverPaid(email,env,fetcher){
+ const result=await api('get-sales',{buyer_email:email,sale_status:'completed',sale_price:PAID_PRICE,sale_currency:'ILS',page_size:100},env,fetcher);
+ for(const sale of result.items||[]){
+  const order={saleId:sale.sale_payme_id,reference:sale.transaction_id};
+  if(sale.sale_buyer_details?.buyer_email?.trim().toLowerCase()!==email||!saleIdPattern.test(order.saleId)||!/^ZB-[a-f0-9-]{36}$/.test(order.reference)||!validPaidSale(sale,order,env))continue;
+  return {id:`paid:${order.saleId}`,email,credential:await ticket(order,env)};
+ }
+ return null;
 }
 export function paidCheckoutUrl(saleId){return `https://live.payme.io/sale/generate/${saleId}`;}
 export async function createPaidCheckout(previousCode,env,fetcher,origin='https://zoobluff.com'){

@@ -14,7 +14,7 @@ http.createServer(async(req,res)=>{try{
  if(req.url.startsWith('/api/dubbing/')){
   let body='';for await(const chunk of req){body+=chunk;if(body.length>1200){res.writeHead(413);res.end();return;}}
   const request=new Request(`http://${req.headers.host}${req.url}`,{method:req.method,headers:req.headers,...(body?{body}:{})});
-  const response=await handleDubbing(request,dubbingEnv);res.writeHead(response.status,Object.fromEntries(response.headers));res.end(await response.text());return;
+  const response=await handleDubbing(request,dubbingEnv),headers=Object.fromEntries(response.headers);if(response.headers.getSetCookie().length)headers['set-cookie']=response.headers.getSetCookie();res.writeHead(response.status,headers);res.end(await response.text());return;
  }
  if(!['GET','HEAD'].includes(req.method))throw Error('Read-only preview');
  const url=new URL(req.url,'http://localhost'),requested=decodeURIComponent(url.pathname).replace(/^\/+/,''),relative=requested==='favicon.svg'?'assets/icon.svg':requested==='information/'?'information.html':requested,file=path.resolve(root,relative||'index.html');
