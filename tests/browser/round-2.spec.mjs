@@ -1,5 +1,6 @@
 import {test,expect} from '@playwright/test';
 import {seedRole,acceptSpoilers} from './dubbing-helpers.mjs';
+import {recordingControl} from './dubbing-helpers.mjs';
 test.beforeEach(async({page})=>{await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:true}}));});
 
 test('changed personal line is visibly marked for rerecording without losing the other takes',async({page})=>{
@@ -15,7 +16,7 @@ test('changed personal line is visibly marked for rerecording without losing the
  await page.reload();await page.locator('#start').click();await page.locator('#choose-voice').click();
  const card=page.locator('.voice-card').filter({has:page.locator('[data-voice="goat"]')});
  await expect(card).toContainText('12 הקלטות תואמות');await expect(card).toContainText('1 דורשים הקלטה מחדש');
- await page.locator('[data-voice="goat"]').click();await acceptSpoilers(page);await page.locator(`[data-line="${index}"]`).click();
+ await page.locator('[data-voice="goat"]').click();await acceptSpoilers(page);await (await recordingControl(page,`[data-line="${index}"]`)).click();
  await expect(page.locator('#record-status')).toContainText('צריך להקליט את המשפט מחדש');
  await expect(page.locator(`[data-line="${index}"]`)).toHaveAttribute('aria-label',/נדרשת הקלטה מחדש/);
  await expect(page.locator('.record-line')).toContainText('יש לי רשימה');await expect(page.locator('#listen-take')).toBeDisabled();await expect(page.locator('#play-personal')).toBeDisabled();

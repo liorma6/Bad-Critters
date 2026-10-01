@@ -33,7 +33,7 @@ for(const c of Object.values(CASE_RECORDING_MANIFEST)){
 }
 await writeFile('docs/PERSONAL_LINES.md',personal);
 // Hash exact production inputs, including actual installed audio bytes.
-const sources=['index.html',...(await readdir('src')).filter(f=>/\.(js|css)$/.test(f)).sort().map(f=>`src/${f}`),'assets/icon.svg','assets/voices/available.json','assets/voices/manifest.json','assets/voices/recording-cases.json',...ART_IDS.map(id=>`assets/art/${id}.webp`),...Object.values(available).map(v=>v.file)];
+const sources=['index.html','information.html',...(await readdir('src')).filter(f=>/\.(js|css)$/.test(f)).sort().map(f=>`src/${f}`),'assets/icon.svg','assets/voices/available.json','assets/voices/manifest.json','assets/voices/recording-cases.json',...ART_IDS.map(id=>`assets/art/${id}.webp`),...Object.values(available).map(v=>v.file)];
 const hash=createHash('sha256');for(const path of sources){hash.update(path);hash.update(await readFile(path));}
 const version=hash.digest('hex').slice(0,16),out=resolve('dist');
 if(out!==resolve(process.cwd(),'dist')||!out.startsWith(resolve(process.cwd())+sep))throw Error('Unsafe build target');
@@ -42,9 +42,11 @@ if(out!==resolve(process.cwd(),'dist')||!out.startsWith(resolve(process.cwd())+s
 await mkdir(out,{recursive:true});
 for(const entry of await readdir(out)){const target=resolve(out,entry);if(!target.startsWith(out+sep))throw Error('Unsafe generated asset path');await rm(target,{recursive:true,force:true,maxRetries:3,retryDelay:100});}
 const release=`dist/releases/${version}`;await mkdir(release,{recursive:true});
-for(const path of sources.filter(p=>p!=='index.html')){await mkdir(resolve(release,path,'..'),{recursive:true});await cp(path,`${release}/${path}`);}
+for(const path of sources.filter(p=>!p.endsWith('.html'))){await mkdir(resolve(release,path,'..'),{recursive:true});await cp(path,`${release}/${path}`);}
 const html=(await readFile('index.html','utf8')).replace('<head>','<head><base href="/releases/'+version+'/">');
 await writeFile('dist/index.html',html);await cp('_headers','dist/_headers');
+await mkdir('dist/information',{recursive:true});
+await writeFile('dist/information/index.html',(await readFile('information.html','utf8')).replace('<base href="/">','<base href="/releases/'+version+'/">'));
 // Discovery files stay at stable root URLs, outside the fingerprinted game release.
 for(const file of ['robots.txt','sitemap.xml'])await cp(file,`dist/${file}`);
 await cp('assets/icon.svg','dist/favicon.svg');

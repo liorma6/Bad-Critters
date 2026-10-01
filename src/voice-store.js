@@ -61,12 +61,15 @@ export class VoiceStore {
   return {total:lines.length,recorded:recorded.length,approved:approved.length,newCount:lines.length-recorded.length,rerecordCount:lines.filter(l=>this.outdated(l)).length,reviewCount:recorded.length-approved.length,complete:lines.length>0&&approved.length===lines.length,missing:lines.filter(l=>!this.get(l)).map(l=>l.id)};
  }
  async persist(record){try{if(!this.db)throw Error('No database');await this.transaction('readwrite',s=>s.put(record));return true;}catch{this.warn();return false;}}
- async writeTake(line,take,reviewed,{caseId}={}){
+ async writeTake(line,take,reviewed,{caseId,requirePersistence=false}={}){
   await this.ready;
   const validation=take.validation?.hasSignal?take.validation:await this.validateBlob(take.blob);
   const record={characterId:line.resident,lineId:line.id,scriptVersion:line.scriptVersion,fingerprint:line.fingerprint,performanceKey:line.performanceKey,mimeType:take.blob.type||take.mimeType,processing:take.processing,validation,duration:validation.duration||take.duration,blob:take.blob,validity:'valid',reviewed,updatedAt:new Date().toISOString(),acceptedAt:reviewed?new Date().toISOString():null};
   if(!compatibleIdentity(record,line))throw Error('Invalid recording');
-  this.takes.set(line.id,record);const persisted=await this.persist(record);
+  const persisted=await this.persist(record);
+  // An explicit Save must not approve an in-memory-only take or report success.
+  if(requirePersistence&&!persisted)return false;
+  this.takes.set(line.id,record);
   if(caseId)await this.checkpoint(caseId,line.resident);
   for(const set of this.sets.values())if(set.characterId===line.resident&&set.caseId!==caseId)await this.checkpoint(set.caseId,line.resident,set.lastLineId);
   return persisted;
@@ -75,7 +78,7 @@ export class VoiceStore {
  putDraft(line,take,options){return this.writeTake(line,take,false,options);}
  async approve(line,{caseId}={}){
   const take=this.draft(line);if(!take)throw Error('No compatible draft');
-  const validation=await this.validateBlob(take.blob);return this.writeTake(line,{...take,validation},true,{caseId});
+  const validation=await this.validateBlob(take.blob);return this.writeTake(line,{...take,validation},true,{caseId,requirePersistence:true});
  }
  async checkpoint(caseId,characterId,lastLineId){
   await this.ready;const role=roleManifest(caseId,characterId);if(!role?.eligible)return;

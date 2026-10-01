@@ -88,3 +88,13 @@ test('personal failure never substitutes creator audio; creator casting is reset
  assert.throws(()=>audio.configureCase('courtyard','goat'),/Incomplete/);audio.configureCase('courtyard',null);assert.equal(audio.personalCharacter,null);assert.equal(audio.casting.caseId,'courtyard');audio.stop();s.db.close();globalThis.fetch=previousFetch;
 });
 test('estimates account for script length, review and per-take overhead',()=>{const short=[{text:'שלום שכן'}],long=[{text:Array(120).fill('שלום').join(' ')}];assert(estimateRecordingMinutes(long)>estimateRecordingMinutes(short));assert(estimateRecordingMinutes([],long)>=1);});
+
+test('explicit approval requires a committed recording and failed storage leaves a retriable draft',async()=>{
+ const s=store();await s.ready;const line=requiredLines('fire','badger')[0];
+ await s.putDraft(line,take(),{caseId:'fire'});const persist=s.persist.bind(s);s.persist=async()=>false;
+ assert.equal(await s.approve(line,{caseId:'fire'}),false);assert.equal(s.get(line),null);assert(s.draft(line));
+ const stored=await s.transaction('readonly',st=>st.get(line.id));assert.equal(stored.reviewed,false);
+ s.persist=persist;assert.equal(await s.approve(line,{caseId:'fire'}),true);assert(s.get(line));
+ const reopened=new VoiceStore({indexedDB:s.indexedDB,validateBlob:s.validateBlob});await reopened.ready;assert(reopened.get(line));
+ s.db.close();reopened.db.close();
+});

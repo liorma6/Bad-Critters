@@ -2,4 +2,5 @@
 .about-game h2{font-size:17px;margin:0 0 8px}
 .about-game p{max-width:850px;font-size:13px;margin:0;line-height:1.8}
 .cinema .about-game{display:none}
+.site-links{display:flex;flex-wrap:wrap;gap:10px 20px;font-size:13px;padding:16px 0;border-top:1px solid #cbbb98;margin-top:20px}.site-links a{color:#245753;text-decoration:underline;text-underline-offset:3px;padding:4px 0}.site-links a:focus-visible{outline:3px solid #965d14;outline-offset:4px}.site-footer{display:block;max-width:1386px;margin:0 auto}.site-footer .site-links{justify-content:center}.site-footer p{text-align:center;font-size:12px}.purchase-pending{padding:16px;border:1px solid #bca67f;border-radius:8px;background:#fff8e8;line-height:1.7}
 @media(max-width:760px){.about-game{margin:20px 12px 0;padding:14px 6px}.about-game h2{font-size:15px}.about-game p{font-size:12px}}

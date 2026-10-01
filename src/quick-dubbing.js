@@ -4,6 +4,7 @@ import {QuickRecorder,microphoneMessage} from './recorder.js';
 import {MicrophonePanel,microphonePanelMarkup} from './microphone-panel.js';
 import {portrait as residentPortrait} from './render.js';
 import {DubbingAccess,DUBBING_PRODUCT_URL} from './dubbing-access.js';
+import {siteLinks} from './site-links.js';
 const $=id=>document.getElementById(id);
 const character=id=>[...RESIDENTS,...SUPPORTING].find(r=>r.id===id)||{id:'guide',name:'קריין משמרת השכונה'};
 const portrait=r=>r.id==='guide'?'<span class="guide-portrait" role="img" aria-label="מדריך המשמרת">☾</span>':residentPortrait(r);
@@ -24,7 +25,7 @@ export class QuickDubbing {
   document.addEventListener('visibilitychange',()=>{if(document.hidden&&this.recorder.recording)this.recorder.interrupt({name:'PageHiddenError',stage:'recording'});});
   window.addEventListener('pagehide',()=>this.recorder.cancel());
  }
- disposeView(){this.view++;this.attempt++;this.requesting=false;this.finalizing=false;this.recorder.cancel();this.draft=null;}
+ disposeView(){this.view++;this.attempt++;this.requesting=false;this.finalizing=false;this.previewing=false;this.recorder.cancel();this.draft=null;}
  get caseId(){return CASES[this.caseIndex].id;}
  async open(caseIndex,options={}){
   this.caseIndex=caseIndex;this.options=options;this.lockedCharacter=options.resume?this.getActive():null;this.active=null;this.allMode=false;
@@ -37,7 +38,7 @@ export class QuickDubbing {
  entry(){
   this.allMode=false;
   const quick=roleManifest(this.caseId,QUICK_ROLES[this.caseId]);
-  this.openDialog('מי מדבר בתיק הזה?',`<span class="eyebrow">תיק ${this.caseIndex+1} · ${CASES[this.caseIndex].title}</span><h3 class="dub-title">תפקיד שלם.<br>אותו קול בכל פעם.</h3><p>המשחק עם קולות היוצר חינמי. רוצים לדבב בעצמכם? רכישה חד־פעמית ב־9.90 ₪ פותחת דיבוב חוזר ללא הגבלה: תפקיד קצר, דמות שלמה או כל הדמויות בתיק. הקלטות תואמות נשארות זמינות לשימוש חוזר.</p>${this.options.resume?'<p class="inline-success">הליהוק של התיק הפעיל נשאר קבוע. אפשר לתקן הקלטות ולשמור טיוטות; בחירת קול אחר תתאפשר בתחילת תיק.</p>':''}<div class="profile quick-role-summary">${portrait(character(quick.characterId))}<div><strong>${quick.name}</strong><p>${quick.description}</p><p>${this.coverageText(quick.characterId)}</p><small>${this.estimate(quick.characterId)}</small></div></div><div class="dub-paths"><button class="primary" id="creator-start">${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'לשחק עם קולות היוצר · חינם'}</button><button id="choose-quick">דיבוב קצר ומלא · ${quick.name} · ${quick.lineIds.length} משפטים</button><button id="choose-voice">דיבוב מלא של דמות אחרת</button><button id="choose-all">למשקיענים: כל הדמויות</button><button id="activate-dubbing" class="purchase-link">כבר קניתי · הפעלת הדיבוב</button></div><p class="microcopy">התפקיד הקצר בטוח להקלטה לפני החקירה. דיבוב מלא כולל אזהרת ספוילרים לפני הצגת התסריט.</p><p id="access-status" role="status"></p><p class="privacy">${privacy}</p>`);
+  this.openDialog('מי מדבר בתיק הזה?',`<span class="eyebrow">תיק ${this.caseIndex+1} · ${CASES[this.caseIndex].title}</span><h3 class="dub-title">תפקיד שלם.<br>אותו קול בכל פעם.</h3><p>המשחק עם קולות היוצר חינמי. רוצים לדבב בעצמכם? דיבוב אישי עולה 9.90 ₪ חד־פעמי וכולל תפקיד קצר, דמות שלמה או כל הדמויות בתיק. הקלטות תואמות נשארות זמינות לשימוש חוזר.</p>${this.options.resume?'<p class="inline-success">הליהוק של התיק הפעיל נשאר קבוע. אפשר לתקן הקלטות ולשמור טיוטות; בחירת קול אחר תתאפשר בתחילת תיק.</p>':''}<div class="profile quick-role-summary">${portrait(character(quick.characterId))}<div><strong>${quick.name}</strong><p>${quick.description}</p><p>${this.coverageText(quick.characterId)}</p><small>${this.estimate(quick.characterId)}</small></div></div><div class="dub-paths"><button class="primary" id="creator-start">${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'לשחק עם קולות היוצר · חינם'}</button><button id="choose-quick">דיבוב קצר ומלא · ${quick.name} · ${quick.lineIds.length} משפטים</button><button id="choose-voice">דיבוב מלא של דמות אחרת</button><button id="choose-all">למשקיענים: כל הדמויות</button><button id="activate-dubbing" class="purchase-link">כבר קניתי · הפעלת הדיבוב</button></div><p class="microcopy">התפקיד הקצר בטוח להקלטה לפני החקירה. דיבוב מלא כולל אזהרת ספוילרים לפני הצגת התסריט.</p><p id="access-status" role="status"></p><p class="privacy">${privacy}</p>`);
   $('creator-start').onclick=()=>this.start(null);$('choose-quick').onclick=()=>this.selectRole(quick.characterId);$('choose-voice').onclick=()=>this.choose();$('choose-all').onclick=()=>this.chooseAll();$('activate-dubbing').onclick=()=>this.payment(()=>this.entry());
   if(this.access.unlocked){$('access-status').className='inline-success';$('access-status').textContent='✓ הדיבוב פתוח לכם. כל האפשרויות כלולות ברכישה שלכם, ללא תשלום נוסף.';}
  }
@@ -47,7 +48,7 @@ export class QuickDubbing {
   if(!allowed){this.payment(action);return false;}return true;
  }
  payment(afterUnlock){
-  this.openDialog('הקולות שלכם. השכונה שלנו.',`<div class="purchase-intro"><span class="eyebrow">זובלוף · דיבוב אישי</span><h3 class="dub-title">המשחק חינם.<br>הדיבוב שלכם — בלי הגבלה.</h3><p>אפשר לשחק בכל התיקים עם קולות היוצר ללא תשלום. רוצים לתת לדמויות את הקול שלכם?</p><p class="purchase-price"><bdi>9.90 ₪</bdi><span>רכישה חד־פעמית · בלי מנוי</span></p></div><ul class="purchase-benefits"><li>תפקיד קצר, דמות שלמה או כל הדמויות — גם מדריך המשמרת.</li><li>מקליטים, מתקנים ומדבבים שוב ושוב ללא תשלום נוסף.</li><li>בהמשך יתווספו עוד תיקים ודמויות לפי בקשות הרוכשים הראשונים!</li></ul><a id="buy-dubbing" class="purchase-button" href="${DUBBING_PRODUCT_URL}" target="_blank" rel="noopener noreferrer">לרכישת דיבוב ב־9.90 ₪ ↗</a><p class="microcopy">התשלום נפתח ב־Gumroad. מסים או המרת מטבע, אם יחולו, יוצגו לפני אישור התשלום. אחרי הרכישה חוזרים לכאן עם קוד ההפעלה מהקבלה.</p><form id="activate-form" class="activation-form"><h3>כבר קניתי</h3><label for="license-key">קוד ההפעלה מהקבלה (License key)</label><input id="license-key" name="license-key" type="text" dir="ltr" autocomplete="off" spellcheck="false" maxlength="160" required placeholder="XXXX-XXXX-XXXX-XXXX"><button id="activate-license" class="primary" type="submit">להפעיל את הדיבוב</button><p id="purchase-status" role="status" aria-live="polite">${esc(this.access.error||'אותו קוד מפעיל את הדיבוב גם במכשיר נוסף, בלי לקנות שוב.')}</p><a href="https://gumroad.com/license-key-lookup" target="_blank" rel="noopener noreferrer">לא מוצאים את הקוד? שחזור הקבלה</a></form><p class="privacy">${privacy} ההפעלה נשמרת בדפדפן הזה; אם נתוני האתר נמחקים, אפשר להזין שוב את הקוד. קוד ההפעלה נשלח לאימות מול Gumroad, ללא הקלטות.</p><div class="dialog-buttons"><button id="purchase-free">${this.options.resume?'לחזור למשחק':'לשחק בחינם עם קולות היוצר'}</button><button id="purchase-back">חזרה לבחירה</button></div>`);
+  this.openDialog('הקולות שלכם. השכונה שלנו.',`<div class="purchase-intro"><span class="eyebrow">זובלוף · דיבוב אישי</span><h3 class="dub-title">המשחק חינם.<br>הדיבוב שלכם — בלי הגבלה.</h3><p>אפשר לשחק בכל התיקים עם קולות היוצר ללא תשלום. רוצים לתת לדמויות את הקול שלכם?</p><p class="purchase-price"><bdi>9.90 ₪</bdi><span>רכישה חד־פעמית · בלי מנוי</span></p></div><ul class="purchase-benefits"><li>תפקיד קצר, דמות שלמה או כל הדמויות — גם הקריין.</li><li>מקליטים, מתקנים ומדבבים שוב ושוב ללא תשלום נוסף.</li><li>בהמשך יתווספו עוד תיקים ודמויות לפי בקשות הרוכשים הראשונים!</li></ul><a id="buy-dubbing" class="purchase-button" href="${DUBBING_PRODUCT_URL}" target="_blank" rel="noopener noreferrer">לרכישת דיבוב ב־9.90 ₪ ↗</a><p class="microcopy">התשלום נפתח ב־Gumroad. מסים או המרת מטבע, אם יחולו, יוצגו לפני אישור התשלום. אחרי הרכישה חוזרים לכאן עם קוד ההפעלה מהקבלה.</p><form id="activate-form" class="activation-form"><h3>כבר קניתי</h3><label for="license-key">קוד ההפעלה מהקבלה (License key)</label><input id="license-key" name="license-key" type="text" dir="ltr" autocomplete="off" spellcheck="false" maxlength="160" required placeholder="XXXX-XXXX-XXXX-XXXX"><button id="activate-license" class="primary" type="submit">להפעיל את הדיבוב</button><p id="purchase-status" role="status" aria-live="polite">${esc(this.access.error||'אותו קוד מפעיל את הדיבוב גם במכשיר נוסף, בלי לקנות שוב.')}</p><a href="https://gumroad.com/license-key-lookup" target="_blank" rel="noopener noreferrer">לא מוצאים את הקוד? שחזור הקבלה</a></form><p class="privacy">${privacy} ההפעלה נשמרת בדפדפן הזה; אם נתוני האתר נמחקים, אפשר להזין שוב את הקוד. קוד ההפעלה נשלח לאימות מול Gumroad, ללא הקלטות.</p><div class="dialog-buttons"><button id="purchase-free">${this.options.resume?'לחזור למשחק':'לשחק בחינם עם קולות היוצר'}</button><button id="purchase-back">חזרה לבחירה</button></div>${siteLinks}`);
   const view=this.view;
   $('activate-form').onsubmit=async event=>{event.preventDefault();const key=$('license-key').value.trim();if(!key)return;$('activate-license').disabled=true;$('purchase-status').textContent='מאמתים את הרכישה…';
    const ok=await this.access.activate(key);if(view!==this.view)return;
@@ -111,53 +112,72 @@ export class QuickDubbing {
  status(text){if($('record-status'))$('record-status').textContent=text;}
  controls(){
   if(!$('record-take'))return;const recording=this.recorder.recording,pending=this.requesting||this.finalizing;
-  $('record-take').disabled=recording||pending;$('stop-take').disabled=!recording;$('listen-take').disabled=!this.draft||recording||pending;
-  $('accept-take').disabled=!this.draft||recording||pending||!this.listened;$('retry-take').disabled=pending;
+  $('record-take').hidden=recording;$('record-take').disabled=pending;$('record-take').textContent=this.requesting?'פותחים מיקרופון…':this.draft?'● הקלטה מחדש':'● הקלטה';
+  $('stop-take').hidden=!recording;$('stop-take').disabled=!recording||pending;
+  $('listen-take').disabled=!this.draft||recording||pending;$('listen-take').textContent=this.previewing?'■ עצירת ההאזנה':'▶ האזנה';
+  $('accept-take').disabled=!this.draft?.validation?.hasSignal||this.draft.validity!=='valid'||recording||pending;
+  $('accept-take').textContent=this.finalizing?'שומרים…':this.lastLine?'שמירה וסיום התפקיד ✓':'שמירה והמשך ←';
   $('enhance-voice').disabled=recording||pending;$('noise-reduction').disabled=recording||pending;
-  $('exit-draft').textContent=recording?'לצאת ולוותר על הטייק הפעיל':'לשמור ולצאת מההקלטה';
-  if($('play-personal'))$('play-personal').disabled=recording||pending||(!this.allMode&&!this.store.coverage(this.caseId,this.active).complete);
+  $('exit-draft').textContent=recording?'יציאה וביטול ההקלטה הפעילה':'יציאה מההקלטה';
+  for(const el of document.querySelectorAll('[data-line],#skip-take,#previous-take,#exit-draft,#change-voice,#delete-take,#play-now,#close-dialog,#microphone-choice'))el.disabled=!!this.finalizing;
+  if($('play-personal')){const incomplete=!this.allMode&&!this.store.coverage(this.caseId,this.active).complete;$('play-personal').hidden=incomplete;$('play-personal').disabled=recording||pending||incomplete;}
  }
  updateCoverage(){
   if(!$('take-count'))return;const coverage=this.store.coverage(this.caseId,this.active);
-  $('take-count').textContent=`${coverage.approved} מתוך ${coverage.total} משפטים מאושרים · ${coverage.recorded} מוקלטים`;
+  $('take-count').textContent=`${coverage.approved} מתוך ${coverage.total} משפטים נשמרו להקראה`;
   $('role-progress').value=coverage.approved;
   const lines=requiredLines(this.caseId,this.active);document.querySelectorAll('[data-line]').forEach(b=>{const line=lines[Number(b.dataset.line)],outdated=this.store.outdated(line);b.textContent=`${Number(b.dataset.line)+1}${this.store.get(line)?' ✓':this.store.draft(line)?' ◐':outdated?' ↻':''}`;b.setAttribute('aria-label',`משפט ${Number(b.dataset.line)+1}${outdated?' — נדרשת הקלטה מחדש':''}`);});
   $('role-completion').textContent=coverage.complete?'כל התפקיד מוכן. אפשר לאשר את הקול האישי לתיק הזה.':coverage.rerecordCount?`${coverage.rerecordCount} משפטים עודכנו ודורשים הקלטה מחדש. ההקלטות התואמות נשמרו.`:this.options.resume?'הקול האישי נשאר קבוע. משפטים חסרים יופיעו בכתוביות עד לתיקון.':'זו טיוטה. אם תתחילו עכשיו עם היוצר, הוא ידבב את כל הדמות בתיק הזה.';this.controls();
  }
  record(index){
   const r=character(this.active),role=roleManifest(this.caseId,this.active),lines=requiredLines(this.caseId,this.active);index=Math.max(0,Math.min(index,lines.length-1));const line=lines[index],saved=this.store.draft(line),coverage=this.store.coverage(this.caseId,this.active);
-  this.openDialog(`התפקיד שלכם · ${r.name}`,`<div class="record-header">${portrait(r)}<div><span class="eyebrow">תיק ${this.caseIndex+1} · משפט ${index+1} מתוך ${lines.length}</span><p id="take-count"></p><progress id="role-progress" max="${lines.length}" value="${coverage.approved}" aria-label="משפטים מאושרים"></progress></div></div><nav class="record-sections" aria-label="חלקי התפקיד">${role.sections.map(section=>`<div><span>${section.label}</span><div class="take-steps">${section.lineIds.map(id=>{const i=lines.findIndex(l=>l.id===id);return `<button data-line="${i}" aria-label="משפט ${i+1}" aria-current="${i===index?'step':'false'}">${i+1}</button>`;}).join('')}</div></div>`).join('')}</nav><div class="record-line">״${esc(line.text)}״</div><p class="performance-tip">איך לשחק את זה: ${esc(line.hint)}</p><label class="enhancement"><input type="checkbox" id="enhance-voice" ${this.enhance?'checked':''}> עיבוד עדין לקול</label><p class="microcopy">סינון תדרים נמוכים וריכוך הבדלי עוצמה. אפשר להקליט גם בלי עיבוד.</p><label class="enhancement"><input type="checkbox" id="noise-reduction" ${this.noiseReduction?'checked':''}> צמצום רעשים בדפדפן (אופציונלי)</label><div class="input-meter"><span>עוצמת מיקרופון</span><meter id="input-level" min="0" max="1" value="0" aria-label="עוצמת מיקרופון"></meter></div><p class="microcopy">הקול אינו מושמע ברמקולים בזמן ההקלטה. אחרי עצירה ובדיקת הצליל, הטייק נשמר אוטומטית כטיוטה. האזינו ואשרו אותו כדי להשלים את התפקיד.</p><div class="record-actions"><button id="record-take" class="primary">● הקלטה</button><button id="stop-take" disabled>■ עצירה</button><button id="listen-take" disabled>▶ האזנה</button><button id="retry-take">ניסיון נוסף</button><button id="accept-take" disabled>✓ לאשר</button><button id="skip-take">למשפט הבא</button></div><p id="record-status" class="record-status" role="status">${saved?this.store.get(line)?'המשפט מאושר ושמור. אפשר להאזין או להקליט מחדש.':'יש טיוטה שמורה. האזינו ואשרו, או הקליטו מחדש.':'מקליטים, מאזינים ומאשרים. אפשר לצאת ולחזור לטיוטה.'}</p>${microphonePanelMarkup}<p id="role-completion" class="microcopy"></p><div class="dialog-buttons"><button id="exit-draft">לשמור ולצאת מההקלטה</button><button id="change-voice">חזרה לבחירת תפקיד</button>${saved?'<button id="delete-take">למחוק את המשפט</button>':''}</div><div class="dub-footer"><button id="play-personal" class="primary" disabled>${this.options.resume?'לחזור למשחק בליהוק הנוכחי':'להתחיל עם הקול האישי השלם'}</button><button id="play-now">${this.options.resume?'לחזור למשחק':'להתחיל עם קולות היוצר'}</button><button id="next-take">${index===lines.length-1?'לסיכום התפקיד':'למשפט הבא ←'}</button></div><p class="privacy">${privacy}</p>`,true);
+  this.openDialog(`התפקיד שלכם · ${r.name}`,`<div class="record-header">${portrait(r)}<div><span class="eyebrow">תיק ${this.caseIndex+1} · משפט ${index+1} מתוך ${lines.length}</span><p id="take-count"></p><progress id="role-progress" max="${lines.length}" value="${coverage.approved}" aria-label="משפטים שנשמרו"></progress></div></div>
+   <div class="record-line" id="record-phrase" tabindex="-1">״${esc(line.text)}״</div><p class="performance-tip">${esc(line.hint)}</p>
+   <div class="input-meter"><span>עוצמת מיקרופון</span><meter id="input-level" min="0" max="1" value="0" aria-label="עוצמת מיקרופון"></meter></div>
+   <div class="record-actions"><button id="record-take">● הקלטה</button><button id="stop-take" hidden disabled>■ סיום ההקלטה</button><button id="listen-take" disabled>▶ האזנה</button></div>
+   <p id="record-status" class="record-status" role="status" aria-live="polite">${saved?this.store.get(line)?'המשפט כבר שמור. אפשר להמשיך או להקליט מחדש.':'יש טיוטה שמורה. לחצו שמירה והמשך כדי להשתמש בה במשחק.':'הקליטו את המשפט, סיימו את ההקלטה ולחצו שמירה והמשך.'}</p>
+   <div class="record-save"><button id="accept-take" class="primary" disabled>שמירה והמשך ←</button><p class="microcopy">שומר במכשיר ועובר למשפט הבא. אפשר להאזין לפני השמירה, אם רוצים.</p></div>
+   <details class="record-settings"><summary>הגדרות מיקרופון וצליל</summary><label class="enhancement"><input type="checkbox" id="enhance-voice" ${this.enhance?'checked':''}> עיבוד עדין לקול</label><p class="microcopy">סינון תדרים נמוכים וריכוך הבדלי עוצמה.</p><label class="enhancement"><input type="checkbox" id="noise-reduction" ${this.noiseReduction?'checked':''}> צמצום רעשים בדפדפן</label>${microphonePanelMarkup}</details>
+   <details class="record-navigation"><summary>מעבר בין משפטים ואפשרויות נוספות</summary><nav class="record-sections" aria-label="חלקי התפקיד">${role.sections.map(section=>`<div><span>${section.label}</span><div class="take-steps">${section.lineIds.map(id=>{const i=lines.findIndex(l=>l.id===id);return `<button data-line="${i}" aria-label="משפט ${i+1}" aria-current="${i===index?'step':'false'}">${i+1}</button>`;}).join('')}</div></div>`).join('')}</nav><div class="dialog-buttons"><button id="previous-take" ${index?'':'hidden'}>למשפט הקודם</button><button id="skip-take">${index===lines.length-1?'לסיכום בלי לשמור':'דילוג בלי לשמור'}</button>${saved?'<button id="delete-take">מחיקת ההקלטה למשפט הזה</button>':''}<button id="change-voice">בחירת תפקיד אחר</button><button id="play-now">${this.options.resume?'חזרה למשחק':'לשחק עם קולות היוצר · חינם'}</button></div></details>
+   <p id="role-completion" class="microcopy"></p><div class="record-exit"><button id="exit-draft">יציאה מההקלטה</button><button id="play-personal" hidden>${this.allMode?'להתקדמות כל הדמויות':this.options.resume?'חזרה למשחק בליהוק הנוכחי':'להתחיל עם הקול האישי השלם'}</button></div><p class="privacy">${privacy}</p>`,true);
   if(!saved&&this.store.outdated(line))this.status('ההקלטה הקודמת אינה תואמת לנוסח הנוכחי. צריך להקליט את המשפט מחדש.');
-  const view=this.view;this.draft=saved;this.listened=!!saved?.reviewed;
+  const view=this.view;this.draft=saved;this.previewing=false;this.lastLine=index===lines.length-1;
   this.store.checkpoint(this.caseId,this.active,line.id);
   const next=()=>index===lines.length-1?(this.store.coverage(this.caseId,this.active).complete?this.readyRole():this.incomplete(this.active)):this.record(index+1);
   document.querySelectorAll('[data-line]').forEach(b=>b.onclick=()=>this.record(Number(b.dataset.line)));
   $('enhance-voice').onchange=e=>this.enhance=e.target.checked;$('noise-reduction').onchange=e=>this.noiseReduction=e.target.checked;
-  this.micPanel.mount(()=>{this.attempt++;this.recorder.cancel();this.audio.stop();this.requesting=false;this.finalizing=false;this.draft=this.store.draft(line);this.listened=!!this.draft?.reviewed;this.controls();this.status('המיקרופון הוחלף. לחצו הקלטה כדי להתחיל בכניסה שנבחרה.');});
+  this.micPanel.mount(()=>{this.attempt++;this.recorder.cancel();this.audio.stop();this.requesting=false;this.finalizing=false;this.draft=this.store.draft(line);this.previewing=false;this.controls();this.status('המיקרופון הוחלף. לחצו הקלטה כדי להתחיל בכניסה שנבחרה.');});
   const beginRecording=async()=>{
    if(!await this.requireAccess(()=>this.record(index)))return;
-   const attempt=++this.attempt;this.audio.stop();this.draft=null;this.listened=false;this.requesting=true;this.finalizing=false;this.status('פותחים את המיקרופון…');this.controls();
+   const attempt=++this.attempt;this.audio.stop();this.draft=null;this.previewing=false;this.requesting=true;this.finalizing=false;this.status('פותחים את המיקרופון…');this.controls();
    try{const ok=await this.recorder.start({enhance:!!this.enhance,noiseReduction:!!this.noiseReduction,deviceId:this.micPanel.deviceId});if(view!==this.view||attempt!==this.attempt)return;this.requesting=false;this.status(ok?'מקליטים… כשסיימתם, לחצו עצירה.':'ההקלטה בוטלה.');}
    catch(error){if(view===this.view&&attempt===this.attempt){this.requesting=false;this.status(microphoneMessage(error));}}
-   if(view===this.view&&attempt===this.attempt)this.controls();
+   if(view===this.view&&attempt===this.attempt){this.controls();if(this.recorder.recording)$('stop-take').focus();}
   };
-  $('record-take').onclick=beginRecording;$('retry-take').onclick=beginRecording;
+  $('record-take').onclick=beginRecording;
   $('stop-take').onclick=async()=>{
    const attempt=this.attempt;this.finalizing=true;this.status('בודקים את הצליל ושומרים טיוטה…');
    try{const pending=this.recorder.stop();this.controls();const take=await pending;if(view!==this.view||attempt!==this.attempt)return;
-    if(take){const persisted=await this.store.putDraft(line,take,{caseId:this.caseId});if(view!==this.view||attempt!==this.attempt)return;this.draft=this.store.draft(line);this.status(persisted?'הטיוטה נשמרה אוטומטית. האזינו ואשרו את המשפט.':'הטיוטה זמינה בדף הזה בלבד; השמירה במכשיר נכשלה. האזינו ואשרו.');}
+    if(take){const persisted=await this.store.putDraft(line,take,{caseId:this.caseId});if(view!==this.view||attempt!==this.attempt)return;this.draft=this.store.draft(line);this.status(persisted?'הטיוטה נשמרה אוטומטית. לחצו שמירה והמשך.':'ההקלטה זמינה כרגע רק בדף הזה. השמירה במכשיר נכשלה; לחצו שמירה והמשך כדי לנסות שוב.');}
    }catch(error){if(view===this.view&&attempt===this.attempt){this.draft=null;this.status(microphoneMessage(error));}}
-   if(view===this.view&&attempt===this.attempt){this.finalizing=false;this.updateCoverage();}
+   if(view===this.view&&attempt===this.attempt){this.finalizing=false;this.updateCoverage();(this.draft?.validation?.hasSignal?$('accept-take'):$('record-take')).focus();}
   };
-  $('listen-take').onclick=()=>{this.audio.unlock();this.audio.say(line.id,true,{take:this.draft,preview:true,onEnded:played=>{if(view===this.view){this.listened=played;this.controls();this.status(played?'אפשר לאשר את המשפט, או להקליט שוב.':'הדפדפן לא הצליח לנגן את הטייק. נסו להקליט שוב.');}}});this.status('מאזינים לטייק…');};
+  $('listen-take').onclick=()=>{
+   if(this.previewing){this.audio.stop();this.previewing=false;this.controls();this.status('ההאזנה נעצרה. אפשר לשמור ולהמשיך.');return;}
+   this.audio.unlock();this.previewing=true;this.controls();this.audio.say(line.id,true,{take:this.draft,preview:true,onEnded:played=>{if(view===this.view){this.previewing=false;this.controls();this.status(played?'אפשר לשמור ולהמשיך, או להקליט מחדש.':'לא הצלחנו להשמיע את ההקלטה. אפשר לנסות שוב.');}}});this.status('מאזינים… אפשר לעצור בכל רגע.');
+  };
   $('accept-take').onclick=async()=>{
-   if(!this.draft?.validation?.hasSignal||!this.listened)return;this.finalizing=true;this.controls();
-   try{const persisted=await this.store.approve(line,{caseId:this.caseId});if(view!==this.view)return;this.draft=this.store.get(line);this.status(persisted?'נשמר ואושר. אפשר להמשיך למשפט הבא.':'אושר לדף הזה בלבד; השמירה במכשיר נכשלה.');this.audio.say(line.id,true,{take:this.draft,preview:true});}
-   catch{if(view===this.view)this.status('הטייק לא עבר את בדיקת השמירה. הקליטו אותו שוב.');}
+   if(!this.draft?.validation?.hasSignal||this.finalizing||this.recorder.recording)return;
+   this.audio.stop();this.previewing=false;this.finalizing=true;this.controls();this.status('שומרים את המשפט במכשיר…');
+   try{
+    const persisted=await this.store.approve(line,{caseId:this.caseId});if(view!==this.view)return;
+    if(persisted){this.finalizing=false;next();if($('record-status'))this.status('✓ המשפט הקודם נשמר במכשיר. אפשר להקליט את המשפט הבא.');return;}
+    this.status('לא הצלחנו לשמור במכשיר. ההקלטה עדיין כאן; לא עברנו למשפט הבא. פנו מקום במכשיר ולחצו שמירה והמשך כדי לנסות שוב.');
+   }catch{if(view===this.view)this.status('ההקלטה לא עברה את בדיקת הצליל. היא נשארה כאן; נסו להאזין או להקליט מחדש.');}
    if(view===this.view){this.finalizing=false;this.updateCoverage();}
   };
   if($('delete-take'))$('delete-take').onclick=async()=>{this.audio.stop();await this.store.delete(line.id);if(view===this.view)this.record(index);};
-  $('exit-draft').onclick=()=>this.allMode?this.allDashboard():this.entry();$('change-voice').onclick=()=>this.allMode?this.allDashboard():this.choose();$('skip-take').onclick=next;$('next-take').onclick=next;
+  $('exit-draft').onclick=()=>this.allMode?this.allDashboard():this.entry();$('change-voice').onclick=()=>this.allMode?this.allDashboard():this.choose();$('skip-take').onclick=next;$('previous-take').onclick=()=>this.record(index-1);
   if(this.allMode)$('play-personal').textContent='להתקדמות כל הדמויות';
   $('play-personal').onclick=()=>this.allMode?this.allDashboard():this.start(this.active);$('play-now').onclick=()=>this.start(null);this.updateCoverage();
  }
