@@ -2,7 +2,15 @@
 
 Live game: https://zoobluff.com
 
-## Current production release — mobile audio, 2026-10-04
+## Current production release — touch highlights, 2026-10-04
+
+Published commit `f01215d` as game release `00be7dd8a916e20c`. Production Worker `bad-critters` is version `d8cdc957-1474-4b56-a005-87f0d0c19f75`; Sandbox is version `8f1cfa15-900c-4add-a024-253cbedab83b`. Live HTTP checks confirmed both endpoints serve the exact tested CSS and input handlers. All 166 protected content hashes remain unchanged.
+
+Reproduced a sticky yellow question highlight after tapping and rerendering a conversation in Playwright WebKit with the iPhone viewport. Button hover styling now requires a hover-capable fine pointer, while keyboard focus remains visible. The overlapping-target picker focuses its container instead of the first choice, with correct forward/backward Tab traversal. Touch map gestures suppress compatibility mouse events that otherwise land on the newly opened layer and steal focus. Actual selected evidence, radio selections and tutorial highlights are retained.
+
+Six focused scenarios passed across mobile Chrome, mobile WebKit and desktop Chrome: repeated questions, optional conversation, returning from inspection, switching characters, investigation questions, neutral picker opening, keyboard navigation and desktop hover. Six existing interaction/tutorial/resume scenarios passed, and the two map-touch/tutorial scenarios were rerun after the pointer-event adjustment and passed. This is browser emulation, not a physical iPhone or Android test. Local before/after screenshots, test results and deployment checks are in `reports/launch-2026-10-04/touch-*`. The prior audio changes remain included.
+
+## Previous production release — mobile audio, 2026-10-04
 
 Published the mobile conversation audio fix from commit `266f7bd` as game release `86099b69e8b35aa5`. Production Worker `bad-critters` is version `bdbdd098-5526-4ea6-b760-4055ca5f3c64`; the isolated `zoobluff-sandbox` is version `e25f0f09-654c-4a92-a45a-029477f473a7`. Both live endpoints were checked against the exact tested JS and audio manifest bytes. Their account protection remains enabled. All 166 protected content files, including the creator recordings, retain their prior hashes.
 
