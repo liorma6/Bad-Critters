@@ -1,4 +1,4 @@
-import {QuickRecorder,microphoneMessage} from '/src/recorder.js';
+import {QuickRecorder,microphoneMessage,recordingSeconds} from '/src/recorder.js';
 import {MicrophonePanel,microphonePanelMarkup} from '/src/microphone-panel.js';
 import {AudioManager} from '/src/audio.js';
 import {portrait,renderPortraits} from '/src/render.js';
@@ -11,7 +11,7 @@ let data,line,draft,characterId,group='all',filter='all',busy=false,recordEnhanc
 const audio=new AudioManager(()=>{}),microphone=new MicrophonePanel();
 $('microphone-panel').innerHTML=microphonePanelMarkup;
 const status=(message,error=false)=>{$('record-status').textContent=message;$('record-status').classList.toggle('error',error);};
-const recorder=new QuickRecorder({onLevel:value=>$('input-level').value=value,onDevices:(...args)=>microphone.setDevices(...args),onDiagnostic:d=>microphone.update(d),onInterrupted:error=>{clearTimeout(recordTimer);busy=false;status(microphoneMessage(error),true);controls();},onSignal:signal=>{if(!signal)status('המיקרופון פתוח, אבל לא זוהה קול. בדקו את הכניסה או נסו שוב.',true);}});
+const recorder=new QuickRecorder({onLimit:()=>stop(),onLevel:value=>$('input-level').value=value,onDevices:(...args)=>microphone.setDevices(...args),onDiagnostic:d=>microphone.update(d),onInterrupted:error=>{clearTimeout(recordTimer);busy=false;status(microphoneMessage(error),true);controls();},onSignal:signal=>{if(!signal)status('המיקרופון פתוח, אבל לא זוהה קול. בדקו את הכניסה או נסו שוב.',true);}});
 microphone.mount(()=>{if(recorder.recording||recorder.busy){clearTimeout(recordTimer);recorder.cancel();busy=false;status('הכניסה השתנתה. לחצו על הקלטה כדי להתחיל מחדש.');controls();}});
 function controls(){
  const capture=recorder.recording;document.body.classList.toggle('busy',busy);
@@ -57,7 +57,7 @@ function render(){
 }
 async function choose(id,{persist=true}={}){
  const ticket=++selection;audio.stop();line=data.lines.find(l=>l.id===id)||null;draft=null;render();
- if(line){try{const candidate=await drafts.get(line.id);if(ticket!==selection)return;if(candidate&&candidate.fingerprint===line.fingerprint&&candidate.performanceKey===line.performanceKey&&candidate.scriptVersion===line.scriptVersion){draft=candidate;status('טייק חדש ממתין לשמירה. אפשר להאזין לו או להקליט מחדש.');}else status(candidate?'נוסח המשפט השתנה מאז הטיוטה. הקליטו את הנוסח המעודכן.':'לחצו על הקלטה כשתהיו מוכנים.');}catch{status('גיבוי הדפדפן אינו זמין. אפשר להקליט ולשמור ישירות בפרויקט.');}}
+ if(line){try{const candidate=await drafts.get(line.id);if(ticket!==selection)return;if(candidate&&candidate.fingerprint===line.fingerprint&&candidate.performanceKey===line.performanceKey&&candidate.scriptVersion===line.scriptVersion){draft=candidate;status('טייק חדש ממתין לשמירה. אפשר להאזין לו או להקליט מחדש.');}else status(candidate?'נוסח המשפט השתנה מאז הטיוטה. הקליטו את הנוסח המעודכן.':`לחצו על הקלטה כשתהיו מוכנים. עד ${recordingSeconds(line.text)} שניות למשפט.`);}catch{status('גיבוי הדפדפן אינו זמין. אפשר להקליט ולשמור ישירות בפרויקט.');}}
  else status('אפשר לעבור לדמות, לתיק או לסינון אחר.');syncTrim();controls();if(persist)await remember();
 }
 async function navigate({character,id,newGroup,newFilter}={}){
@@ -72,7 +72,7 @@ async function refresh(initial=false){
 async function backup(){try{await drafts.put(draft);return true;}catch{return false;}}
 async function record(){
  if(busy||!line)return;busy=true;audio.stop();recordEnhance=$('enhance').checked;controls();status('פותח מיקרופון…');
- try{if(await recorder.start({enhance:false,noiseReduction:$('noise-reduction').checked,autoGainControl:false,deviceId:microphone.deviceId})){status('מקליט… קראו את המשפט ואז לחצו עצירה.');recordTimer=setTimeout(stop,175000);}else busy=false;}
+ try{if(await recorder.start({enhance:false,noiseReduction:$('noise-reduction').checked,autoGainControl:false,deviceId:microphone.deviceId,maxSeconds:recordingSeconds(line.text)})){status('מקליט… קראו את המשפט ואז לחצו עצירה.');recordTimer=setTimeout(stop,175000);}else busy=false;}
  catch(error){busy=false;status(microphoneMessage(error),true);}controls();
 }
 async function stop(){

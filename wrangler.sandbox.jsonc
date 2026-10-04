@@ -1,0 +1,48 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "zoobluff-sandbox",
+  "main": "worker/index.js",
+  "compatibility_date": "2026-09-27",
+  "workers_dev": true,
+  "preview_urls": false,
+  "routes": [],
+  "vars": {
+    "PAID_ENVIRONMENT": "sandbox",
+    "GUMROAD_PRODUCT_ID": "sandbox-disabled",
+    "ACCOUNTS_ENABLED": "true",
+    "AUTH_EMAIL_FROM": "זובלוף — בדיקות <login@boardexperienceengine.com>",
+    "AUTH_DAILY_LIMIT": "5",
+    "AUTH_TURNSTILE_REQUIRED": "true",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFNKQZltEbSgu7iM",
+    "AUTH_ALLOWED_EMAILS": "liorma6@gmail.com,liorma8@walla.com"
+  },
+  "d1_databases": [
+    {
+      "binding": "ACCOUNTS_DB",
+      "database_name": "zoobluff-sandbox-accounts",
+      "database_id": "c73d68ad-c3f3-4378-99f9-3552e9614c5f",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "DUBBING_RATE_LIMITER",
+      "namespace_id": "1002",
+      "simple": {
+        "limit": 20,
+        "period": 60
+      }
+    }
+  ],
+  "assets": {
+    "binding": "ASSETS",
+    "run_worker_first": true,
+    "directory": "./dist",
+    "html_handling": "auto-trailing-slash",
+    "not_found_handling": "none"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
+  }
+}

@@ -7,6 +7,8 @@ dist/
 .wrangler/
 test-results/
 playwright-report/
+# Local QA captures and provider/account diagnostics are not repository source.
+reports/
 .openai/
 audio-review/
 assets/voices/.creator-studio/

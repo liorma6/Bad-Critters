@@ -1,6 +1,7 @@
 import {createPaidCheckout,verifyPaid} from './paid.js';
 import {accountsEnabled,handleAccount} from './accounts.js';
 import {handleAccountPurchase} from './account-purchases.js';
+import {paidConfig,assertPaymentOrigin} from './paid-config.js';
 const COOKIE='zoobluff_dubbing';
 const MAX_AGE=60*60*24*90;
 const RECHECK_MS=6*60*60*1000;
@@ -28,6 +29,7 @@ export function validPurchase(result,productId){
 }
 async function verify(key,env,fetcher){
  if(key.startsWith('ZB1.'))return verifyPaid(key,env,fetcher);
+ if(paidConfig(env).sandbox)return false;
  const response=await fetcher('https://api.gumroad.com/v2/licenses/verify',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({product_id:env.GUMROAD_PRODUCT_ID,license_key:key,increment_uses_count:'false'}),signal:AbortSignal.timeout(10000)});
  if(response.status===429||response.status>=500)throw Error('Provider unavailable');
  const result=await response.json();
@@ -36,6 +38,7 @@ async function verify(key,env,fetcher){
 }
 export async function handleDubbing(request,env,{fetcher=fetch,now=Date.now()}={}){
  const url=new URL(request.url),path=url.pathname;
+ try{assertPaymentOrigin(url.origin,env);}catch{return json({unlocked:false,error:'סביבת התשלום אינה מוגדרת לכתובת הזו.'},503);}
  if(path.startsWith('/api/dubbing/auth/'))return handleAccount(request,env,{fetcher,now});
  if(!['/api/dubbing/access','/api/dubbing/activate','/api/dubbing/checkout'].includes(path))return json({error:'לא נמצא'},404);
  const checkout=path.endsWith('/checkout'),activate=path.endsWith('/activate')||checkout;

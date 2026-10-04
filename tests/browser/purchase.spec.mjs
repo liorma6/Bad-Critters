@@ -3,20 +3,21 @@ import {seedRole,observeSpeech,expectSpeech} from './dubbing-helpers.mjs';
 
 test('recording choices are free; a complete saved role reaches payment only when starting play',async({page})=>{
  let checks=0;await page.route('**/api/dubbing/access',r=>{checks++;return r.fulfill({json:{unlocked:false}});});
- for(const [choice,target]of [['choose-quick','#record-take'],['choose-voice','[data-voice="goat"]'],['choose-all','#use-all']]){
-  await page.goto('/?test-profile=paywall');await page.locator('#start').click();await page.locator('#'+choice).click();await expect(page.locator(target)).toBeVisible();await expect(page.locator('#buy-dubbing')).toHaveCount(0);
+ for(const [choice,target]of [['choose-quick','#record-take'],['choose-voice','[data-voice="goat"]']]){
+  await page.goto('/?test-profile=paywall');await page.locator('#start').click();await expect(page.locator('#choose-all')).toHaveCount(0);await expect(page.locator('#creator-start')).toHaveText('לשחק עם קולות היוצר');await page.locator('#'+choice).click();await expect(page.locator(target)).toBeVisible();await expect(page.locator('#buy-dubbing')).toHaveCount(0);
  }
- expect(checks).toBe(0);
+ expect(checks).toBe(2);
  await page.goto('/?test-profile=paywall');await seedRole(page,{profile:'paywall',characterId:'badger',draft:true});await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();
- for(let i=0;i<5;i++)await page.locator('#accept-take').click();await expect(page.locator('#use-complete')).toBeVisible();expect(checks).toBe(0);
- await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();await page.locator('#use-complete').click();await expect(page.locator('#buy-dubbing')).toBeVisible();await expect(page.locator('#dialog')).toContainText('9.90 ₪');expect(checks).toBe(1);
- await page.locator('#purchase-free').click();await page.locator('#skip-intro').click();await expect(page.locator('#overlay')).toBeHidden();expect(checks).toBe(1);
+ for(let i=0;i<5;i++)await page.locator('#accept-take').click();await expect(page.locator('#use-complete')).toBeVisible();expect(checks).toBe(3);
+ await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();await page.locator('#use-complete').click();await expect(page.locator('#buy-dubbing')).toBeVisible();await expect(page.locator('#dialog')).toContainText('9.90 ₪');expect(checks).toBe(5);
+ await page.locator('#purchase-free').click();await page.locator('#skip-intro').click();await expect(page.locator('#overlay')).toBeHidden();expect(checks).toBe(5);
 });
-test('invalid activation stays locked; a verified purchase unlocks repeat dubbing and survives reload',async({page})=>{
+test('saved purchase restores automatically without exposing codes; invalid purchases stay locked',async({page})=>{
  let unlocked=false;await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked}}));
- await page.route('**/api/dubbing/activate',r=>{unlocked=r.request().postDataJSON().licenseKey==='PURCHASE-FIXTURE';return r.fulfill({status:unlocked?200:403,json:{unlocked,error:'קוד לא תקין'}});});
- await page.goto('/?test-profile=activation&dubbing=activate');await page.getByText('שחזור רכישה וקוד גיבוי',{exact:true}).click();await page.locator('#license-key').fill('WRONG');await page.locator('#activate-license').click();await expect(page.locator('#purchase-status')).toContainText('קוד לא תקין');await expect(page.locator('#record-take')).toHaveCount(0);
- await page.locator('#license-key').fill('PURCHASE-FIXTURE');await page.locator('#activate-license').click();await page.locator('#choose-quick').click();await expect(page.locator('#record-take')).toBeVisible();
+ await page.route('**/api/dubbing/activate',r=>{unlocked=r.request().postDataJSON().licenseKey==='PURCHASE-FIXTURE';return r.fulfill({status:unlocked?200:403,json:{unlocked,error:unlocked?'':'התשלום עדיין לא אושר'}});});
+ await page.goto('/?test-profile=activation');await page.evaluate(()=>localStorage.setItem('zoobluff-paid-purchase-v1',JSON.stringify({recoveryCode:'WRONG'})));
+ await page.goto('/?test-profile=activation&dubbing=activate');await expect(page.locator('#checkout-status')).toContainText('עדיין לא אושר');await expect(page.locator('#record-take')).toHaveCount(0);await expect(page.locator('#license-key, #recovery-code')).toHaveCount(0);
+ await page.evaluate(()=>localStorage.setItem('zoobluff-paid-purchase-v1',JSON.stringify({recoveryCode:'PURCHASE-FIXTURE'})));await page.locator('#check-payment').click();await page.locator('#choose-quick').click();await expect(page.locator('#record-take')).toBeVisible();
  await page.reload();await page.locator('#choose-quick').click();await expect(page.locator('#record-take')).toBeVisible();await expect(page.locator('#buy-dubbing')).toHaveCount(0);
 });
 test('network failure offers retry and free play without erasing a saved take',async({page})=>{
@@ -44,9 +45,10 @@ test('Paid checkout stores the return role; cancellation stays locked and verifi
  let paid=false,creates=0;const code='ZB1.test.recovery';await page.route('**/api/dubbing/access',r=>r.fulfill({json:{unlocked:false}}));
  await page.route('**/api/dubbing/activate',r=>r.fulfill({status:paid?200:403,json:{unlocked:paid,error:paid?'':'התשלום עדיין לא אושר'}}));
  await page.route('**/api/dubbing/checkout',r=>{creates++;return r.fulfill({json:{unlocked:false,price:990,currency:'ILS',recoveryCode:code,checkoutUrl:'https://live.payme.io/sale/generate/SALE1234-12345678-12345678-12345678'}});});
- await page.goto('/?test-profile=paid-return');await seedRole(page,{profile:'paid-return',characterId:'badger'});await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();await page.locator('#use-complete').click();await expect(page.locator('#paid-checkout')).toBeHidden();await page.locator('#buy-dubbing').click();await expect(page.locator('#paid-checkout')).toBeVisible();
- expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('zoobluff-paid-purchase-v1')))).toMatchObject({recoveryCode:code,intent:{caseIndex:0,characterIds:['badger']}});
+ await page.route('https://live.payme.io/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Hosted checkout fixture</h1>'}));
+ await page.goto('/?test-profile=paid-return');await seedRole(page,{profile:'paid-return',characterId:'badger'});await page.reload();await page.locator('#start').click();await page.locator('#choose-quick').click();await page.locator('#use-complete').click();await page.locator('#buy-dubbing').click();await expect(page).toHaveURL(/https:\/\/live.payme.io\/sale\/generate\//);
  await page.goto('/?test-profile=paid-return&dubbing=paid-return&payme_status=success');await expect(page.locator('#checkout-status')).toContainText('עדיין לא אושר');await expect(page.locator('#begin-case')).toHaveCount(0);
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('zoobluff-paid-purchase-v1')))).toMatchObject({recoveryCode:code,intent:{caseIndex:0,characterIds:['badger']}});
  paid=true;await page.locator('#check-payment').click();await expect(page.locator('#begin-case')).toBeVisible();expect(creates).toBe(1);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('neighborhood-test-paid-return')).caseCasting.characterId)).toBe('badger');
 });

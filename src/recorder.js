@@ -1,4 +1,7 @@
 ﻿export const RECORDING_TYPES=['audio/webm;codecs=opus','audio/ogg;codecs=opus','audio/mp4;codecs=mp4a.40.2','audio/mp4','audio/webm'];
+export const MAX_RECORDING_SECONDS=180;
+export const MAX_RECORDING_BYTES=16*1024*1024;
+export const recordingSeconds=text=>Math.min(MAX_RECORDING_SECONDS,Math.max(30,Math.ceil(String(text||'').trim().split(/\s+/).length/1.3*2+15)));
 export function recordingType(Recorder=globalThis.MediaRecorder){return RECORDING_TYPES.find(type=>Recorder?.isTypeSupported?.(type))||'';}
 export function microphoneMessage(error){
  return ({
@@ -53,8 +56,8 @@ export function captureEnvironment(){
   embedded:window.self!==window.top,microphonePolicy:policy?.allowsFeature?policy.allowsFeature('microphone'):'unknown'};
 }
 export class QuickRecorder {
- constructor({onLevel=()=>{},onInterrupted=()=>{},onDiagnostic=()=>{},onSignal=()=>{},onDevices=()=>{}}={}){
-  Object.assign(this,{onLevel,onInterrupted,onDiagnostic,onSignal,onDevices});
+ constructor({onLevel=()=>{},onInterrupted=()=>{},onDiagnostic=()=>{},onSignal=()=>{},onDevices=()=>{},onLimit=null}={}){
+  Object.assign(this,{onLevel,onInterrupted,onDiagnostic,onSignal,onDevices,onLimit});
   this.diagnostics={state:'idle',stage:'idle',bytes:0,rms:0,peakRms:0,error:null};
  }
  get recording(){return this.session?.state==='recording';}
@@ -119,10 +122,11 @@ export class QuickRecorder {
    // Analyser output can stay unconnected. NEVER connect live input to speakers.
    s.stage='recorder';const mimeType=recordingType();s.recorder=new MediaRecorder(output,mimeType?{mimeType}:undefined);
    s.processing={enhance,highpassHz:enhance?85:0,compressorRatio:enhance?2:1,...Object.fromEntries(['echoCancellation','noiseSuppression','autoGainControl'].map(key=>[key,track.getSettings?.()[key]??false]))};
-   s.recorder.ondataavailable=event=>{if(this.session!==s||!event.data.size)return;s.chunks.push(event.data);s.bytes+=event.data.size;this.publish(s,{bytes:s.bytes});};
+   s.recorder.ondataavailable=event=>{if(this.session!==s||!event.data.size)return;if(s.bytes+event.data.size>MAX_RECORDING_BYTES+1024*1024){this.interrupt(failure('RecordingError','size-limit'));return;}s.chunks.push(event.data);s.bytes+=event.data.size;this.publish(s,{bytes:s.bytes});if(s.bytes>=MAX_RECORDING_BYTES)this.limit(s);};
    s.recorder.onerror=event=>{if(this.session===s)this.interrupt(failure('RecordingError','recorder',event.error));};
    s.recorder.onstop=()=>{if(this.session===s&&s.state==='recording')this.interrupt(failure('RecordingError','recorder'));};
    s.recorder.start(200);s.state='recording';s.started=s.lastSignal=performance.now();s.stage='recording';
+   s.limitTimer=setTimeout(()=>this.limit(s),Math.max(1,Math.min(MAX_RECORDING_SECONDS,Number(options.maxSeconds)||MAX_RECORDING_SECONDS))*1000);
    this.publish(s,{state:s.state,stage:s.stage,mimeType:s.recorder.mimeType||mimeType});
    const data=new Float32Array(s.analyser.fftSize);
    const measure=()=>{
@@ -143,7 +147,7 @@ export class QuickRecorder {
   const s=this.session;
   if(s?.state==='finalizing')return s.stopPromise;
   if(!this.recording)return Promise.resolve(null);
-  s.state='finalizing';s.stage='finalizing';clearInterval(s.meterTimer);this.onLevel(0);this.publish(s,{state:s.state,stage:s.stage,rms:0});
+  s.state='finalizing';s.stage='finalizing';clearInterval(s.meterTimer);clearTimeout(s.limitTimer);this.onLevel(0);this.publish(s,{state:s.state,stage:s.stage,rms:0});
   s.stopPromise=new Promise((resolve,reject)=>{
    s.resolve=resolve;s.reject=reject;
    s.stopTimer=setTimeout(()=>{if(this.session===s)this.interrupt(failure('RecordingError','finalizing'));},10000);
@@ -167,6 +171,7 @@ export class QuickRecorder {
   });
   return s.stopPromise;
  }
+ limit(s){if(this.session!==s||s.state!=='recording'||s.limited)return;s.limited=true;Promise.resolve(this.onLimit?this.onLimit():this.stop()).catch(()=>{});}
  fail(s,error){
   const diagnosticError={name:error.name||'Error',stage:error.stage||s.stage,causeName:error.causeName||null,message:microphoneMessage(error)};
   s.state='error';this.release(s);this.publish(s,{state:'error',stage:diagnosticError.stage,error:diagnosticError,rms:0});
@@ -176,7 +181,7 @@ export class QuickRecorder {
  }
  releaseTracks(s){for(const stream of [s.stream,s.processed])stream?.getTracks().forEach(track=>{track.onended=track.onmute=track.onunmute=null;track.stop();});}
  release(s){
-  clearInterval(s.meterTimer);clearTimeout(s.stopTimer);
+  clearInterval(s.meterTimer);clearTimeout(s.stopTimer);clearTimeout(s.limitTimer);
   if(s.recorder){s.recorder.ondataavailable=s.recorder.onstop=s.recorder.onerror=null;try{if(s.recorder.state!=='inactive')s.recorder.stop();}catch{}}
   this.releaseTracks(s);s.nodes.forEach(node=>{try{node.disconnect();}catch{}});s.nodes=[];s.chunks=[];
   if(s.context){s.context.onstatechange=null;if(s.context.state!=='closed')s.context.close().catch(()=>{});}

@@ -12,16 +12,22 @@ test('tutorial freezes case time, requires real lens placement and observation, 
  tutorialEvent(s,'lens-enabled');assert.equal(s.tutorial.step,'lens');s.lens.active=true;tutorialEvent(s,'lens-enabled');assert.equal(s.tutorial.step,'place-lens');tutorialEvent(s,'lens-placed','cat');assert.equal(s.tutorial.step,'place-lens');
  const goat=s.residents.find(r=>r.id==='goat');Object.assign(s.lens,{x:goat.x,y:goat.y,active:true});run(s,2.1);
  assert.equal(s.tutorial.step,'place-lens');tutorialEvent(s,'lens-placed','goat');run(s,2.1);assert.equal(goat.watched,true);assert.equal(s.time,0);assert.equal(s.observations.length,1);assert.equal(s.clues.size,0);assert.equal(guidance(s).action,'notebook');
- tutorialEvent(s,'notebook');assert(!canAdvanceNight(s));tutorialEvent(s,'entry-opened','wrong');assert.equal(s.tutorial.step,'notebook-entry');tutorialEvent(s,'entry-opened','watch-goat');tutorialEvent(s,'notebook-closed');assert(canAdvanceNight(s));night(s);assert.equal(guidance(s).action,'trace');
+ tutorialEvent(s,'notebook');assert(!canAdvanceNight(s));tutorialEvent(s,'entry-opened','wrong');assert.equal(s.tutorial.step,'notebook-entry');tutorialEvent(s,'entry-opened','watch-goat');tutorialEvent(s,'notebook-closed');
+ assert.equal(s.tutorial.step,'prefact');assert.equal(s.lens.active,false);assert.equal(guidance(s).action,'prefact');assert.equal(beginNight(s),false);
+ inspectPreliminary(s,'center');tutorialEvent(s,'prefact','home');assert.equal(s.tutorial.step,'prefact');assert.equal(s.preliminary.length,0);
+ assert(inspectPreliminary(s,'home'));assert.equal(s.tutorial.step,'prefact-return');assert.equal(beginNight(s),false);
+ tutorialEvent(s,'dialog-closed');assert(canAdvanceNight(s));night(s);assert.equal(guidance(s).action,'trace');
  inspect(s,'home');tutorialEvent(s,'evidence','home');assert.equal(s.tutorial.step,'trace-return');tutorialEvent(s,'dialog-closed');assert.equal(guidance(s).action,'witness');
  tutorialEvent(s,'resident','goat');inspect(s,'goat');tutorialEvent(s,'testimony','goat');tutorialEvent(s,'dialog-closed');assert.equal(s.tutorial.step,'done');assert.equal(phaseIndex(s),2);
 });
 test('preliminary facts collected out of tutorial order recover on revisit without duplication',()=>{
  const s=createState();inspectPreliminary(s,'home');
  assert.equal(inspectPreliminary(s,'home'),false);assert.equal(s.tutorial.step,'lens');assert.equal(s.preliminary.length,1);
+ s.tutorial.step='notebook-return';tutorialEvent(s,'notebook-closed');assert.equal(s.tutorial.step,'prefact');assert.equal(canAdvanceNight(s),false);
+ assert.equal(inspectPreliminary(s,'home'),false);assert.equal(s.tutorial.step,'prefact-return');assert.equal(s.preliminary.length,1);tutorialEvent(s,'dialog-closed');assert(canAdvanceNight(s));
 });
 test('skip at every tutorial step preserves setup and allows a complete case',()=>{
- for(const step of ['lens','place-lens','watch','notebook-before','notebook-entry','notebook-return','advance','trace','trace-return','witness','ask-witness','witness-return']){
+ for(const step of ['lens','place-lens','watch','notebook-before','notebook-entry','notebook-return','prefact','prefact-return','advance','trace','trace-return','witness','ask-witness','witness-return']){
   const s=createState();s.tutorial.step=step;skipTutorial(s);night(s);
   for(const c of s.case.clues)inspect(s,c.location);
   assert(evaluate(s,s.case.culprit,s.case.proofGroups.map(g=>g.find(id=>s.clues.has(id)))).ok);

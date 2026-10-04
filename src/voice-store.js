@@ -17,16 +17,25 @@ export async function validateRecording(blob){
 }
 export class VoiceStore {
  constructor({name='neighborhood-personal-voices-v1',indexedDB=globalThis.indexedDB,onWarning=()=>{},validateBlob=validateRecording}={}){
-  Object.assign(this,{name,indexedDB,onWarning,validateBlob});this.takes=new Map();this.sets=new Map();this.db=null;this.ready=this.load();
+  Object.assign(this,{name,indexedDB,onWarning,validateBlob});this.takes=new Map();this.drafts=new Map();this.sets=new Map();this.db=null;this.ready=this.load();
  }
  warn(){this.onWarning('שמירת ההקלטות אינה זמינה. הטיוטה זמינה עד סגירת הדף בלבד.');}
  async load(){
   try{
    if(!this.indexedDB)throw Error('IndexedDB unavailable');
    this.db=await new Promise((resolve,reject)=>{
-    const request=this.indexedDB.open(this.name,2);let expired=false;
+    const request=this.indexedDB.open(this.name,3);let expired=false;
     const timeout=setTimeout(()=>{expired=true;reject(Error('Storage open timed out'));},3000);
-    request.onupgradeneeded=()=>{if(!request.result.objectStoreNames.contains('takes'))request.result.createObjectStore('takes',{keyPath:'lineId'});if(!request.result.objectStoreNames.contains('sets'))request.result.createObjectStore('sets',{keyPath:'setId'});};
+    request.onupgradeneeded=()=>{
+     if(!request.result.objectStoreNames.contains('takes'))request.result.createObjectStore('takes',{keyPath:'lineId'});
+     if(!request.result.objectStoreNames.contains('sets'))request.result.createObjectStore('sets',{keyPath:'setId'});
+     if(!request.result.objectStoreNames.contains('drafts'))request.result.createObjectStore('drafts',{keyPath:'lineId'});
+     const cursor=request.transaction.objectStore('takes').openCursor();
+     cursor.onsuccess=()=>{const row=cursor.result;if(!row)return;
+      // Moving existing unapproved takes is part of the same upgrade transaction.
+      if(row.value.reviewed===false){request.transaction.objectStore('drafts').put(row.value);row.delete();}row.continue();
+     };
+    };
     request.onsuccess=()=>{clearTimeout(timeout);if(expired){request.result.close();return;}resolve(request.result);};
     request.onerror=()=>{clearTimeout(timeout);reject(request.error);};request.onblocked=()=>{clearTimeout(timeout);expired=true;reject(Error('Storage blocked'));};
    });
@@ -42,6 +51,7 @@ export class VoiceStore {
     }
     this.takes.set(row.lineId,row);
    }
+   for(const row of await this.transaction('readonly',s=>s.getAll(),'drafts'))this.drafts.set(row.lineId,row);
    for(const set of await this.transaction('readonly',s=>s.getAll(),'sets')){
     if(set.status==='complete'&&!this.coverage(set.caseId,set.characterId).complete){set.status='draft';await this.transaction('readwrite',s=>s.put(set),'sets');}
     this.sets.set(set.setId,set);
@@ -53,12 +63,13 @@ export class VoiceStore {
   tx.oncomplete=()=>resolve(request.result);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||Error('Storage aborted'));
  });}
  get(line){const take=this.takes.get(line?.id);return compatibleTake(take,line)?take:null;}
- draft(line){const take=this.takes.get(line?.id);return compatibleIdentity(take,line)?take:null;}
+ draft(line){const take=this.drafts.get(line?.id)||this.takes.get(line?.id);return compatibleIdentity(take,line)?take:null;}
+ hasDraft(line){return compatibleIdentity(this.drafts.get(line?.id),line);}
  outdated(line){const take=this.takes.get(line?.id);return !!take&&!compatibleIdentity(take,line);}
  count(characterId,caseId){return (caseId?requiredLines(caseId,characterId):VOICES.filter(l=>l.resident===characterId)).filter(line=>this.get(line)).length;}
  coverage(caseId,characterId){
   const lines=requiredLines(caseId,characterId),recorded=lines.filter(l=>{const t=this.draft(l);return t?.validity==='valid'&&t.validation?.hasSignal;}),approved=lines.filter(l=>this.get(l));
-  return {total:lines.length,recorded:recorded.length,approved:approved.length,newCount:lines.length-recorded.length,rerecordCount:lines.filter(l=>this.outdated(l)).length,reviewCount:recorded.length-approved.length,complete:lines.length>0&&approved.length===lines.length,missing:lines.filter(l=>!this.get(l)).map(l=>l.id)};
+  return {total:lines.length,recorded:recorded.length,approved:approved.length,newCount:lines.length-recorded.length,rerecordCount:lines.filter(l=>this.outdated(l)).length,reviewCount:recorded.filter(l=>this.hasDraft(l)||!this.get(l)).length,complete:lines.length>0&&approved.length===lines.length,missing:lines.filter(l=>!this.get(l)).map(l=>l.id)};
  }
  async persist(record){try{if(!this.db)throw Error('No database');await this.transaction('readwrite',s=>s.put(record));return true;}catch{this.warn();return false;}}
  async writeTake(line,take,reviewed,{caseId,requirePersistence=false}={}){
@@ -66,10 +77,11 @@ export class VoiceStore {
   const validation=take.validation?.hasSignal?take.validation:await this.validateBlob(take.blob);
   const record={characterId:line.resident,lineId:line.id,scriptVersion:line.scriptVersion,fingerprint:line.fingerprint,performanceKey:line.performanceKey,mimeType:take.blob.type||take.mimeType,processing:take.processing,validation,duration:validation.duration||take.duration,blob:take.blob,validity:'valid',reviewed,updatedAt:new Date().toISOString(),acceptedAt:reviewed?new Date().toISOString():null};
   if(!compatibleIdentity(record,line))throw Error('Invalid recording');
-  const persisted=await this.persist(record);
+  let persisted=false;
+  try{await this.atomicTakes((takes,drafts)=>{if(reviewed){takes.put(record);drafts.delete(line.id);}else drafts.put(record);});persisted=true;}catch{this.warn();}
   // An explicit Save must not approve an in-memory-only take or report success.
   if(requirePersistence&&!persisted)return false;
-  this.takes.set(line.id,record);
+  (reviewed?this.takes:this.drafts).set(line.id,record);if(reviewed)this.drafts.delete(line.id);
   if(caseId)await this.checkpoint(caseId,line.resident);
   for(const set of this.sets.values())if(set.characterId===line.resident&&set.caseId!==caseId)await this.checkpoint(set.caseId,line.resident,set.lastLineId);
   return persisted;
@@ -101,9 +113,24 @@ export class VoiceStore {
   await this.checkpoint(caseId,characterId);return this.coverage(caseId,characterId).complete;
  }
  async markPlaybackFailure(line){
-  const take=this.draft(line);if(!take)return;take.validity='playback-failed';take.reviewed=false;await this.persist(take);
+  const take=this.get(line);if(!take)return;take.validity='playback-failed';take.reviewed=false;await this.persist(take);
   for(const set of this.sets.values())if(set.requirements.some(l=>l.lineId===line.id))await this.checkpoint(set.caseId,set.characterId);
  }
- async delete(lineId){await this.ready;this.takes.delete(lineId);let persisted=true;try{if(!this.db)throw Error('No database');await this.transaction('readwrite',s=>s.delete(lineId));}catch{this.warn();persisted=false;}for(const set of this.sets.values())if(set.requirements.some(l=>l.lineId===lineId))await this.checkpoint(set.caseId,set.characterId);return persisted;}
- async deleteCharacter(characterId){for(const [id,take]of this.takes)if(take.characterId===characterId)await this.delete(id);}
+ atomicTakes(operation){return new Promise((resolve,reject)=>{
+  if(!this.db){reject(Error('No database'));return;}
+  const tx=this.db.transaction(['takes','drafts'],'readwrite');
+  tx.oncomplete=()=>resolve(true);tx.onerror=()=>reject(tx.error);tx.onabort=()=>reject(tx.error||Error('Storage aborted'));
+  try{operation(tx.objectStore('takes'),tx.objectStore('drafts'));}catch(error){tx.abort();reject(error);}
+ });}
+ async discardDraft(lineId){await this.ready;try{await this.atomicTakes((takes,drafts)=>drafts.delete(lineId));}catch{return false;}this.drafts.delete(lineId);return true;}
+ async delete(lineId){
+  await this.ready;try{await this.atomicTakes((takes,drafts)=>{takes.delete(lineId);drafts.delete(lineId);});}catch{return false;}
+  this.takes.delete(lineId);this.drafts.delete(lineId);
+  for(const set of this.sets.values())if(set.requirements.some(l=>l.lineId===lineId))await this.checkpoint(set.caseId,set.characterId);return true;
+ }
+ async deleteCharacter(characterId){
+  await this.ready;const ids=[...new Set([...this.takes,...this.drafts].filter(([,take])=>take.characterId===characterId).map(([id])=>id))];
+  try{await this.atomicTakes((takes,drafts)=>{for(const id of ids){takes.delete(id);drafts.delete(id);}});}catch{return false;}
+  for(const id of ids){this.takes.delete(id);this.drafts.delete(id);}for(const set of this.sets.values())if(set.characterId===characterId)await this.checkpoint(set.caseId,characterId);return true;
+ }
 }

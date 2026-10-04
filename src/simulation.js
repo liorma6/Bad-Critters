@@ -18,9 +18,9 @@ export function beginNight(s){
 export function acknowledgeCrime(s){if(s.flow!=='discovery')return false;s.flow='investigate';if(s.tutorial.enabled)s.tutorial.step='trace';return true;}
 export function inspectPreliminary(s,id){
  if(s.flow!=='observe'||id!==s.case.preLocation)return false;
- if(s.preliminary.length){tutorialEvent(s,'prefact');return false;}
+ if(s.preliminary.length){tutorialEvent(s,'prefact',id);return false;}
  const entry={id:`pre-${s.case.id}`,title:'הרישום שלפני האירוע',text:s.case.preFact,location:id,kind:'observation',time:timeLabel(s)};
- s.preliminary.push(entry);s.unread.add(entry.id);s.lastFinding={id:entry.id,title:entry.title};record(s,`תצפית נוספה למחברת: ${entry.title}`,'evidence');tutorialEvent(s,'prefact');return true;
+ s.preliminary.push(entry);s.unread.add(entry.id);s.lastFinding={id:entry.id,title:entry.title};record(s,`תצפית נוספה למחברת: ${entry.title}`,'evidence');tutorialEvent(s,'prefact',id);return true;
 }
 export function record(s,text,kind='observation',time){s.events.unshift({text,kind,time:time||timeLabel(s),id:++s.serial});if(s.events.length>100)s.events.pop();}
 export function discover(s,id){const clue=s.case.clues.find(c=>c.id===id);if(!clue||s.clues.has(id))return false;s.clues.add(id);s.unread.add(id);s.lastFinding={id,title:clue.title};record(s,`${clue.kind==='testimony'?'עדות נרשמה':'ממצא נרשם'}: ${clue.title}`,'evidence',clue.time);return true;}

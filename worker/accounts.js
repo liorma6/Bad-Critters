@@ -1,4 +1,7 @@
 import {randomToken,digest,keyedDigest,encrypt,decrypt} from './account-crypto.js';
+import {paidConfig,SANDBOX_ORIGIN} from './paid-config.js';
+import {readJson} from './request-body.js';
+import {verifyHuman,authMetric,mailDailyLimit} from './auth-protection.js';
 const COOKIE='zoobluff_account';
 const SESSION_MS=30*24*60*60*1000;
 const CODE_MS=10*60*1000;
@@ -29,10 +32,11 @@ function loginCode(){
  return String(value%1000000).padStart(6,'0');
 }
 async function sendCode(email,code,challengeId,env,fetcher){
+ const sandbox=paidConfig(env).sandbox,site=sandbox?new URL(SANDBOX_ORIGIN).host:'zoobluff.com',title=sandbox?'כניסה לזובלוף — סביבת בדיקות':'כניסה לזובלוף';
  const response=await fetcher('https://api.resend.com/emails',{method:'POST',headers:{Authorization:`Bearer ${env.RESEND_API_KEY}`,'Content-Type':'application/json','Idempotency-Key':`login/${challengeId}`},signal:AbortSignal.timeout(10000),body:JSON.stringify({
-  from:env.AUTH_EMAIL_FROM,to:[email],subject:'קוד הכניסה שלך לזובלוף',
-  text:`קוד הכניסה שלך לזובלוף: ${code}\nהקוד תקף ל־10 דקות ולשימוש אחד. הקלידו אותו רק באתר zoobluff.com. אם לא ביקשתם להתחבר, אפשר להתעלם מההודעה. אין למסור את הקוד לאדם אחר.`,
-  html:`<div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.8"><h1>כניסה לזובלוף</h1><p>קוד הכניסה שלך:</p><p dir="ltr" style="font-size:32px;letter-spacing:8px;font-weight:bold">${code}</p><p>הקוד תקף ל־10 דקות ולשימוש אחד. הקלידו אותו רק באתר zoobluff.com.</p><p>אם לא ביקשתם להתחבר, אפשר להתעלם מההודעה. אין למסור את הקוד לאדם אחר.</p></div>`,
+  from:env.AUTH_EMAIL_FROM,to:[email],subject:sandbox?'קוד הכניסה לזובלוף — סביבת בדיקות':'קוד הכניסה שלך לזובלוף',
+  text:`קוד הכניסה שלך לזובלוף${sandbox?' — סביבת בדיקות':''}: ${code}\nהקוד תקף ל־10 דקות ולשימוש אחד. הקלידו אותו רק באתר ${site}. אם לא ביקשתם להתחבר, אפשר להתעלם מההודעה. אין למסור את הקוד לאדם אחר.`,
+  html:`<div dir="rtl" style="font-family:Arial,sans-serif;line-height:1.8"><h1>${title}</h1><p>קוד הכניסה שלך:</p><p dir="ltr" style="font-size:32px;letter-spacing:8px;font-weight:bold">${code}</p><p>הקוד תקף ל־10 דקות ולשימוש אחד. הקלידו אותו רק באתר ${site}.</p><p>אם לא ביקשתם להתחבר, אפשר להתעלם מההודעה. אין למסור את הקוד לאדם אחר.</p></div>`,
  })});
  const result=await response.json();if(!response.ok||!result.id)throw Error('Email delivery failed');
 }
@@ -45,7 +49,7 @@ export async function handleAccount(request,env,{fetcher=fetch,now=Date.now()}={
  if(action==='session'&&!accountsEnabled(env))return json({enabled:false,authenticated:false});
  if(!configured(env))return json({enabled:accountsEnabled(env),error:'ההתחברות במייל אינה זמינה כרגע. נסו שוב מאוחר יותר.'},503);
  try{
-  if(action==='session'){const account=await accountSession(request,env,now);return json({enabled:true,authenticated:!!account,...(account?{email:account.email}:{})});}
+  if(action==='session'){const account=await accountSession(request,env,now);return json({enabled:true,authenticated:!!account,turnstileSiteKey:env.AUTH_TURNSTILE_REQUIRED==='true'?env.TURNSTILE_SITE_KEY||null:null,botProtectionRequired:env.AUTH_TURNSTILE_REQUIRED==='true',...(account?{email:account.email}:{})});}
   if(env.DUBBING_RATE_LIMITER&&!((await env.DUBBING_RATE_LIMITER.limit({key:`auth:${request.headers.get('CF-Connecting-IP')||'unknown'}`})).success))return json({error:'יותר מדי ניסיונות. נסו שוב בעוד דקה.'},429);
   if(action==='logout'){
    await env.ACCOUNTS_DB.prepare('DELETE FROM auth_sessions WHERE token_hash=?').bind(await digest(tokenFrom(request))).run();
@@ -53,13 +57,20 @@ export async function handleAccount(request,env,{fetcher=fetch,now=Date.now()}={
    const response=json({authenticated:false});for(const value of headers.getSetCookie())response.headers.append('Set-Cookie',value);return response;
   }
   if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'בקשה לא תקינה'},400);
-  let input;try{const raw=await request.text();if(raw.length>1200)throw Error();input=JSON.parse(raw);if(!input||typeof input!=='object'||Array.isArray(input))throw Error();}catch{return json({error:'בקשה לא תקינה'},400);}
+  let input;try{input=await readJson(request);}catch{return json({error:'בקשה לא תקינה'},400);}
   if(action==='request'){
    const email=normalizeEmail(input.email);if(!email)return json({error:'הזינו כתובת מייל תקינה.'},400);
+   if(paidConfig(env).sandbox&&env.AUTH_ALLOWED_EMAILS&&!env.AUTH_ALLOWED_EMAILS.split(',').map(s=>s.trim().toLowerCase()).includes(email))return json({error:'סביבת הבדיקות פתוחה כרגע רק לכתובות הבדיקה שאושרו.'},403);
    const accountId=await emailIdentity(email,env),ip=await keyedDigest(`ip:${request.headers.get('CF-Connecting-IP')||'unknown'}`,env);
-   if(!await reserveLimit(`ip:${ip}`,20,60*60*1000,0,env,now)||!await reserveLimit(`email:${accountId}`,5,60*60*1000,60000,env,now)||!await reserveLimit(`mail:${Math.floor(now/86400000)}`,90,86400000,0,env,now))return json({error:'הגענו למגבלת שליחת הקודים. המתינו לפני ניסיון נוסף.'},429);
+   const requestId=typeof input.requestId==='string'&&/^[a-zA-Z0-9-]{20,80}$/.test(input.requestId)?await keyedDigest(`request:${accountId}:${ip}:${input.requestId}`,env):null;
+   if(requestId){const previous=await env.ACCOUNTS_DB.prepare('SELECT r.challenge_id,r.sent FROM auth_requests r JOIN auth_challenges c ON c.id=r.challenge_id WHERE r.id=? AND r.expires_at>? AND c.used_at IS NULL AND c.attempts<5').bind(requestId,now).first();if(previous)return previous.sent?json({sent:true,challengeId:previous.challenge_id,expiresIn:CODE_MS/1000,reused:true}):json({error:'שליחת הקוד הקודמת עדיין נבדקת. המתינו דקה ונסו שוב.',retryAfter:60},429);}
+   if(!await reserveLimit(`ip:${ip}`,20,60*60*1000,0,env,now)){await authMetric(env,'source_limited',now);return json({error:'יותר מדי ניסיונות. המתינו כמה דקות ונסו שוב.',retryAfter:60},429);}
+   if(!await verifyHuman(request,input,env,fetcher)){await authMetric(env,'bot_rejected',now);return json({error:'אימות האבטחה לא הושלם. נסו שוב מתוך המשחק.'},403);}
+   const limit=mailDailyLimit(env),mailId=`mail:${Math.floor(now/86400000)}`;
+   if(!await reserveLimit(`email:${accountId}`,5,60*60*1000,60000,env,now)||!await reserveLimit(mailId,limit,86400000,0,env,now)){await authMetric(env,'mail_limited',now);return json({error:'לא ניתן לשלוח קוד נוסף כרגע. אם כבר ביקשתם קוד, בדקו גם בספאם; אחרת נסו שוב מאוחר יותר.',retryAfter:60},429);}
    const challengeId=randomToken(),code=loginCode(),emailCipher=await encrypt(email,'email',env);
    await env.ACCOUNTS_DB.prepare('INSERT INTO auth_challenges(id,account_id,email_cipher,code_hash,expires_at) VALUES(?,?,?,?,?)').bind(challengeId,accountId,emailCipher,await keyedDigest(`otp:${challengeId}:${code}`,env),now+CODE_MS).run();
+   if(requestId)await env.ACCOUNTS_DB.prepare('INSERT INTO auth_requests(id,account_id,challenge_id,expires_at) VALUES(?,?,?,?) ON CONFLICT(id) DO UPDATE SET challenge_id=excluded.challenge_id,expires_at=excluded.expires_at,sent=0').bind(requestId,accountId,challengeId,now+60000).run();
    await sendCode(email,code,challengeId,env,fetcher);
    await env.ACCOUNTS_DB.batch([
     env.ACCOUNTS_DB.prepare('UPDATE auth_challenges SET sent=1 WHERE id=?').bind(challengeId),
@@ -67,6 +78,10 @@ export async function handleAccount(request,env,{fetcher=fetch,now=Date.now()}={
     env.ACCOUNTS_DB.prepare('DELETE FROM auth_sessions WHERE token_hash IN (SELECT token_hash FROM auth_sessions WHERE expires_at<? LIMIT 100)').bind(now),
     env.ACCOUNTS_DB.prepare('DELETE FROM auth_limits WHERE id IN (SELECT id FROM auth_limits WHERE reset_at<? LIMIT 100)').bind(now-86400000),
    ]);
+   if(requestId)await env.ACCOUNTS_DB.prepare('UPDATE auth_requests SET sent=1,expires_at=? WHERE id=?').bind(now+CODE_MS,requestId).run();
+   await authMetric(env,'sent',now);
+   const usage=await env.ACCOUNTS_DB.prepare('SELECT count FROM auth_limits WHERE id=?').bind(mailId).first();
+   if(usage?.count>=Math.floor(limit*.8)){await authMetric(env,'near_limit',now);console.warn(JSON.stringify({event:'auth_mail_near_limit',count:usage.count,limit,sandbox:paidConfig(env).sandbox}));}
    // The same response is used for new users and existing purchasers.
    return json({sent:true,challengeId,expiresIn:CODE_MS/1000});
   }
@@ -81,5 +96,5 @@ export async function handleAccount(request,env,{fetcher=fetch,now=Date.now()}={
    env.ACCOUNTS_DB.prepare('INSERT INTO auth_sessions(token_hash,account_id,expires_at) VALUES(?,?,?)').bind(await digest(token),challenge.account_id,now+SESSION_MS),
   ]);
   return json({authenticated:true,email:await decrypt(challenge.email_cipher,'email',env)},200,{'Set-Cookie':sessionCookie(request,token)});
- }catch{return json({error:'לא הצלחנו להשלים את ההתחברות כרגע. נסו שוב; ההקלטות נשארות במכשיר.'},503);}
+ }catch{await authMetric(env,'provider_or_storage_error',now);console.warn(JSON.stringify({event:'auth_provider_or_storage_error',sandbox:paidConfig(env).sandbox}));return json({error:'לא הצלחנו להשלים את ההתחברות כרגע. נסו שוב; ההקלטות נשארות במכשיר.'},503);}
 }

@@ -11,7 +11,9 @@ export function tutorialEvent(s,event,id){
  else if(t.step==='watch'&&event==='watched'&&s.observations?.some(o=>o.id===t.observationId))t.step='notebook-before';
  else if(t.step==='notebook-before'&&event==='notebook')t.step='notebook-entry';
  else if(t.step==='notebook-entry'&&event==='entry-opened'&&id===t.observationId)t.step='notebook-return';
- else if(t.step==='notebook-return'&&event==='notebook-closed'){t.step='advance';s.lens.active=false;}
+ else if(t.step==='notebook-return'&&event==='notebook-closed'){t.step='prefact';s.lens.active=false;}
+ else if(t.step==='prefact'&&event==='prefact'&&id===s.case.preLocation&&s.preliminary.some(entry=>entry.location===id))t.step='prefact-return';
+ else if(t.step==='prefact-return'&&event==='dialog-closed')t.step='advance';
  else if(t.step==='trace'&&event==='evidence'&&id===s.case.source)t.step='trace-return';
  else if(t.step==='trace-return'&&event==='dialog-closed')t.step='witness';
  else if(t.step==='witness'&&event==='resident'&&id==='goat')t.step='ask-witness';
@@ -19,7 +21,7 @@ export function tutorialEvent(s,event,id){
  else if(t.step==='witness-return'&&event==='dialog-closed')t.step='done';
 }
 export function skipTutorial(s){s.tutorial.enabled=false;s.tutorial.step='done';s.lens.active=false;for(const r of s.residents)r.watched=false;}
-export const canAdvanceNight=s=>s.flow==='observe'&&(!s.tutorial.enabled||['advance','done'].includes(s.tutorial.step));
+export const canAdvanceNight=s=>s.flow==='observe'&&(!s.tutorial.enabled||s.tutorial.step==='done'||s.tutorial.step==='advance'&&s.preliminary.some(entry=>entry.location===s.case.preLocation));
 export const accusationRequirements=s=>s.reconstructing?'השחזור פועל. בסיומו יוצגו התוצאה והתיק הבא.':s.solved?'התיק כבר פוענח. אפשר לבחור תיק נוסף או לשחק שוב.':!s.crimeDone?'קודם עוברים ללילה ומגלים מה קרה.':s.clues.size<4?`נדרשות ארבע ראיות. כרגע אספתם ${s.clues.size}; בדקו עוד מקום או שאלו שכן.`:'';
 export function phaseIndex(s){return s.solved||s.reconstructing?4:s.flow==='accuse'?3:['discovery','investigate'].includes(s.flow)?2:s.flow==='night'?1:0;}
 export function guidance(s){
@@ -37,6 +39,8 @@ export function guidance(s){
    'notebook-before':{text:'ירחמיאל הסתיר את הפנקס. פתחו את מחברת החקירה.',action:'notebook',label:'לפתוח את המחברת',detail:'התצפית מתעדת את מה שראיתם; היא אינה קובעת מי אשם.'},
    'notebook-entry':{text:'פתחו את הרשומה החדשה כדי לקרוא מה נצפה.',action:'none',label:'התצפית במחברת',detail:'כאן נשמרים פרטים שמצאתם בשכונה.'},
    'notebook-return':{text:'לחצו על חזרה לשכונה כדי להמשיך לצפות.',action:'none',label:'חזרה לשכונה',detail:'אפשר לחזור למחברת בכל רגע.'},
+   prefact:{text:'בדקו את ההודעה בכניסה לבית. לחצו על סמל ההודעה המודגש.',action:'prefact',label:'לבדוק את ההודעה בכניסה',target:{type:'location',id:s.case.preLocation},detail:'קודם קוראים את ההודעה. אחר כך תוכלו לבחור מתי לסיים את התצפית.'},
+   'prefact-return':{text:'קראו את ההודעה, ואז לחצו על ״חזרה לשכונה״.',action:'none',label:'קריאת ההודעה בכניסה',detail:'ההודעה נשמרה במחברת. בחזרה לשכונה תוכלו להמשיך לצפות או לעבור ללילה.'},
    advance:{text:'אפשר להמשיך לצפות בשכנים. כשתהיו מוכנים להתקדם, לחצו כאן כדי לעבור ללילה.',action:'night',label:'סיום התצפית · מעבר ללילה',detail:'אתם עדיין בשלב התצפית. המעבר ללילה הוא לבחירתכם.'},
    trace:{text:'בדקו את הכניסה המפויחת — הנצנוץ מסמן ממצא.',action:'trace',label:'לבדוק את הבית שנשרף',target:{type:'location',id:'home'},detail:'ממצאים נשארים זמינים גם אם לא ראיתם את האירוע.'},
    witness:{text:'ירחמיאל היה ברחוב. שאלו אותו מה ראה בזמן האירוע.',action:'witness',label:'לשאול את ירחמיאל',target:{type:'resident',id:'goat'},detail:'עדות היא גרסה של שכן. כדאי להשוות אותה לממצאים.'},

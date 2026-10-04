@@ -4,16 +4,19 @@ import {DatabaseSync} from 'node:sqlite';
 import {readFileSync} from 'node:fs';
 import {handleDubbing} from '../worker/dubbing.js';
 import {PAID_PRODUCT} from '../worker/paid.js';
+import {paidConfig,SANDBOX_ORIGIN} from '../worker/paid-config.js';
 const origin='https://zoobluff.com';
 const start=1800000000000;
 function database(){
- const sqlite=new DatabaseSync(':memory:');sqlite.exec('PRAGMA foreign_keys=ON;'+readFileSync(new URL('../migrations/0001_accounts.sql',import.meta.url),'utf8'));
+ const sqlite=new DatabaseSync(':memory:');sqlite.exec('PRAGMA foreign_keys=ON;'+readFileSync(new URL('../migrations/0001_accounts.sql',import.meta.url),'utf8')+readFileSync(new URL('../migrations/0002_launch_safety.sql',import.meta.url),'utf8'));
  const prepare=(sql,args=[])=>({bind(...values){return prepare(sql,values);},async first(){return sqlite.prepare(sql).get(...args)||null;},async all(){return {results:sqlite.prepare(sql).all(...args)};},async run(){return {meta:sqlite.prepare(sql).run(...args)};}});
  return {sqlite,prepare,async batch(statements){sqlite.exec('BEGIN');try{const result=[];for(const s of statements)result.push(await s.run());sqlite.exec('COMMIT');return result;}catch(error){sqlite.exec('ROLLBACK');throw error;}}};
 }
-function fixture(t){
+export function fixture(t,{sandbox=false}={}){
  const db=database();t.after(()=>db.sqlite.close());
  const env={ACCOUNTS_ENABLED:'true',ACCOUNTS_DB:db,RESEND_API_KEY:'test-only-mail-key',AUTH_EMAIL_FROM:'Zoobluff <login@example.test>',PAID_SELLER_ID:'test-seller',GUMROAD_PRODUCT_ID:'test-product',DUBBING_SESSION_SECRET:'test-only-secret-with-at-least-32-characters'};
+ if(sandbox){delete env.PAID_SELLER_ID;Object.assign(env,{PAID_ENVIRONMENT:'sandbox',PAID_SANDBOX_SELLER_ID:'sandbox-seller',DUBBING_SESSION_SECRET:env.DUBBING_SESSION_SECRET+'-sandbox'});}
+ const config=paidConfig(env),siteOrigin=sandbox?SANDBOX_ORIGIN:origin;
  const state={now:start,mails:[],sales:[],emailFailure:false,providerFailure:false,creates:0};
  const fetcher=async(url,options)=>{
   if(url==='https://api.gumroad.com/v2/licenses/verify')return Response.json(state.gumroad||{success:false});
@@ -23,16 +26,17 @@ function fixture(t){
    return state.emailFailure?Response.json({error:'failure'},{status:503}):Response.json({id:'mail-id'});
   }
   if(state.providerFailure)return Response.json({status_code:1},{status:503});
-  assert.equal(body.seller_payme_id,env.PAID_SELLER_ID);
+  assert.equal(body.seller_payme_id,config.seller);
   if(url.endsWith('/generate-sale')){
    state.creates++;assert.equal(body.sale_price,990);assert.equal(body.currency,'ILS');assert.equal(body.installments,'1');
-   const id='SALE'+crypto.randomUUID().toUpperCase();state.sales.push({seller_payme_id:env.PAID_SELLER_ID,sale_payme_id:id,transaction_id:body.transaction_id,sale_status:'initial',sale_type:1,sale_price:990,sale_currency:'ILS',sale_description:PAID_PRODUCT,sale_installments:1,sale_buyer_details:{buyer_email:'payer@example.test'}});
-   return Response.json({status_code:0,price:990,currency:'ILS',payme_sale_id:id,transaction_id:body.transaction_id,sale_url:`https://live.payme.io/sale/generate/${id}`});
+   assert.equal(url,config.origin+'/api/generate-sale');assert.equal(body.sale_return_url,siteOrigin+'/?dubbing=paid-return');
+   const id='SALE'+crypto.randomUUID().toUpperCase();state.sales.push({seller_payme_id:config.seller,sale_payme_id:id,transaction_id:body.transaction_id,sale_status:'initial',sale_type:1,sale_price:990,sale_currency:'ILS',sale_description:PAID_PRODUCT,sale_installments:1,sale_buyer_details:{buyer_email:'payer@example.test'}});
+   return Response.json({status_code:0,price:990,currency:'ILS',payme_sale_id:id,transaction_id:body.transaction_id,sale_url:`${config.origin}/sale/generate/${id}`});
   }
-  assert.equal(url,'https://live.payme.io/api/get-sales');assert.equal(body.sale_status,'completed');
+  assert.equal(url,config.origin+'/api/get-sales');assert([undefined,'completed'].includes(body.sale_status));
   return Response.json({status_code:0,items:state.sales.filter(s=>(!body.sale_payme_id||s.sale_payme_id===body.sale_payme_id)&&(!body.buyer_email||s.sale_buyer_details.buyer_email===body.buyer_email))});
  };
- const call=(action,body,cookie='',headers={})=>handleDubbing(new Request(`${origin}/api/dubbing/${action}`,{method:body===undefined?'GET':'POST',headers:{Origin:origin,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{}),...headers},...(body===undefined?{}:{body:JSON.stringify(body)})}),env,{fetcher,now:state.now});
+ const call=(action,body,cookie='',headers={})=>handleDubbing(new Request(`${siteOrigin}/api/dubbing/${action}`,{method:body===undefined?'GET':'POST',headers:{Origin:siteOrigin,'Content-Type':'application/json',...(cookie?{Cookie:cookie}:{}),...headers},...(body===undefined?{}:{body:JSON.stringify(body)})}),env,{fetcher,now:state.now});
  async function request(email){const response=await call('auth/request',{email});assert.equal(response.status,200);const result=await response.json();return {...result,code:state.mails.at(-1).text.match(/\d{6}/)[0]};}
  async function login(email){const challenge=await request(email);const response=await call('auth/verify',{challengeId:challenge.challengeId,code:challenge.code});assert.equal(response.status,200);const cookie=response.headers.get('Set-Cookie');assert.match(cookie,/HttpOnly/);assert.match(cookie,/Secure/);assert.match(cookie,/SameSite=Lax/);return cookie.split(';')[0];}
  return {db,env,state,call,request,login,fetcher};
@@ -105,7 +109,7 @@ test('provider outages fail closed after cache expiry, then refunds revoke acces
 test('concurrent checkout requests expose one persisted order and forged session cookies do not work',async t=>{
  const f=fixture(t),cookie=await f.login('buyer@example.test');
  const results=await Promise.all([f.call('checkout',{},cookie),f.call('checkout',{},cookie)]);const orders=await Promise.all(results.map(r=>r.json()));
- assert.equal(orders[0].checkoutUrl,orders[1].checkoutUrl);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM purchase_orders').get().n,1);
+ assert.equal(orders.filter(o=>o.checkoutUrl).length,1);assert.equal(orders.filter(o=>o.pending).length,1);assert.equal(f.state.creates,1);assert.equal(f.db.sqlite.prepare('SELECT count(*) n FROM purchase_orders').get().n,1);
  assert.equal((await f.call('checkout',{},'zoobluff_account='+'x'.repeat(43))).status,401);
 });
 test('persistent hourly and daily mail limits hold across requests and reset after their windows',async t=>{
@@ -125,4 +129,22 @@ test('legacy Gumroad keys attach only to the verified buyer, with strict paid/re
  purchase.price=1000;purchase.refunded=true;assert.equal((await f.call('activate',{licenseKey:'LEGACY-KEY'},owner)).status,403);
  purchase.refunded=false;assert.equal((await f.call('activate',{licenseKey:'LEGACY-KEY'},owner)).status,200);
  assert.equal((await (await f.call('access',undefined,owner)).json()).unlocked,true);
+});
+
+test('sandbox email, checkout, retries, return, restore and refund use an isolated account database',async t=>{
+ const f=fixture(t,{sandbox:true}),live=fixture(t),cookie=await f.login('buyer@example.test');
+ assert.match(f.state.mails[0].subject,/סביבת בדיקות/);assert(f.state.mails[0].text.includes(new URL(SANDBOX_ORIGIN).host));
+ const order=await (await f.call('checkout',{},cookie)).json();assert.match(order.checkoutUrl,/^https:\/\/sandbox\.payme\.io\//);
+ assert.equal((await (await f.call('checkout',{},cookie)).json()).checkoutUrl,order.checkoutUrl);assert.equal(f.state.creates,1);
+ assert.equal((await f.call('activate',{licenseKey:order.recoveryCode,payme_status:'success'},cookie)).status,403);
+ const parallel=await Promise.all([f.call('checkout',{},cookie),f.call('checkout',{},cookie)]);
+ for(const response of parallel)assert.equal((await response.json()).checkoutUrl,order.checkoutUrl);
+ f.state.sales[0].sale_status='completed';assert.equal((await (await f.call('access',undefined,cookie)).json()).unlocked,true);
+ assert.equal((await (await live.call('access',undefined,cookie)).json()).unlocked,false);
+ const liveCookie=await live.login('buyer@example.test');assert.equal((await live.call('activate',{licenseKey:order.recoveryCode},liveCookie)).status,403);
+ assert.equal((await (await live.call('access',undefined,liveCookie)).json()).unlocked,false);
+ f.state.now+=61000;const restored=await f.login('buyer@example.test');assert.equal((await (await f.call('access',undefined,restored)).json()).unlocked,true);
+ f.state.now+=6*3600000+1;f.state.sales[0].sale_status='refunded';assert.equal((await (await f.call('access',undefined,restored)).json()).unlocked,false);
+ const again=await (await f.call('checkout',{},restored)).json();assert.match(again.checkoutUrl,/^https:\/\/sandbox\.payme\.io\//);assert.equal(f.state.creates,2);
+ assert.equal((await f.call('activate',{licenseKey:'LEGACY-LIVE-KEY'},restored)).status,403);
 });

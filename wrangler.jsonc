@@ -5,20 +5,47 @@
   "vars": {
     "GUMROAD_PRODUCT_ID": "igraNwrit43FLzFkjlV2bw==",
     "ACCOUNTS_ENABLED": "true",
-    "AUTH_EMAIL_FROM": "זובלוף <login@boardexperienceengine.com>"
+    "AUTH_EMAIL_FROM": "זובלוף <login@boardexperienceengine.com>",
+    "AUTH_DAILY_LIMIT": "50",
+    "AUTH_TURNSTILE_REQUIRED": "true"
   },
-  "d1_databases": [{ "binding": "ACCOUNTS_DB", "database_name": "zoobluff-accounts", "database_id": "f1e5adc4-3b9a-4f03-9978-96d72b15bb57", "migrations_dir": "migrations" }],
-  "ratelimits": [{ "name": "DUBBING_RATE_LIMITER", "namespace_id": "1001", "simple": { "limit": 20, "period": 60 } }],
+  "d1_databases": [
+    {
+      "binding": "ACCOUNTS_DB",
+      "database_name": "zoobluff-accounts",
+      "database_id": "f1e5adc4-3b9a-4f03-9978-96d72b15bb57",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "ratelimits": [
+    {
+      "name": "DUBBING_RATE_LIMITER",
+      "namespace_id": "1001",
+      "simple": {
+        "limit": 20,
+        "period": 60
+      }
+    }
+  ],
   "compatibility_date": "2026-09-27",
   "workers_dev": true,
   "routes": [
-    { "pattern": "zoobluff.com", "custom_domain": true }
+    {
+      "pattern": "zoobluff.com",
+      "custom_domain": true
+    }
   ],
   "assets": {
     "binding": "ASSETS",
-    "run_worker_first": ["/api/dubbing/*"],
+    "run_worker_first": [
+      "/api/dubbing/*"
+    ],
     "directory": "./dist",
     "html_handling": "auto-trailing-slash",
     "not_found_handling": "none"
+  },
+  "observability": {
+    "enabled": true,
+    "head_sampling_rate": 1
   }
 }

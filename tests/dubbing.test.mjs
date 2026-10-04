@@ -18,7 +18,7 @@ test('accepted takes survive reload, replace and delete; incompatible versions n
  for(const s of [a,b,c,d])s.db.close();
 });
 test('storage failure retains a usable session take and never prevents play',async()=>{
- const warnings=[],s=new VoiceStore({indexedDB:null,onWarning:m=>warnings.push(m)});await s.ready;assert.equal(await s.put(LINE['cat.greet'],take()),false);assert(s.get(LINE['cat.greet']));assert(warnings.length);await s.delete('cat.greet');assert.equal(s.count('cat'),0);
+ const warnings=[],s=new VoiceStore({indexedDB:null,onWarning:m=>warnings.push(m)});await s.ready;assert.equal(await s.put(LINE['cat.greet'],take()),false);assert(s.get(LINE['cat.greet']));assert(warnings.length);assert.equal(await s.delete('cat.greet'),false);assert.equal(s.count('cat'),1);
 });
 test('delete character leaves other saved sets reusable',async()=>{const s=new VoiceStore({indexedDB:new IDBFactory()});await s.ready;await s.put(LINE['cat.greet'],take());await s.put(LINE['goat.greet'],take());await s.deleteCharacter('cat');assert.equal(s.count('cat'),0);assert.equal(s.count('goat'),1);s.db.close();});
 test('runtime format detection handles Chromium, Safari, Firefox and browser default',()=>{
