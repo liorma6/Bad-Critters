@@ -2,7 +2,17 @@
 
 Live game: https://zoobluff.com
 
-## Current production release — 2026-10-04
+## Current production release — mobile audio, 2026-10-04
+
+Published the mobile conversation audio fix from commit `266f7bd` as game release `86099b69e8b35aa5`. Production Worker `bad-critters` is version `bdbdd098-5526-4ea6-b760-4055ca5f3c64`; the isolated `zoobluff-sandbox` is version `e25f0f09-654c-4a92-a45a-029477f473a7`. Both live endpoints were checked against the exact tested JS and audio manifest bytes. Their account protection remains enabled. All 166 protected content files, including the creator recordings, retain their prior hashes.
+
+Conversation playback no longer waits for a repeated catalogue request or unrelated recording storage. After the player starts a case, the game prepares relevant greetings and upcoming character lines in a bounded decoded-audio cache (32 MiB, two concurrent loads), then starts ready clips directly. Personal recordings use their current Blob identity, so replacing a take cannot reuse an old decoded recording. Audio resumes inside the user gesture, including the mobile interrupted state. Native playback remains available if decoding fails; editor previews retain their media playback clock.
+
+Validation: 153 unit executions, 15 gameplay/audio/tutorial browser scenarios, 6 creator-studio scenarios, and 4 desktop/mobile Chrome latency scenarios passed. With ready buffers and deliberately delayed network responses, measured click-to-analyser onset was 40–152 ms for creator speech and 25–26 ms for personal fixtures in the mobile Chrome configuration. This measures browser signal onset, not a physical speaker. The two WebKit audio scenarios explicitly skipped because the Windows Playwright build lacks Web Audio; they are not claimed as iPhone results. Physical iPhone and Android latency, including return from background or screen lock, still need device confirmation. No zero-latency guarantee is made for an uncached clip on a slow connection.
+
+Local evidence is under `reports/launch-2026-10-04/mobile-audio-*.json` and `mobile-audio-*-deploy.txt`. Production UI also opened a creator conversation without console warnings or errors. Payment-provider follow-ups recorded below are unchanged by this audio release.
+
+## Previous production release — launch fixes, 2026-10-04
 
 The owner explicitly authorized production publication after pushing the launch fixes to GitHub. Published `bad-critters` Worker version `22f583f5-d525-4f52-98dc-8a71c905aa76`, game release `65884d5b43f60ff4`, to `zoobluff.com` and the existing workers.dev address. This supersedes the historical statements below that production remained unchanged. GitHub pushes still do not automatically deploy this Worker.
 
@@ -45,7 +55,7 @@ Never paste account passwords or API tokens into chat. Wrangler prints the actua
 
 The build fingerprints the exact JS, CSS, artwork, manifest and audio bytes into `/releases/<hash>/`. Root HTML points at that directory with an absolute base. The game uses the root document and in-page state, with no path-based client router. Unknown routes and missing assets therefore return 404; they are never replaced by an HTML document under an immutable asset URL. `_headers` gives release files a one-year immutable browser cache; root HTML revalidates. The home link returns to `/`. Content types come from Wrangler's extension mapping. Build scripts, creator documents, credentials, development dependencies and the local server are not copied into the public build.
 
-The availability index is small; audio is lazy-loaded per spoken line, including case-specific dialogue. All 133 approved creator recordings are deployed static assets and are available on both public hostnames. No service worker, precache, R2 or paid media service is enabled. Personal recordings remain in browser IndexedDB and cannot be included by this build process. They survive ordinary closing and reopening in the same browser, device and origin, but clearing site data or using private browsing can remove them. Recordings made on localhost or workers.dev do not automatically transfer to zoobluff.com.
+The availability index is small and belongs to the immutable release. Audio is prepared for the selected case and character after player interaction, with additional lines loaded on demand; the entire recording library is not downloaded at startup. All 133 approved creator recordings are deployed static assets and are available on both public hostnames. No service worker, persistent audio precache, R2 or paid media service is enabled. Personal recordings remain in browser IndexedDB and cannot be included by this build process. They survive ordinary closing and reopening in the same browser, device and origin, but clearing site data or using private browsing can remove them. Recordings made on localhost or workers.dev do not automatically transfer to zoobluff.com.
 
 Checked against current official documentation on 2026-09-27:
 
