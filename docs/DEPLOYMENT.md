@@ -2,6 +2,18 @@
 
 Live game: https://zoobluff.com
 
+## Current production release — 2026-10-04
+
+The owner explicitly authorized production publication after pushing the launch fixes to GitHub. Published `bad-critters` Worker version `22f583f5-d525-4f52-98dc-8a71c905aa76`, game release `65884d5b43f60ff4`, to `zoobluff.com` and the existing workers.dev address. This supersedes the historical statements below that production remained unchanged. GitHub pushes still do not automatically deploy this Worker.
+
+Created the separate Managed `Zoobluff production login` Turnstile widget for `zoobluff.com` and `bad-critters.board-experience-engine.workers.dev`, with no pre-clearance. Its public site key is in `wrangler.jsonc`; its validation secret is encrypted in the production Worker. Existing email, payment and session secrets were retained. Production uses the 50/day reservation cap; Sandbox remains separate with its own widget, secrets, database and cap.
+
+Recorded a D1 Time Travel bookmark before applying only additive `0002_launch_safety.sql` through the verified **zoobluff-accounts** console. Account/order/entitlement counts stayed 1/1/0, and all four added tables were verified. The bookmark and dashboard evidence remain in ignored local reports; no existing rows or recordings were removed.
+
+Prepublication validation used the already passed 147 unit executions and 6 focused entrance-tutorial browser scenarios, plus a fresh production build/dry run. Postpublication HTTP checks verified the actual release, immutable assets, production Turnstile configuration, rejection of missing human proof and unauthorized checkout, cross-origin denial and private-file 404s. All 166 protected-content hashes remain unchanged. The real production UI showed the new entrance-notice spotlight before the night action; the actual Turnstile completed automatically and one operator login request reached the code-entry form. Code entry and a new real-money purchase were not performed in this publish check. Closed-order provider semantics and physical iPhone/Android checks remain the previously documented limitations; publication does not mark them resolved.
+
+Local evidence: `reports/launch-2026-10-04/production-http-smoke.json`, `production-deploy.txt`, `production-d1-migration.txt`, `tutorial-entrance-production.jpg`, and `production-login-code-ready.jpg`.
+
 The original https://bad-critters.board-experience-engine.workers.dev address remains available.
 
 The domain remains registered at Hostinger; its authoritative nameservers are `addyson.ns.cloudflare.com` and `stanley.ns.cloudflare.com`. Cloudflare uses the Free zone plan. The apex is a Worker Custom Domain for `bad-critters`; `www` is a proxied CNAME to `zoobluff.com`. The Cloudflare zone Redirect Rule `Zoobluff canonical HTTPS` redirects `www` and apex HTTP requests to `https://zoobluff.com`, retaining the path and query string. This gives players one primary browser-storage origin. The redirect is managed in the Cloudflare zone dashboard, separately from Wrangler.
@@ -138,7 +150,7 @@ Provider references: [Sandbox and Production URLs](https://docs.payme.io/docs/pa
 
 Follow-up on the same date: the operator reproduced a blank Turnstile widget in the purchase email form. Unlike the always-visible account settings form, payment initially mounts its form hidden. `mountHumanCheck` now waits for a visible layout, bounds script/widget waiting, exposes retry/expiry/error states, and selects compact sizing on narrow forms. Sending stays disabled with visible instructions until proof exists; server verification remains mandatory. The discovery and house-inspection tutorial stages now dim the screen and include a direct primary action in the instruction card. Validated 146 unit executions and 21 distinct focused browser scenarios, including keyboard, mouse, touch, hidden-form mounting, failed loading, retry, expiry and narrow layout. Sandbox Worker version `354a9043-2e22-4485-8e7f-400843858d74` was deployed. The real deployed widget then passed, and one new operator login code request reached the OTP screen. This fixes the reported login blocker but does not complete the pending PayMe purchase/closed-order validation. Evidence: `reports/launch-2026-10-04/followup-verification.json`. Production remains unchanged.
 
-**This section supersedes older implementation notes above. Production has not been updated by this task.** See `reports/launch-2026-10-04/Launch-Report-2026-10-04.html` for the current release, verified results, limitations and remaining launch gates.
+**This section records the launch preparation before the subsequently authorized production release at the top of this document.** See `reports/launch-2026-10-04/Launch-Report-2026-10-04.html` for that preparation's verified results, limitations and remaining launch checks.
 
 Active investigations now use a versioned `:active` record beside the original progress/settings key. Starting a new investigation archives the preceding record before replacing it; unreadable data is retained. Personal audio is referenced by role IDs, never copied into the game save. IndexedDB version 3 separates drafts from accepted takes and commits replacements/deletions atomically. Back up browser recordings before clearing browser data; account recovery restores purchase entitlement, not local audio. All approved dialogue, artwork and 133 creator recordings are preserved.
 

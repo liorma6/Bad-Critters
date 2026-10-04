@@ -7,7 +7,8 @@
     "ACCOUNTS_ENABLED": "true",
     "AUTH_EMAIL_FROM": "זובלוף <login@boardexperienceengine.com>",
     "AUTH_DAILY_LIMIT": "50",
-    "AUTH_TURNSTILE_REQUIRED": "true"
+    "AUTH_TURNSTILE_REQUIRED": "true",
+    "TURNSTILE_SITE_KEY": "0x4AAAAAAFNe0cnX2r14yVmM"
   },
   "d1_databases": [
     {
