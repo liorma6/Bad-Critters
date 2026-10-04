@@ -16,9 +16,9 @@ test('personal stays personal; other characters use creator → subtitle fallbac
  await page.route('**/assets/voices/available.json',r=>r.fulfill({json:{'pigeon.greet':{file:'/test-creator.wav',scriptVersion:LINE['pigeon.greet'].scriptVersion}}}));
  const fixture=wav();await page.route('**/test-creator.wav',route=>route.fulfill({contentType:'audio/wav',body:fixture}));await page.goto('/?test-profile=audio');await page.locator('#start').click();
  await page.evaluate(async bytes=>{const {AudioManager}=await import('/src/audio.js'),{LINE}=await import('/src/content.js');window.testAudio=new AudioManager(line=>window.testSubtitle=line);const a=window.testAudio;await a.ready;a.personalCharacter='goat';a.creatorFiles={'pigeon.greet':{file:'/test-creator.wav',scriptVersion:LINE['pigeon.greet'].scriptVersion}};a.available=new Set(['pigeon.greet']);a.store={ready:Promise.resolve(),get:line=>['goat.greet','pigeon.greet'].includes(line.id)?{blob:new Blob([new Uint8Array(bytes)],{type:'audio/wav'})}:null};a.say('goat.greet');},[...fixture]);
- await expect.poll(()=>page.evaluate(()=>window.testAudio.current?.src)).toMatch(/^blob:/);await expect.poll(()=>page.evaluate(async()=>(await import('/src/speech-animation.js')).speech.mouth),{intervals:[50]}).toBeGreaterThan(0);
+ await expect.poll(()=>page.evaluate(()=>!!window.testAudio.bufferSource||!!window.testAudio.current)).toBe(true);expect(await page.evaluate(()=>window.testAudio.voiceSourceKind)).toBe('personal');await expect.poll(()=>page.evaluate(async()=>(await import('/src/speech-animation.js')).speech.mouth),{intervals:[50]}).toBeGreaterThan(0);
  await expect.poll(()=>page.evaluate(async()=>(await import('/src/speech-animation.js')).speech.mouth),{intervals:[50]}).toBe(0);await expect.poll(()=>page.evaluate(()=>window.testAudio.busy)).toBe(false);
- await page.evaluate(()=>window.testAudio.say('pigeon.greet'));await expect.poll(()=>page.evaluate(()=>window.testAudio.current?.src)).toContain('/test-creator.wav');await page.evaluate(()=>window.testAudio.stop());expect(await page.evaluate(async()=>(await import('/src/speech-animation.js')).speech.mouth)).toBe(0);
+ await page.evaluate(()=>window.testAudio.say('pigeon.greet'));await expect.poll(()=>page.evaluate(()=>!!window.testAudio.bufferSource||!!window.testAudio.current)).toBe(true);expect(await page.evaluate(()=>window.testAudio.voiceSourceKind)).toBe('creator');await page.evaluate(()=>window.testAudio.stop());expect(await page.evaluate(async()=>(await import('/src/speech-animation.js')).speech.mouth)).toBe(0);
  await page.evaluate(()=>{window.testAudio.settings.subtitles=false;window.testAudio.say('cat.greet');});await expect.poll(()=>page.evaluate(()=>window.testSubtitle?.id)).toBe('cat.greet');expect(await page.evaluate(()=>window.testAudio.current)).toBe(null);
  await page.evaluate(()=>{window.testAudio.stop();window.testAudio.tone(180,.5,.1);});await page.waitForTimeout(200);expect(await page.evaluate(async()=>(await import('/src/speech-animation.js')).speech.mouth)).toBe(0);
 });
@@ -27,4 +27,20 @@ test('creator load error, incompatible take and overlap cooldown recover to subt
  await page.route('**/missing-creator.wav',r=>r.fulfill({status:404,body:'Missing fixture'}));
  await page.goto('/?test-profile=fallback');await page.evaluate(async()=>{const {AudioManager}=await import('/src/audio.js');window.testAudio=new AudioManager(l=>window.testSubtitle=l);await window.testAudio.ready;window.testAudio.available.add('goat.greet');window.testAudio.say('goat.greet');});await expect.poll(()=>page.evaluate(()=>window.testSubtitle?.id)).toBe('goat.greet');await expect.poll(()=>page.evaluate(()=>window.testAudio.current)).toBe(null);
  expect(await page.evaluate(()=>window.testAudio.ambient('pigeon.greet'))).toBe(false);await page.evaluate(()=>window.testAudio.stop());expect(await page.evaluate(()=>window.testAudio.ambient('pigeon.greet'))).toBe(true);await page.evaluate(()=>window.testAudio.stop());expect(await page.evaluate(()=>window.testAudio.ambient('pigeon.greet'))).toBe(false);
+});
+
+test('a decoder failure still plays a personal take through native audio; editor previews retain their playback clock',async({page})=>{
+ await page.goto('/?test-profile=audio-decoder-fallback');await page.locator('#start').click();
+ await page.evaluate(async bytes=>{
+  const {AudioManager}=await import('/src/audio.js');window.testAudio=new AudioManager(()=>{});const a=window.testAudio;
+  window.testTake={blob:new Blob([new Uint8Array(bytes)],{type:'audio/wav'})};a.personalCharacter='goat';a.store={ready:Promise.resolve(),get:()=>window.testTake};
+  a.unlock();a.context.decodeAudioData=async()=>{throw Error('Simulated buffer decoder failure');};a.say('goat.greet');
+ },[...wav()]);
+ await expect.poll(()=>page.evaluate(()=>window.testAudio.current?.currentTime||0)).toBeGreaterThan(.1);
+ expect(await page.evaluate(()=>({source:window.testAudio.voiceSourceKind,buffer:!!window.testAudio.bufferSource}))).toEqual({source:'personal',buffer:false});
+ await page.evaluate(()=>{window.testAudio.stop();window.testAudio.say('goat.greet',true,{preview:true,take:window.testTake,onEnded:played=>window.previewFinished=played});});
+ await expect.poll(()=>page.evaluate(()=>window.testAudio.current?.currentTime||0)).toBeGreaterThan(.1);
+ expect(await page.evaluate(()=>window.testAudio.voiceSourceKind)).toBe('preview');
+ await expect.poll(()=>page.evaluate(()=>window.previewFinished)).toBe(true);
+ expect(await page.evaluate(()=>({media:window.testAudio.current,busy:window.testAudio.busy}))).toEqual({media:null,busy:false});
 });
