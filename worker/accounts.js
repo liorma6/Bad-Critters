@@ -2,6 +2,7 @@ import {randomToken,digest,keyedDigest,encrypt,decrypt} from './account-crypto.j
 import {paidConfig,SANDBOX_ORIGIN} from './paid-config.js';
 import {readJson} from './request-body.js';
 import {verifyHuman,authMetric,mailDailyLimit} from './auth-protection.js';
+import {usesGumroad} from './gumroad.js';
 const COOKIE='zoobluff_account';
 const SESSION_MS=30*24*60*60*1000;
 const CODE_MS=10*60*1000;
@@ -49,7 +50,7 @@ export async function handleAccount(request,env,{fetcher=fetch,now=Date.now()}={
  if(action==='session'&&!accountsEnabled(env))return json({enabled:false,authenticated:false});
  if(!configured(env))return json({enabled:accountsEnabled(env),error:'ההתחברות במייל אינה זמינה כרגע. נסו שוב מאוחר יותר.'},503);
  try{
-  if(action==='session'){const account=await accountSession(request,env,now);return json({enabled:true,authenticated:!!account,turnstileSiteKey:env.AUTH_TURNSTILE_REQUIRED==='true'?env.TURNSTILE_SITE_KEY||null:null,botProtectionRequired:env.AUTH_TURNSTILE_REQUIRED==='true',...(account?{email:account.email}:{})});}
+  if(action==='session'){const account=await accountSession(request,env,now);return json({enabled:true,authenticated:!!account,paymentProvider:usesGumroad(env)?'gumroad':'paid',turnstileSiteKey:env.AUTH_TURNSTILE_REQUIRED==='true'?env.TURNSTILE_SITE_KEY||null:null,botProtectionRequired:env.AUTH_TURNSTILE_REQUIRED==='true',...(account?{email:account.email}:{})});}
   if(env.DUBBING_RATE_LIMITER&&!((await env.DUBBING_RATE_LIMITER.limit({key:`auth:${request.headers.get('CF-Connecting-IP')||'unknown'}`})).success))return json({error:'יותר מדי ניסיונות. נסו שוב בעוד דקה.'},429);
   if(action==='logout'){
    await env.ACCOUNTS_DB.prepare('DELETE FROM auth_sessions WHERE token_hash=?').bind(await digest(tokenFrom(request))).run();

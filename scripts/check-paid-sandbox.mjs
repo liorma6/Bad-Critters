@@ -11,7 +11,7 @@ if(production.d1_databases.some(item=>item.database_id===db.database_id))throw E
 const result=spawnSync(process.execPath,[resolve('node_modules/wrangler/bin/wrangler.js'),'secret','list','--config','wrangler.sandbox.jsonc'],{encoding:'utf8'});
 if(result.status!==0)throw Error('Cannot check sandbox secret names. Complete sandbox provisioning first.');
 const names=JSON.parse(result.stdout).map(item=>item.name);
-for(const name of ['PAID_SANDBOX_SELLER_ID','DUBBING_SESSION_SECRET','RESEND_API_KEY','TURNSTILE_SECRET_KEY'])if(!names.includes(name))throw Error(`Missing sandbox secret: ${name}`);
+for(const name of [...(config.vars.PAYMENT_PROVIDER==='gumroad'?['GUMROAD_ACCESS_TOKEN']:['PAID_SANDBOX_SELLER_ID']),'DUBBING_SESSION_SECRET','RESEND_API_KEY','TURNSTILE_SECRET_KEY'])if(!names.includes(name))throw Error(`Missing sandbox secret: ${name}`);
 if(config.vars.AUTH_TURNSTILE_REQUIRED!=='true'||!config.vars.TURNSTILE_SITE_KEY||config.vars.AUTH_DAILY_LIMIT!=='5'||!config.vars.AUTH_ALLOWED_EMAILS)throw Error('Sandbox login isolation is incomplete');
 if(names.includes('PAID_SELLER_ID'))throw Error('Remove the live merchant secret from the sandbox Worker');
 console.log('Sandbox resource names and required secret names are configured. Provider credentials still need an end-to-end sandbox test.');

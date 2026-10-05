@@ -3,6 +3,7 @@
   "name": "bad-critters",
   "main": "worker/index.js",
   "vars": {
+    "PAYMENT_PROVIDER": "gumroad",
     "GUMROAD_PRODUCT_ID": "igraNwrit43FLzFkjlV2bw==",
     "ACCOUNTS_ENABLED": "true",
     "AUTH_EMAIL_FROM": "זובלוף <login@boardexperienceengine.com>",

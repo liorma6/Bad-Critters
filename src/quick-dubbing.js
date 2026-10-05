@@ -57,6 +57,13 @@ export class QuickDubbing {
   const view=this.view;if($('access-status'))$('access-status').textContent='בודקים את הגישה לדיבוב…';
   let allowed=await this.access.check();if(view!==this.view)return false;
   const saved=this.access.saved();
+  if(!allowed&&this.options.paidReturn&&saved.provider==='gumroad'&&this.access.result?.accountBased&&!this.access.result.loginRequired&&!this.access.error){
+   for(let attempt=0;attempt<3&&!allowed;attempt++){
+    await new Promise(resolve=>setTimeout(resolve,1500));if(view!==this.view)return false;
+    allowed=await this.access.check();if(view!==this.view)return false;
+    if(this.access.error||this.access.result?.loginRequired)break;
+   }
+  }
   if(!allowed&&!this.access.result?.accountBased&&saved.recoveryCode){allowed=await this.access.activate(saved.recoveryCode);if(view!==this.view)return false;}
   if(!allowed){this.payment(action);return false;}return true;
  }
@@ -67,12 +74,12 @@ export class QuickDubbing {
   mountAccountLogin($('account-management'),access,{manage:true,onStateChange:update,onSignedIn:()=>update(access.account)});
  }
  payment(afterUnlock,{restore=false}={}){
-  this.openDialog('דיבוב אישי',`<div class="purchase-card"><div class="purchase-art" aria-hidden="true">${portrait(character('badger'))}${portrait(character('goat'))}${portrait(character('cat'))}</div><span class="eyebrow">הקולות שלכם. הסיפור של השכונה.</span><h3 class="dub-title">תנו למשחק<br>את הקול שלכם.</h3><p class="purchase-description">מקליטים, משחקים ומדבבים מחדש. בלי הגבלה.</p><p class="purchase-price"><bdi>9.90 ₪</bdi><span>תשלום חד־פעמי · בלי מנוי</span></p><button id="buy-dubbing" class="purchase-button">לתשלום מאובטח · 9.90 ₪ <span aria-hidden="true">←</span></button><section id="account-area" class="account-area" hidden></section><p class="purchase-secure">תשלום מאובטח ב־Paid · חוזרים ישר למשחק</p><button id="restore-purchase" class="purchase-text-button">כבר קניתי · כניסה במייל</button><button id="check-payment" class="purchase-text-button" ${this.access.saved().recoveryCode?'':'hidden'}>בדיקת התשלום שלי</button><p id="checkout-status" role="status" aria-live="polite"></p></div><div class="purchase-exit"><button id="purchase-free">${this.options.resume?'לחזור למשחק':'לשחק עם קולות היוצר'}</button><button id="purchase-back">חזרה להקלטות</button></div><p class="purchase-note">ההקלטות נשמרות במכשיר שלכם.</p>${siteLinks}`);
+  this.openDialog('דיבוב אישי',`<div class="purchase-card"><div class="purchase-art" aria-hidden="true">${portrait(character('badger'))}${portrait(character('goat'))}${portrait(character('cat'))}</div><span class="eyebrow">הקולות שלכם. הסיפור של השכונה.</span><h3 class="dub-title">תנו למשחק<br>את הקול שלכם.</h3><p class="purchase-description">מקליטים, משחקים ומדבבים מחדש. בלי הגבלה.</p><p class="purchase-price"><bdi>9.90 ₪</bdi><span>תשלום חד־פעמי · בלי מנוי</span></p><button id="buy-dubbing" class="purchase-button">לתשלום מאובטח · 9.90 ₪ <span aria-hidden="true">←</span></button><section id="account-area" class="account-area" hidden></section><p class="purchase-secure">תשלום מאובטח · חוזרים למשחק לאחר הרכישה</p><button id="restore-purchase" class="purchase-text-button">כבר קניתי · כניסה במייל</button><button id="check-payment" class="purchase-text-button" ${(this.access.saved().checkoutUrl||this.access.saved().recoveryCode)?'':'hidden'}>בדיקת התשלום שלי</button><p id="checkout-status" role="status" aria-live="polite"></p></div><div class="purchase-exit"><button id="purchase-free">${this.options.resume?'לחזור למשחק':'לשחק עם קולות היוצר'}</button><button id="purchase-back">חזרה להקלטות</button></div><p class="purchase-note">ההקלטות נשמרות במכשיר שלכם.</p>${siteLinks}`);
   $('dialog').classList.add('purchase-dialog');
   const view=this.view,area=$('account-area'),buy=$('buy-dubbing'),status=$('checkout-status');
   if(isSandboxOrigin(location.origin)){
    buy.textContent='לתשלום בדיקה · ללא חיוב אמיתי';
-   document.querySelector('.purchase-secure').textContent='Sandbox של Paid · כרטיסי בדיקה בלבד';
+   document.querySelector('.purchase-secure').textContent='סביבת בדיקות · רכישת ניסיון בלבד';
    document.querySelector('.purchase-price span').textContent='סכום מדומה לבדיקה · אין חיוב כספי';
   }
   let accountState,continuing=false,busy=false;
@@ -98,6 +105,7 @@ export class QuickDubbing {
   const accountReady=mountAccountLogin(area,this.access,{
    onStateChange:state=>{
     if(view!==this.view)return;const signedOut=accountState?.authenticated&&!state.authenticated;accountState=state;
+    if(!isSandboxOrigin(location.origin))document.querySelector('.purchase-secure').textContent=state.paymentProvider==='gumroad'?'תשלום מאובטח ב־Gumroad · חזרו למשחק עם אותו מייל':'תשלום מאובטח · חוזרים למשחק לאחר הרכישה';
     if(state.authenticated){area.hidden=false;buy.hidden=false;$('restore-purchase').hidden=true;}
     else if(!area.hidden){if(signedOut)continuing=false;showLogin();}
    },
@@ -114,7 +122,7 @@ export class QuickDubbing {
   };
   buy.onclick=()=>begin(true);
   $('restore-purchase').onclick=()=>begin(false);$('check-payment').onclick=()=>begin(false);
-  window.addEventListener('pageshow',()=>{if(view===this.view){setBusy(false);status.textContent='';$('check-payment').hidden=!this.access.saved().recoveryCode;}},{once:true});
+  window.addEventListener('pageshow',()=>{if(view===this.view){setBusy(false);status.textContent='';$('check-payment').hidden=!(this.access.saved().checkoutUrl||this.access.saved().recoveryCode);}},{once:true});
   $('purchase-free').onclick=()=>this.start(null);$('purchase-back').onclick=()=>this.allMode?this.allDashboard():this.active?this.readyRole():this.entry();
   if(restore)begin(false);
  }

@@ -8,7 +8,7 @@ import {paidConfig,SANDBOX_ORIGIN} from '../worker/paid-config.js';
 const origin='https://zoobluff.com';
 const start=1800000000000;
 function database(){
- const sqlite=new DatabaseSync(':memory:');sqlite.exec('PRAGMA foreign_keys=ON;'+readFileSync(new URL('../migrations/0001_accounts.sql',import.meta.url),'utf8')+readFileSync(new URL('../migrations/0002_launch_safety.sql',import.meta.url),'utf8'));
+ const sqlite=new DatabaseSync(':memory:');sqlite.exec('PRAGMA foreign_keys=ON;'+readFileSync(new URL('../migrations/0001_accounts.sql',import.meta.url),'utf8')+readFileSync(new URL('../migrations/0002_launch_safety.sql',import.meta.url),'utf8')+readFileSync(new URL('../migrations/0003_gumroad_inbox.sql',import.meta.url),'utf8'));
  const prepare=(sql,args=[])=>({bind(...values){return prepare(sql,values);},async first(){return sqlite.prepare(sql).get(...args)||null;},async all(){return {results:sqlite.prepare(sql).all(...args)};},async run(){return {meta:sqlite.prepare(sql).run(...args)};}});
  return {sqlite,prepare,async batch(statements){sqlite.exec('BEGIN');try{const result=[];for(const s of statements)result.push(await s.run());sqlite.exec('COMMIT');return result;}catch(error){sqlite.exec('ROLLBACK');throw error;}}};
 }

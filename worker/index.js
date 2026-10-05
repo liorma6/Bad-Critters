@@ -1,6 +1,8 @@
 import {handleDubbing} from './dubbing.js';
 import {paymentCallback} from './payment-callback.js';
+import {gumroadCallback} from './gumroad-callback.js';
 export default {async fetch(request,env,ctx){
+ if(new URL(request.url).pathname==='/api/dubbing/gumroad-callback')return gumroadCallback(request,env,ctx);
  if(new URL(request.url).pathname==='/api/dubbing/callback')return paymentCallback(request,env,ctx);
  if(new URL(request.url).pathname.startsWith('/api/dubbing/'))return handleDubbing(request,env);
  if(env.PAID_ENVIRONMENT==='sandbox'){

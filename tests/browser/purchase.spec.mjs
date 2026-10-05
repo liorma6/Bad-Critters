@@ -52,3 +52,18 @@ test('Paid checkout stores the return role; cancellation stays locked and verifi
  paid=true;await page.locator('#check-payment').click();await expect(page.locator('#begin-case')).toBeVisible();expect(creates).toBe(1);
  expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('neighborhood-test-paid-return')).caseCasting.characterId)).toBe('badger');
 });
+
+test('Gumroad checkout on mobile uses email, preserves the recorded role, and never unlocks from the return URL alone',async({page})=>{
+ await page.setViewportSize({width:390,height:844});let paid=false;
+ await page.route('**/api/dubbing/auth/session',r=>r.fulfill({json:{enabled:true,authenticated:true,email:'buyer@example.test',paymentProvider:'gumroad'}}));
+ await page.route('**/api/dubbing/access',r=>r.fulfill({json:{accountBased:true,unlocked:paid}}));
+ await page.route('**/api/dubbing/checkout',r=>r.fulfill({json:{accountBased:true,unlocked:false,provider:'gumroad',price:990,currency:'ILS',checkoutUrl:'https://liorma.gumroad.com/l/zoobluff-dubbing?wanted=true&quantity=1&email=buyer%40example.test'}}));
+ await page.route('https://liorma.gumroad.com/**',r=>r.fulfill({contentType:'text/html',body:'<h1>Gumroad checkout fixture</h1>'}));
+ await page.goto('/?test-profile=gumroad-return');await seedRole(page,{profile:'gumroad-return',characterId:'badger'});await page.reload();
+ await page.locator('#start').click();await page.locator('#choose-quick').click();await page.locator('#use-complete').click();
+ await expect(page.locator('.purchase-secure')).toContainText('Gumroad');await page.locator('#buy-dubbing').click();await expect(page).toHaveURL(/liorma.gumroad.com\/l\/zoobluff-dubbing/);
+ await page.goto('/?test-profile=gumroad-return&dubbing=purchase-return&success=true');await expect(page.locator('#buy-dubbing')).toBeVisible();await expect(page.locator('#begin-case')).toHaveCount(0);
+ await expect(page.locator('#license-key, #recovery-code')).toHaveCount(0);await expect(page.locator('#check-payment')).toBeVisible();
+ paid=true;await page.locator('#check-payment').click();await expect(page.locator('#begin-case')).toBeVisible();
+ expect(await page.evaluate(()=>JSON.parse(localStorage.getItem('neighborhood-test-gumroad-return')).caseCasting.characterId)).toBe('badger');
+});

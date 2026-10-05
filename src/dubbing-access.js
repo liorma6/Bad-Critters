@@ -1,4 +1,5 @@
 import {validCheckoutUrl} from './paid-environment.js';
+import {validGumroadCheckoutUrl} from './gumroad-checkout.js';
 const SAVED_PURCHASE='zoobluff-paid-purchase-v1';
 const ACCOUNT_CHANGE='zoobluff-account-change-v1';
 export const PURCHASE_TIMEOUT_MS=35000;
@@ -36,9 +37,10 @@ export class DubbingAccess {
   if(this.error)return null;
   const result=this.result;
   if(result?.pending){this.error=result.message||'הזמנה כבר נוצרת או נבדקת. המתינו מעט ולחצו בדיקת התשלום שלי.';return null;}
-  if(result?.price!==990||result.currency!=='ILS'||!validCheckoutUrl(result.checkoutUrl,globalThis.location?.origin)||!result.recoveryCode?.startsWith('ZB1.')){this.error='לא הצלחנו להכין תשלום תקין של 9.90 ₪. נסו שוב.';return null;}
+  const validDestination=result?.provider==='gumroad'?validGumroadCheckoutUrl(result.checkoutUrl):validCheckoutUrl(result?.checkoutUrl,globalThis.location?.origin)&&result?.recoveryCode?.startsWith('ZB1.');
+  if(result?.price!==990||result.currency!=='ILS'||!validDestination){this.error='לא הצלחנו להכין תשלום תקין של 9.90 ₪. נסו שוב.';return null;}
   try{
-   const value=JSON.stringify({recoveryCode:result.recoveryCode,checkoutUrl:result.checkoutUrl,intent,accountEmail:this.account?.email||null});
+   const value=JSON.stringify({provider:result.provider||'paid',recoveryCode:result.recoveryCode,checkoutUrl:result.checkoutUrl,intent,accountEmail:this.account?.email||null});
    localStorage.setItem(SAVED_PURCHASE,value);
    if(localStorage.getItem(SAVED_PURCHASE)!==value)throw Error('Storage unavailable');
   }catch{this.error='לא הצלחנו לשמור את פרטי החזרה מהרכישה במכשיר. אפשרו אחסון לאתר ונסו שוב לפני התשלום.';return null;}

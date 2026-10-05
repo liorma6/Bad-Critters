@@ -2,6 +2,7 @@ import {createPaidCheckout,verifyPaid} from './paid.js';
 import {accountsEnabled,handleAccount} from './accounts.js';
 import {handleAccountPurchase} from './account-purchases.js';
 import {paidConfig,assertPaymentOrigin} from './paid-config.js';
+import {usesGumroad} from './gumroad.js';
 const COOKIE='zoobluff_dubbing';
 const MAX_AGE=60*60*24*90;
 const RECHECK_MS=6*60*60*1000;
@@ -46,6 +47,7 @@ export async function handleDubbing(request,env,{fetcher=fetch,now=Date.now()}={
  if(request.headers.get('Sec-Fetch-Site')==='cross-site'||(request.headers.has('Origin')&&request.headers.get('Origin')!==url.origin)||(activate&&request.headers.get('Origin')!==url.origin))return json({error:'הפעילו את הדיבוב מתוך המשחק.'},403);
  if(!env.GUMROAD_PRODUCT_ID||!env.DUBBING_SESSION_SECRET||env.DUBBING_SESSION_SECRET.length<32)return json({unlocked:false,error:'הפעלת הדיבוב אינה זמינה כרגע. המשחק החינמי זמין כרגיל.'},503);
  if(accountsEnabled(env))return handleAccountPurchase(request,env,{fetcher,now});
+ if(checkout&&usesGumroad(env))return json({unlocked:false,error:'ההתחברות במייל אינה זמינה כרגע. נסו שוב מאוחר יותר.'},503);
  let payload,key;
  if(activate){
   if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'בקשה לא תקינה'},400);

@@ -1,19 +1,13 @@
-import {accountSession,normalizeEmail} from './accounts.js';
+import {accountSession,normalizeEmail,emailIdentity} from './accounts.js';
 import {encrypt,decrypt,keyedDigest} from './account-crypto.js';
 import {inspectPaid,inspectPaidOrder,recoverAttempt,recoverPaid,readPaidTicket,createPaidCheckout,paidCheckoutUrl} from './paid.js';
 import {paidConfig} from './paid-config.js';
 import {readJson} from './request-body.js';
+import {inspectGumroad,recoverGumroad,usesGumroad} from './gumroad.js';
+import {GUMROAD_PRODUCT_ID,gumroadCheckoutUrl} from '../src/gumroad-checkout.js';
 const RECHECK_MS=6*60*60*1000;
 const json=(body,status=200)=>new Response(JSON.stringify({accountBased:true,...body}),{status,headers:{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff'}});
-async function legacyPurchase(credential,env,fetcher){
- if(paidConfig(env).sandbox)return null;
- const response=await fetcher('https://api.gumroad.com/v2/licenses/verify',{method:'POST',headers:{'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({product_id:env.GUMROAD_PRODUCT_ID,license_key:credential,increment_uses_count:'false'}),signal:AbortSignal.timeout(10000)});
- if(response.status===429||response.status>=500)throw Error('Provider unavailable');
- const result=await response.json(),p=result.purchase;
- if(!response.ok||result.success!==true||p?.product_id!==env.GUMROAD_PRODUCT_ID||p.refunded!==false||p.disputed!==false||p.chargebacked||p.chargedback||p.license_disabled||p.access_revoked||p.test||p.is_test_purchase||p.subscription_ended_at||p.subscription_failed_at||!(Number(p.price)>0))return null;
- return {id:`gumroad:${await keyedDigest(credential,env)}`,email:p.email||''};
-}
-const inspect=(credential,env,fetcher)=>credential.startsWith('ZB1.')?inspectPaid(credential,env,fetcher):legacyPurchase(credential,env,fetcher);
+const inspect=(credential,env,fetcher)=>credential.startsWith('ZB1.')?inspectPaid(credential,env,fetcher):inspectGumroad(credential,env,fetcher);
 const credentialPurpose=(id,accountId)=>`purchase:${id}:${accountId}`;
 async function saveEntitlement(account,purchase,credential,env,now){
  const existing=await env.ACCOUNTS_DB.prepare('SELECT account_id FROM purchase_orders WHERE purchase_id=? UNION SELECT account_id FROM purchase_entitlements WHERE purchase_id=? UNION SELECT account_id FROM purchase_history WHERE purchase_id=?').bind(purchase.id,purchase.id,purchase.id).all();
@@ -26,6 +20,10 @@ async function saveEntitlement(account,purchase,credential,env,now){
  return !!result;
 }
 async function accountAccess(account,env,fetcher,now,states=new Map()){
+ if(usesGumroad(env)){
+  const queued=await env.ACCOUNTS_DB.prepare('SELECT id FROM gumroad_inbox WHERE email_hint=? ORDER BY created_at LIMIT 5').bind(account.id).all();
+  for(const row of queued.results)await reconcileGumroadCallback(row.id,env,fetcher,now);
+ }
  const entitlements=await env.ACCOUNTS_DB.prepare('SELECT * FROM purchase_entitlements WHERE account_id=? AND active=1 ORDER BY checked_at DESC LIMIT 10').bind(account.id).all();
  for(const row of entitlements.results){
   if(row.checked_at<=now&&now-row.checked_at<RECHECK_MS)return true;
@@ -39,6 +37,11 @@ async function accountAccess(account,env,fetcher,now,states=new Map()){
    env.ACCOUNTS_DB.prepare('DELETE FROM purchase_orders WHERE purchase_id=? AND account_id=?').bind(row.purchase_id,account.id),
    env.ACCOUNTS_DB.prepare('DELETE FROM purchase_attempts WHERE account_id=? AND purchase_id=?').bind(account.id,row.purchase_id),
   ]);
+ }
+ // Old Paid authorizations are not new purchases. Once switched, never create or recover Paid sales.
+ if(usesGumroad(env)){
+  const recovered=await recoverGumroad(account.email,env,fetcher);
+  return !!recovered&&await saveEntitlement(account,recovered,recovered.credential,env,now);
  }
  const pending=await env.ACCOUNTS_DB.prepare('SELECT o.* FROM purchase_orders o WHERE o.account_id=? AND NOT EXISTS(SELECT 1 FROM purchase_entitlements e WHERE e.purchase_id=o.purchase_id) ORDER BY created_at DESC LIMIT 5').bind(account.id).all();
  for(const row of pending.results){
@@ -58,7 +61,7 @@ export async function handleAccountPurchase(request,env,{fetcher=fetch,now=Date.
   if(env.DUBBING_RATE_LIMITER&&!((await env.DUBBING_RATE_LIMITER.limit({key:`purchase:${request.headers.get('CF-Connecting-IP')||'unknown'}`})).success))return json({unlocked:false,error:'יותר מדי בדיקות רכישה. נסו שוב בעוד דקה.'},429);
   if(action==='access'){
    if(await accountAccess(account,env,fetcher,now))return json({unlocked:true});
-   const pending=await env.ACCOUNTS_DB.prepare('SELECT account_id FROM purchase_attempts WHERE account_id=? UNION SELECT account_id FROM purchase_orders WHERE account_id=?').bind(account.id,account.id).first();
+   const pending=usesGumroad(env)?null:await env.ACCOUNTS_DB.prepare('SELECT account_id FROM purchase_attempts WHERE account_id=? UNION SELECT account_id FROM purchase_orders WHERE account_id=?').bind(account.id,account.id).first();
    return json({unlocked:false,...(pending?{pending:true,message:'יש הזמנה שעדיין לא אושר בה תשלום. לחצו לתשלום כדי לבדוק אותה ולהמשיך בבטחה.'}:{})});
   }
   if(!request.headers.get('Content-Type')?.startsWith('application/json'))return json({error:'בקשה לא תקינה'},400);
@@ -70,6 +73,12 @@ export async function handleAccountPurchase(request,env,{fetcher=fetch,now=Date.
    return json({unlocked:true});
   }
   const states=new Map();if(await accountAccess(account,env,fetcher,now,states))return json({unlocked:true});
+  if(usesGumroad(env)){
+   if(env.GUMROAD_PRODUCT_ID!==GUMROAD_PRODUCT_ID)throw Error('Wrong Gumroad product');
+   // Gumroad's public URL is live; free test purchases must be started in its signed-in creator UI.
+   if(paidConfig(env).sandbox)return json({unlocked:false,error:'רכישת ניסיון מתבצעת מתוך חשבון היוצר ב־Gumroad. סביבת הבדיקות לא תפנה לקופה חיה.'},409);
+   return json({unlocked:false,provider:'gumroad',checkoutUrl:gumroadCheckoutUrl(account.email),price:990,currency:'ILS'});
+  }
   const browserOrder=credential.startsWith('ZB1.')?await readPaidTicket(credential,env):null;
   if(credential&&!states.has(`paid:${browserOrder?.saleId}`)){
    const purchase=await inspect(credential,env,fetcher);
@@ -113,6 +122,33 @@ export async function handleAccountPurchase(request,env,{fetcher=fetch,now=Date.
   }
   return json({unlocked:false,...checkout});
  }catch{return json({unlocked:false,error:'לא הצלחנו לבדוק את הרכישה כרגע. נסו שוב; אין צורך לשלם שוב.'},503);}
+}
+export async function queueGumroadCallback(data,env,now=Date.now()){
+ const email=normalizeEmail(data.email),credential=data.license_key;
+ if(data.product_id!==env.GUMROAD_PRODUCT_ID||!email||typeof credential!=='string'||credential.length<8||credential.length>160)return null;
+ const id=await keyedDigest(credential,env),emailHint=await emailIdentity(email,env),cipher=await encrypt(credential,`gumroad-inbox:${id}`,env);
+ await env.ACCOUNTS_DB.prepare(`INSERT INTO gumroad_inbox(id,email_hint,credential_cipher,event_token,created_at) VALUES(?,?,?,?,?)
+ ON CONFLICT(id) DO UPDATE SET email_hint=excluded.email_hint,credential_cipher=excluded.credential_cipher,event_token=excluded.event_token,created_at=excluded.created_at`).bind(id,emailHint,cipher,crypto.randomUUID(),now).run();
+ return id;
+}
+export async function reconcileGumroadCallback(id,env,fetcher=fetch,now=Date.now()){
+ const row=await env.ACCOUNTS_DB.prepare('SELECT * FROM gumroad_inbox WHERE id=?').bind(id).first();if(!row)return false;
+ const credential=await decrypt(row.credential_cipher,`gumroad-inbox:${id}`,env),purchase=await inspectGumroad(credential,env,fetcher),email=normalizeEmail(purchase?.email);
+ let saved=false;
+ if(purchase&&email){
+  if(paidConfig(env).sandbox&&!env.AUTH_ALLOWED_EMAILS?.split(',').map(s=>s.trim().toLowerCase()).includes(email)){
+   await env.ACCOUNTS_DB.prepare('DELETE FROM gumroad_inbox WHERE id=? AND event_token=?').bind(id,row.event_token).run();return false;
+  }
+  // Ownership comes exclusively from Gumroad's verification response, never from the unsigned ping.
+  const account={id:await emailIdentity(email,env),email};
+  await env.ACCOUNTS_DB.prepare('INSERT INTO accounts(id,email_cipher,created_at,last_login_at) VALUES(?,?,?,0) ON CONFLICT(id) DO NOTHING').bind(account.id,await encrypt(email,'email',env),now).run();
+  saved=await saveEntitlement(account,purchase,credential,env,now);
+ }else{
+  // A refund or disabled license revokes the same entitlement, including out-of-order notifications.
+  await env.ACCOUNTS_DB.prepare('UPDATE purchase_entitlements SET active=0,checked_at=? WHERE purchase_id=?').bind(now,`gumroad:${id}`).run();
+ }
+ await env.ACCOUNTS_DB.prepare('DELETE FROM gumroad_inbox WHERE id=? AND event_token=?').bind(id,row.event_token).run();
+ return saved;
 }
 export async function reconcilePaidCallback(saleId,env,fetcher=fetch){
  const id=`paid:${saleId}`,row=await env.ACCOUNTS_DB.prepare('SELECT * FROM purchase_orders WHERE purchase_id=? UNION SELECT purchase_id,account_id,credential_cipher,created_at FROM purchase_history WHERE purchase_id=?').bind(id,id).first();

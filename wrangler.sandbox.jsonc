@@ -8,7 +8,8 @@
   "routes": [],
   "vars": {
     "PAID_ENVIRONMENT": "sandbox",
-    "GUMROAD_PRODUCT_ID": "sandbox-disabled",
+    "PAYMENT_PROVIDER": "gumroad",
+    "GUMROAD_PRODUCT_ID": "igraNwrit43FLzFkjlV2bw==",
     "ACCOUNTS_ENABLED": "true",
     "AUTH_EMAIL_FROM": "זובלוף — בדיקות <login@boardexperienceengine.com>",
     "AUTH_DAILY_LIMIT": "5",

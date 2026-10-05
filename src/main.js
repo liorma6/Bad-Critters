@@ -15,7 +15,7 @@ import {sceneState} from './incidents.js';
 import {frameSteps} from './timing.js';
 import {isSandboxOrigin} from './paid-environment.js';
 if(isSandboxOrigin(location.origin)){
- const notice=document.createElement('div');notice.className='sandbox-notice';notice.setAttribute('role','note');notice.textContent='סביבת בדיקות · תשלום מדומה בלבד · השתמשו בכרטיס בדיקה';document.body.prepend(notice);
+ const notice=document.createElement('div');notice.className='sandbox-notice';notice.setAttribute('role','note');notice.textContent='סביבת בדיקות · רכישות ניסיון בלבד · אין להזין כרטיס אשראי אמיתי';document.body.prepend(notice);
  document.title='זובלוף — סביבת בדיקות';
 }
 const artReady=loadArt();
@@ -181,4 +181,4 @@ function frame(now){
  if(!modalOpen||lastWorldState!==state||lastWorldWidth!==canvas.clientWidth){render(canvas,state,elapsed,playing&&(!tutorialBlocking(state)||state.tutorial.step==='watch'));lastWorldState=state;lastWorldWidth=canvas.clientWidth;}
  coach.update();checkpointTimer+=elapsed;const signature=[state.serial,state.flow,state.tutorial.step,state.bell,state.sprinkler,state.hints,state.attempts].join(':');if(started&&(checkpointTimer>=1||signature!==lastCheckpointSignature)){checkpointTimer=0;lastCheckpointSignature=signature;persistInvestigation();}uiTimer+=elapsed;if(uiTimer>.2){uiTimer=0;refresh();}requestAnimationFrame(frame);
 }
-await artReady;refresh();welcome();const dubbingReturn=new URLSearchParams(location.search).get('dubbing');if(['activate','paid-return'].includes(dubbingReturn))dubbing.open(0,{activate:dubbingReturn==='activate',paidReturn:dubbingReturn==='paid-return'});requestAnimationFrame(frame);
+await artReady;refresh();welcome();const dubbingReturn=new URLSearchParams(location.search).get('dubbing');if(['activate','paid-return','purchase-return'].includes(dubbingReturn))dubbing.open(0,{activate:dubbingReturn==='activate',paidReturn:['paid-return','purchase-return'].includes(dubbingReturn)});requestAnimationFrame(frame);
